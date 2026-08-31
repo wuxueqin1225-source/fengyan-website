@@ -1,0 +1,9 @@
+node_modules/
+.wrangler/
+.workbuddy/
+*.log
+.DS_Store
+Thumbs.db
+
+# 已迁出 CloudBase 的历史函数，仅本地留档，不进仓库
+_deprecated-cloudbase-cloudfunctions/

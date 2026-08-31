@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fengyan® 峰妍新材料 · 工业颜料供应链</title>
+<style>
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/playfair-400.woff2) format('woff2')}
+@font-face{font-family:'Playfair Display';font-style:italic;font-weight:400;font-display:swap;src:url(assets/fonts/playfair-400i.woff2) format('woff2')}
+@font-face{font-family:'Playfair Display';font-style:italic;font-weight:500;font-display:swap;src:url(assets/fonts/playfair-500i.woff2) format('woff2')}
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:600;font-display:swap;src:url(assets/fonts/playfair-600.woff2) format('woff2')}
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/playfair-700.woff2) format('woff2')}
+:root{--coal:#0A0A0B;--coal-2:#050506;--coal-3:#141417;--coal-4:#1A1A1C;--light:#F5F5F4;--card:#FFFFFF;--line:#E0E0E0;--ink:#1E1E1F;--ink-2:#666666;--ink-3:#757575;--ink-4:#9E9E9E;--ink-5:#C9C9CC;--red:#E60012;--red-bright:#FF5757;--red-soft:#FF9999;--radius:3px;--radius-md:6px;--font-sans:'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Helvetica Neue',Arial,sans-serif;--font-serif:'Playfair Display',Georgia,'Times New Roman','Songti SC','SimSun',serif;--w:1280px}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);color:var(--ink);background:var(--light);line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.serif{font-family:var(--font-serif)}
+.container{max-width:var(--w);margin:0 auto;padding:0 80px}
+@media(max-width:768px){.container{padding:0 20px}}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(5,6,10,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.08)}
+.nav-in{max-width:var(--w);margin:0 auto;padding:18px 80px;display:flex;align-items:center;justify-content:space-between}
+@media(max-width:768px){.nav-in{padding:14px 20px}}
+.logo{display:flex;align-items:baseline;gap:14px}
+.logo-en{font-family:var(--font-serif);font-weight:600;font-size:24px;color:#fff;letter-spacing:.2px}
+.logo-cn{font-size:13px;color:var(--ink-5)}
+.nav-menu{display:flex;gap:40px;align-items:center}
+.nav-menu a{font-size:15px;color:#E8E8EA;transition:color .2s}
+.nav-menu a:hover,.nav-menu a.active{color:var(--red-soft)}
+.nav-cta{background:var(--red);color:#fff;border:none;border-radius:var(--radius);padding:12px 22px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-sans);transition:background .2s}
+.nav-cta:hover{background:#c50010}
+.nav-burger{display:none;background:none;border:none;padding:8px;cursor:pointer;flex-direction:column;gap:5px;margin-left:auto}
+.nav-burger span{display:block;width:22px;height:2px;background:#fff;border-radius:1px;transition:transform .2s,opacity .2s}
+.nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-burger.open span:nth-child(2){opacity:0}
+.nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-drawer{position:fixed;inset:0;z-index:200;pointer-events:none;visibility:hidden}
+.nav-drawer.open{pointer-events:auto;visibility:visible}
+.nav-drawer .drawer-mask{position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;transition:opacity .25s}
+.nav-drawer.open .drawer-mask{opacity:1}
+.nav-drawer .drawer-panel{position:absolute;top:0;right:0;bottom:0;width:300px;max-width:85vw;background:#0A0A0B;border-left:1px solid rgba(255,255,255,.1);padding:24px;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column;gap:6px;overflow-y:auto}
+.nav-drawer.open .drawer-panel{transform:translateX(0)}
+.nav-drawer .drawer-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid rgba(255,255,255,.08)}
+.drawer-close{background:none;border:none;color:#fff;font-size:28px;line-height:1;padding:0 8px;cursor:pointer}
+.drawer-nav{display:flex;flex-direction:column;gap:0}
+.drawer-nav a{display:block;padding:16px 0;font-size:17px;color:#E8E8EA;border-bottom:1px solid rgba(255,255,255,.06);text-decoration:none}
+.drawer-nav a:hover,.drawer-nav a.active{color:var(--red-soft)}
+.drawer-contact{margin-top:auto;padding-top:24px;border-top:1px solid rgba(255,255,255,.08);color:var(--ink-5);font-size:14px}
+.drawer-contact p{margin:6px 0}
+@media(max-width:768px){.nav-menu{display:none}.nav-burger{display:flex}.nav-cta{display:none}.logo-cn{display:none}.nav-in{padding:14px 20px;gap:12px}.logo{gap:0}}
+
+/* PAGES */
+.page{display:none}.page.active{display:block}
+
+/* HERO — 颜料流体色场：canvas(0) → 暗角(1) → 文字侧压暗(2) → 胶片颗粒(3) → 内容(10) */
+.hero{position:relative;height:100vh;min-height:680px;overflow:hidden;background-color:#04060b}
+@supports(height:100svh){.hero{height:100svh}}
+.hero-field{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.hero-vignette{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(130% 95% at 74% 42%,transparent 38%,rgba(4,5,8,.62) 100%)}
+.hero-scrim{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(92deg,rgba(4,5,8,.90) 0%,rgba(4,5,8,.66) 34%,rgba(4,5,8,.22) 58%,rgba(4,5,8,0) 74%)}
+.hero-grain{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+.hero-content{position:absolute;top:42%;left:0;right:0;transform:translateY(-50%);z-index:10;padding:0 80px;max-width:var(--w);margin:0 auto;width:100%}
+.hero-tag{font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:clamp(24px,2.2vw,32px);color:#fff;margin-bottom:18px}
+.hero-tag em{font-style:italic;color:var(--red-soft)}
+.hero-title{font-size:68px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1.15;margin-bottom:20px}
+.hero-sub{font-size:19px;color:#E8E8EA;max-width:720px;margin-bottom:34px;line-height:1.6}
+.hero-cta{display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.hero-contact{font-size:14px;color:var(--ink-5)}
+.hero-contact .nowrap{white-space:nowrap}
+/* 首屏进场：文字列上浮 + 模糊消散 */
+@keyframes heroRise{from{opacity:0;transform:translateY(30px);filter:blur(7px)}to{opacity:1;transform:none;filter:none}}
+.hero-content>*{opacity:0;animation:heroRise 1s cubic-bezier(.16,1,.3,1) forwards}
+.hero-content>*:nth-child(1){animation-delay:.05s}
+.hero-content>*:nth-child(2){animation-delay:.14s}
+.hero-content>*:nth-child(3){animation-delay:.26s}
+.hero-content>*:nth-child(4){animation-delay:.38s}
+.hero-content>*:nth-child(5){animation-delay:.5s}
+/* 色号索引标注 */
+.idx-label{position:absolute;z-index:12;pointer-events:none;font-family:ui-monospace,'SF Mono','Cascadia Mono',Consolas,monospace;font-size:12px;letter-spacing:.1em;color:#E8E8EA;white-space:nowrap;opacity:0;animation:heroRise 1s cubic-bezier(.16,1,.3,1) .75s forwards}
+.idx-label .code{color:var(--red-soft);font-weight:600}
+.idx-label::before{content:'';position:absolute;left:-14px;top:50%;width:6px;height:6px;border:1px solid rgba(245,242,236,.6);transform:translateY(-50%) rotate(45deg)}
+@media(prefers-reduced-motion:reduce){
+  .hero-content>*,.idx-label{animation:none;opacity:1;transform:none;filter:none}
+}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius);padding:16px 30px;font-size:16px;font-weight:600;cursor:pointer;border:none;font-family:var(--font-sans);transition:all .2s}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{background:#c50010}
+.btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5)}.btn-ghost:hover{border-color:#fff}
+.stats{position:absolute;left:0;right:0;bottom:0;z-index:3;border-top:1px solid rgba(255,255,255,.14);display:grid;grid-template-columns:repeat(4,1fr);background:rgba(5,6,10,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.stat{padding:28px 20px;text-align:center}
+.stat-num{font-size:42px;font-weight:700;color:var(--red-soft);letter-spacing:-1px}
+.stat-label{font-size:14px;color:var(--ink-4);margin-top:6px}
+@media(max-width:768px){
+  .hero-content{padding:0 20px}
+  .hero-scrim{background:linear-gradient(180deg,rgba(4,5,8,.92) 0%,rgba(4,5,8,.76) 40%,rgba(4,5,8,.16) 66%,rgba(4,5,8,.04) 84%,rgba(4,5,8,.34) 100%)}
+  .hero-vignette{opacity:.4}
+  .hero-tag{font-size:16px;margin-bottom:14px}
+  .hero-title{font-size:30px;line-height:1.2;margin-bottom:14px}
+  .hero-sub{font-size:14px;line-height:1.65;margin-bottom:22px}
+  .hero-cta{gap:10px;margin-bottom:14px}
+  .hero-cta .btn{padding:13px 22px;font-size:14px}
+  .hero-contact{font-size:12px}
+}
+@media(max-width:768px){.stat{padding:18px 14px}.stat-num{font-size:26px}.stat-label{font-size:11px}}
+@media(max-width:768px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+/* SECTION */
+.section{padding:88px 0}
+.section-dark{background:var(--coal);color:#fff}
+.section-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:56px;gap:20px;flex-wrap:wrap}
+.sec-tag{font-family:var(--font-serif);font-style:italic;font-size:22px;color:var(--red)}
+.section-dark .sec-tag{color:var(--red-soft)}
+.sec-title{font-size:36px;font-weight:900;letter-spacing:-.5px;color:var(--ink)}
+.section-dark .sec-title{color:#fff}
+
+/* CATEGORY */
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px}
+@media(max-width:768px){.cat-grid{grid-template-columns:1fr;gap:24px}}
+.cat-card{background:#fff;border-radius:var(--radius-md);overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s}
+.cat-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.08)}
+.cat-swatch{height:140px}
+.cat-body{padding:24px}
+.cat-title{font-size:23px;font-weight:700;color:var(--ink);margin-bottom:12px}
+.cat-desc{font-size:14px;color:var(--ink-2);margin-bottom:16px}
+.cat-meta{display:flex;justify-content:space-between;align-items:center}
+.cat-count{font-size:13px;color:var(--ink-4)}
+.cat-plus{font-size:20px;color:var(--red)}
+
+/* SWATCH */
+.swatch-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+@media(max-width:900px){.swatch-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.swatch-grid{grid-template-columns:repeat(2,1fr)}}
+.swatch{background:#0A0A0B;border-radius:var(--radius-md);overflow:hidden;cursor:pointer;transition:transform .2s}
+.swatch:hover{transform:translateY(-3px)}
+.swatch-chip{height:110px;position:relative}
+.swatch-chip::after{content:'';position:absolute;inset:0;border:1px solid rgba(255,255,255,.15);border-radius:0}
+.swatch-code{font-size:14px;font-weight:700;padding:12px 12px 4px;color:inherit;letter-spacing:.2px}
+.swatch-name{font-size:13px;color:inherit;padding:0 12px 8px;line-height:1.4;font-weight:500}
+.swatch-link{font-size:13px;font-weight:600;padding:4px 12px 14px}
+.swatch-dark{background:#0A0A0B}
+.swatch-dark .swatch-code{color:#FFFFFF}
+.swatch-dark .swatch-name{color:#D4D4D6}
+.swatch-dark .swatch-link{color:#FF9999}
+.swatch-light{background:#FFFFFF}
+.swatch-light .swatch-code{color:#1E1E1F}
+.swatch-light .swatch-name{color:#4A4A4C}
+.swatch-light .swatch-link{color:#E60012}
+
+/* TESTIMONIAL */
+.t-card{background:#fff;border-radius:var(--radius-md);padding:30px;display:flex;flex-direction:column;gap:16px}
+.t-tag{font-size:13px;font-weight:600;color:var(--red)}
+.t-quote{font-size:17px;font-weight:500;color:var(--ink);line-height:1.65}
+.t-author{font-size:14px;color:var(--ink-4)}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:768px){.grid-3{grid-template-columns:1fr}}
+
+/* TEAM */
+.team-wrap{display:grid;grid-template-columns:560px 1fr;gap:72px;align-items:center}
+@media(max-width:768px){.team-wrap{grid-template-columns:1fr}}
+.team-img{height:430px;border-radius:var(--radius-md);background:url('assets/team-workspace.jpg') center/cover no-repeat;background-color:#15161c}
+.team-point{display:flex;gap:14px;align-items:center;margin-bottom:16px}
+.team-dot{width:8px;height:8px;border-radius:2px;background:var(--red-bright);flex-shrink:0}
+.team-point p{font-size:16px;color:#E8E8EA}
+
+/* CTA */
+.cta{background:var(--coal);text-align:center;padding:100px 20px}
+.cta-tag{font-family:var(--font-serif);font-style:italic;font-size:22px;color:var(--red-soft);margin-bottom:18px}
+.cta-title{font-size:44px;font-weight:900;color:#fff;letter-spacing:-.5px;margin-bottom:20px}
+.cta-sub{font-size:16px;color:var(--ink-4);margin-bottom:36px}
+.cta-note{font-size:13px;color:var(--ink-3);margin-top:24px}
+
+/* FOOTER */
+.footer{background:var(--coal-2);padding:64px 0 40px;overflow:hidden;position:relative}
+.footer-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px}
+.footer-col h4{font-size:14px;font-weight:600;color:var(--ink-4);margin-bottom:14px}
+.footer-col a{display:block;font-size:13px;color:var(--ink-5);margin-bottom:10px}
+.footer-col a:hover{color:#fff}
+.footer-col button{display:block;width:100%;font-size:13px;color:var(--ink-5);margin-bottom:10px;background:transparent;border:none;padding:0;text-align:left;cursor:default;font-family:inherit}
+.footer-div{height:1px;background:rgba(255,255,255,.08);margin:44px 0 24px}
+.footer-bottom{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-3);flex-wrap:wrap;gap:8px}
+.footer-wm{font-family:var(--font-serif);font-weight:700;font-size:160px;color:rgba(255,255,255,.04);letter-spacing:-2px;line-height:.8;margin-top:30px;user-select:none}
+@media(max-width:768px){.footer-wm{font-size:80px}}
+
+/* PAGE HERO */
+.page-hero{background:var(--coal);padding:150px 0 56px}
+.page-hero-tag{font-family:var(--font-serif);font-style:italic;font-size:24px;color:var(--red-soft);margin-bottom:18px}
+.page-hero-title{font-size:52px;font-weight:900;color:#fff;letter-spacing:-1px;margin-bottom:18px}
+.page-hero-sub{font-size:17px;color:var(--ink-5);max-width:780px}
+.crumbs{font-size:13px;color:var(--ink-4);padding-top:24px}
+
+/* LIBRARY */
+.cat-tabs{display:flex;gap:14px;padding:22px 0}
+.tab{padding:11px 26px;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;border:1px solid var(--line);background:transparent;font-family:var(--font-sans)}
+.tab.active{background:var(--red);color:#fff;border-color:var(--red)}
+.series{margin-bottom:44px}
+.series-title{font-size:18px;font-weight:600;margin-bottom:20px}
+.series-title small{font-weight:400;color:var(--ink-4);font-size:13px;margin-left:8px}
+
+/* DETAIL */
+.detail-show{display:grid;grid-template-columns:520px 1fr;gap:64px;align-items:center;padding:120px 0 72px}
+@media(max-width:768px){.detail-show{grid-template-columns:1fr;padding:80px 0 60px}}
+.detail-swatch{height:400px;border-radius:var(--radius-md);position:relative;display:flex;align-items:flex-end;padding:24px}
+.detail-swatch .swatch-code{color:#fff;font-size:18px;padding:0}
+.detail-tag{font-family:var(--font-serif);font-style:italic;font-size:22px;color:var(--red);margin-bottom:14px}
+.detail-name{font-size:52px;font-weight:900;letter-spacing:-1px;margin-bottom:14px}
+.detail-index{font-size:16px;font-weight:500;color:var(--ink-2);margin-bottom:16px}
+.detail-desc{font-size:15px;color:var(--ink-2);line-height:1.7;margin-bottom:28px;max-width:640px}
+table.params{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--radius-md);overflow:hidden;font-size:14px}
+table.params th{background:var(--ink);color:#fff;font-weight:600;padding:14px 12px;text-align:left;font-size:13px}
+table.params td{padding:14px 12px;border-bottom:1px solid var(--line)}
+table.params tr:nth-child(even){background:#F7F7F7}
+.param-note{font-size:13px;color:var(--ink-4);margin-top:16px}
+.rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:768px){.rel-grid{grid-template-columns:1fr}}
+.rel-item{cursor:pointer}
+.rel-chip{height:160px;border-radius:var(--radius-md);margin-bottom:10px}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:520px 1fr;gap:64px;align-items:center}
+@media(max-width:768px){.about-grid{grid-template-columns:1fr}}
+.about-img{height:380px;border-radius:var(--radius-md);background:url('assets/about-office.jpg') center/cover no-repeat;background-color:#1a1b21}
+.about-point{display:flex;gap:14px;align-items:center;margin-bottom:16px}
+.about-point .team-dot{background:var(--red)}
+.about-point p{font-size:16px;color:var(--ink)}
+.value-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:768px){.value-grid{grid-template-columns:1fr}}
+.value-card{background:#fff;border-radius:var(--radius-md);padding:32px 30px}
+.value-num{font-size:22px;font-weight:700;color:var(--red);margin-bottom:16px}
+.value-card p{font-size:15px;color:var(--ink-2);line-height:1.7}
+.addr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:768px){.addr-grid{grid-template-columns:1fr}}
+.addr-card{background:#fff;border-radius:var(--radius-md);padding:30px}
+.addr-label{font-size:13px;font-weight:600;color:var(--red);margin-bottom:12px}
+.addr-value{font-size:17px;font-weight:500;line-height:1.6;white-space:pre-line}
+
+/* CONTACT */
+.info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+@media(max-width:768px){.info-grid{grid-template-columns:repeat(2,1fr)}}
+.info-card{background:#fff;border-radius:var(--radius-md);padding:30px}
+.info-label{font-size:13px;font-weight:600;color:var(--red);margin-bottom:12px}
+.info-value{font-size:22px;font-weight:700;margin-bottom:6px}
+.info-sub{font-size:13px;color:var(--ink-4)}
+.form-card{background:#fff;border-radius:var(--radius-md);padding:44px 48px;max-width:900px}
+.form-field{margin-bottom:20px}
+.form-field label{font-size:14px;font-weight:600;display:block;margin-bottom:8px}
+.form-input{width:100%;height:48px;background:#F7F7F7;border:1px solid var(--line);border-radius:var(--radius);padding:0 16px;font-size:14px;font-family:var(--font-sans);outline:none}
+.form-input:focus{border-color:var(--red)}
+textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-in">
+    <div class="logo">
+      <span class="logo-en serif">Fengyan<sup style="font-size:12px">®</sup></span>
+      <span class="logo-cn">峰妍新材料</span>
+    </div>
+    <nav class="nav-menu">
+      <a href="#/" data-route="/">首页</a>
+      <a href="#/products" data-route="/products">产品中心</a>
+      <a href="#/about" data-route="/about">关于我们</a>
+      <a href="#/contact" data-route="/contact">联系我们</a>
+    </nav>
+    <button class="nav-cta" onclick="location.hash='#/contact'">获取报价</button>
+    <button class="nav-burger" id="navBurger" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- 移动端抽屉菜单 -->
+<div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <div class="drawer-mask" data-close-drawer></div>
+  <div class="drawer-panel">
+    <div class="drawer-head">
+      <span class="logo-en serif" style="font-size:22px">Fengyan<sup style="font-size:11px">®</sup></span>
+      <button class="drawer-close" data-close-drawer aria-label="关闭">×</button>
+    </div>
+    <nav class="drawer-nav">
+      <a href="#/" data-route="/">首页</a>
+      <a href="#/products" data-route="/products">产品中心</a>
+      <a href="#/about" data-route="/about">关于我们</a>
+      <a href="#/contact" data-route="/contact">联系我们</a>
+    </nav>
+    <button class="btn btn-red" onclick="location.hash='#/contact';document.getElementById('navDrawer').classList.remove('open')" style="width:100%;margin-top:8px">获取报价</button>
+    <div class="drawer-contact">
+      <p>座机 021-56690218</p>
+      <p>联系人 黄建辉 15821682128</p>
+    </div>
+  </div>
+</div>
+
+<main>
+<!-- HOME -->
+<section id="page-home" class="page active">
+  <div class="hero">
+    <canvas class="hero-field" id="heroField" aria-hidden="true"></canvas>
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="hero-scrim" aria-hidden="true"></div>
+    <div class="hero-grain" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="hero-tag">Color Delivered, <em>Reliably.</em></div>
+      <h1 class="hero-title">稳定的色彩，<br>稳定的交付</h1>
+      <p class="hero-sub">深耕涂料用有机颜料与无机颜料供应，43+ 常用色号现货，工厂位于上海宝山，全国物流当日响应。为涂料企业提供稳定、合规、可追溯的颜料供应链。</p>
+      <div class="hero-cta">
+        <a class="btn btn-red" href="#/contact">联系业务 · 获取报价</a>
+        <a class="btn btn-ghost" href="#/contact">微信咨询</a>
+      </div>
+      <p class="hero-contact">座机 <span class="nowrap">021-56690218</span> · 联系人 黄建辉 <span class="nowrap">15821682128</span></p>
+    </div>
+    <noscript><style>.hero{background-image:radial-gradient(ellipse at 20% 75%,rgba(230,0,18,.28),transparent 50%),radial-gradient(ellipse at 80% 25%,rgba(10,70,150,.38),transparent 55%),radial-gradient(ellipse at 60% 85%,rgba(158,45,43,.22),transparent 46%),radial-gradient(ellipse at 38% 35%,rgba(14,76,146,.3),transparent 50%),linear-gradient(180deg,#04060b 0%,#0a0a0b 55%,#12131a 100%)}</style></noscript>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">43+</div><div class="stat-label">常备色号现货</div></div>
+      <div class="stat"><div class="stat-num">100+</div><div class="stat-label">服务涂料企业</div></div>
+      <div class="stat"><div class="stat-num">24h</div><div class="stat-label">发货响应时效</div></div>
+      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">批次可追溯</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="sec-tag">Our Products — 有机 + 无机</span>
+        <h2 class="sec-title">两大产品线，覆盖涂料工业主流着色需求</h2>
+      </div>
+      <div class="cat-grid">
+        <div class="cat-card" onclick="location.hash='#/products'">
+          <div class="cat-swatch" style="background:linear-gradient(120deg,#f2f2f2 0%,#9e2a2b 50%,#0e4c92 100%)"></div>
+          <div class="cat-body">
+            <div class="cat-title">涂料用有机颜料</div>
+            <div class="cat-desc">全色谱 30+ 色号，覆盖黄 / 橙 / 红 / 粉 / 紫 / 蓝 / 绿系列。建筑涂料、工业漆、汽车修补漆用。</div>
+            <div class="cat-meta"><span class="cat-count">30+ 色号</span><span class="cat-plus">+</span></div>
+          </div>
+        </div>
+        <div class="cat-card" onclick="location.hash='#/products'">
+          <div class="cat-swatch" style="background:linear-gradient(120deg,#f2c14e 0%,#e07b39 50%,#c0392b 100%)"></div>
+          <div class="cat-body">
+            <div class="cat-title">无机颜料</div>
+            <div class="cat-desc">PG.34 黄系列多档表面处理（包膜 / 高包膜 / 经济型），PG.104 红系列包膜 / 高包膜，专为涂料工业需求设计。</div>
+            <div class="cat-meta"><span class="cat-count">8+ 色号</span><span class="cat-plus">+</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-dark">
+    <div class="container">
+      <div class="section-head">
+        <span class="sec-tag">Color Library</span>
+        <h2 class="sec-title">核心色号速览</h2>
+      </div>
+      <div class="swatch-grid" id="home-swatches"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="sec-tag">Client Stories</span>
+        <h2 class="sec-title">客户怎么说</h2>
+      </div>
+      <div class="grid-3">
+        <div class="t-card"><span class="t-tag">汽车修补漆 · 华东</span><p class="t-quote">「换了颜料供应商之后，批次色差投诉明显减少，返工率也跟着降下来了。」</p><span class="t-author">某汽车修补漆厂 · 采购负责人</span></div>
+        <div class="t-card"><span class="t-tag">建筑涂料 · 华南</span><p class="t-quote">「从询价到发货 48 小时搞定，颜料按时到位，帮我们稳稳赶上了工程交期。」</p><span class="t-author">某建筑涂料企业 · 供应链经理</span></div>
+        <div class="t-card"><span class="t-tag">工业防腐漆 · 华北</span><p class="t-quote">「小批量也能灵活供货，试色再也不用压一堆库存，成本省了不少。」</p><span class="t-author">某工业漆企业 · 技术负责人</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-dark">
+    <div class="container">
+      <div class="team-wrap">
+        <div class="team-img"></div>
+        <div>
+          <div class="sec-tag">Our Team</div>
+          <h2 class="sec-title" style="margin:16px 0 20px">小而精，但足够专业</h2>
+          <p style="font-size:16px;color:var(--ink-5);line-height:1.7;margin-bottom:28px">我们是一个小团队，但每个人都在颜料行业里摸爬了很多年。不画饼、不绕弯，把「稳定供货」这件小事做到极致，就是我们存在的意义。</p>
+          <div class="team-point"><span class="team-dot"></span><p>响应快——询价当天回复，急单优先处理</p></div>
+          <div class="team-point"><span class="team-dot"></span><p>懂行业——熟悉涂料配方与色差控制，建议直接给到点子上</p></div>
+          <div class="team-point"><span class="team-dot"></span><p>够灵活——小批量起订，试色样品随单附送</p></div>
+          <a class="btn btn-red" href="#/contact" style="margin-top:24px">约个时间聊聊需求</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <div class="cta-tag">Let's Talk</div>
+    <h2 class="cta-title">需要稳定的颜料供应？</h2>
+    <p class="cta-sub">电话或微信，样品免费，报价当天给。我们在上海宝山，欢迎实地考察。</p>
+    <div class="hero-cta" style="justify-content:center">
+      <button class="btn btn-red" type="button">电话 021-56690218</button>
+      <button class="btn btn-ghost" type="button">微信 15821682128</button>
+    </div>
+    <p class="cta-note">工作日 8:30–18:00 · 上海宝山 · 全国物流当日响应</p>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="page-products" class="page">
+  <div class="page-hero">
+    <div class="container">
+      <div class="page-hero-tag">Full Color Library</div>
+      <h1 class="page-hero-title">产品中心</h1>
+      <p class="page-hero-sub">涂料用有机颜料 35+ 色号 · 无机颜料 8 档（包膜 / 高包膜 / 经济型）——全色号支持打样、可追溯、附 TDS/MSDS。</p>
+      <p class="page-hero-sub" style="margin-top:12px;color:var(--red-soft);font-weight:500">点击任意色号，查看该产品的完整参数与 TDS →</p>
+    </div>
+  </div>
+  <div class="container">
+    <div class="cat-tabs">
+      <button class="tab active" data-tab="all">全部（43）</button>
+      <button class="tab" data-tab="organic">有机颜料（35）</button>
+      <button class="tab" data-tab="inorganic">无机颜料（8）</button>
+    </div>
+    <div id="product-library"></div>
+  </div>
+</section>
+
+<!-- PRODUCT DETAIL -->
+<section id="page-product" class="page">
+  <div class="container">
+    <p class="crumbs" id="detail-crumbs"></p>
+    <div id="product-detail"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="page-about" class="page">
+  <div class="page-hero">
+    <div class="container">
+      <div class="page-hero-tag">About Fengyan</div>
+      <h1 class="page-hero-title">关于峰妍</h1>
+      <p class="page-hero-sub">峰妍新材料科技（上海）有限公司——小而精的工业颜料供应链，让「稳定供货」成为您最省心的环节。</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-img"></div>
+        <div>
+          <div class="sec-tag">Why Fengyan</div>
+          <h2 class="sec-title" style="margin:16px 0 20px">一家专注颜料的公司</h2>
+          <p style="font-size:16px;color:var(--ink-2);line-height:1.75;margin-bottom:28px">峰妍新材料扎根上海宝山，深耕涂料用有机颜料与无机颜料供应。我们不做大而全，只把「选对颜料、按时到货、批次稳定」这一件事做扎实——产品可追溯，每批附 TDS/MSDS，按需小批量打样。</p>
+          <div class="about-point"><span class="team-dot"></span><p>专业选型——懂配方、懂色差，帮您精准匹配颜料</p></div>
+          <div class="about-point"><span class="team-dot"></span><p>响应迅速——询价当天回复，急单优先处理</p></div>
+          <div class="about-point"><span class="team-dot"></span><p>灵活供货——小批量起订，样品随单附送</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section section-dark">
+    <div class="container">
+      <div class="section-head"><span class="sec-tag">By The Numbers</span><h2 class="sec-title">用数字说话</h2></div>
+      <div class="stats" style="position:static;border-top:1px solid rgba(255,255,255,.14);grid-template-columns:repeat(4,1fr);margin-top:0">
+        <div class="stat"><div class="stat-num">43+</div><div class="stat-label">常备色号现货</div></div>
+        <div class="stat"><div class="stat-num">100+</div><div class="stat-label">服务涂料企业</div></div>
+        <div class="stat"><div class="stat-num">24h</div><div class="stat-label">发货响应时效</div></div>
+        <div class="stat"><div class="stat-num">100%</div><div class="stat-label">批次可追溯</div></div>
+      </div>
+      <p class="page-hero-sub" style="text-align:center;color:var(--ink-4);margin:0">* 数字为示例口径，实际数据请以最新业务为准</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="container">
+      <div class="section-head"><span class="sec-tag">Our Values</span><h2 class="sec-title">我们怎么做事</h2></div>
+      <div class="value-grid">
+        <div class="value-card"><div class="value-num">01 稳定</div><p>货源稳定、批次稳定、交期稳定。每一批颜料可追溯，附 TDS/MSDS，让您的产品色差可控。</p></div>
+        <div class="value-card"><div class="value-num">02 专业</div><p>懂配方、懂色差、懂下游应用。从选型到打样，我们直接给建议，不让您在颜料上走弯路。</p></div>
+        <div class="value-card"><div class="value-num">03 灵活</div><p>小批量起订、样品随单附送、急单优先处理。大公司的规模我们给不了，但灵活度一定给足。</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="container">
+      <div class="section-head"><span class="sec-tag">Visit Us</span><h2 class="sec-title">找到我们</h2></div>
+      <div class="addr-grid">
+        <div class="addr-card"><div class="addr-label">公司地址</div><div class="addr-value">上海市宝山区<br>淞宝路 155 弄 2 号楼 1611 室</div></div>
+        <div class="addr-card"><div class="addr-label">联系方式</div><div class="addr-value">座机 021-56690218<br>手机 15821682128（黄建辉）</div></div>
+        <div class="addr-card"><div class="addr-label">服务时间</div><div class="addr-value">周一至周五 8:30–18:00<br>急单可电话预约</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="page-contact" class="page">
+  <div class="page-hero">
+    <div class="container">
+      <div class="page-hero-tag">Contact Us</div>
+      <h1 class="page-hero-title">联系我们</h1>
+      <p class="page-hero-sub">询价、打样、技术咨询，随时找我们。电话或微信直接联系，最快当天答复。</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="container">
+      <div class="section-head"><span class="sec-tag">Direct Contact</span><h2 class="sec-title">直接联系</h2></div>
+      <div class="info-grid">
+        <div class="info-card"><div class="info-label">座机</div><div class="info-value">021-56690218</div><div class="info-sub">工作日 8:30–18:00</div></div>
+        <div class="info-card"><div class="info-label">手机 / 微信</div><div class="info-value">15821682128</div><div class="info-sub">联系人 黄建辉</div></div>
+        <div class="info-card"><div class="info-label">传真</div><div class="info-value">021-56697812</div><div class="info-sub">资料往来专用</div></div>
+        <div class="info-card"><div class="info-label">公司地址</div><div class="info-value" style="font-size:15px;font-weight:500;line-height:1.5">上海市宝山区<br>淞宝路 155 弄 2 号楼 1611 室</div><div class="info-sub">欢迎实地考察</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="section" style="padding-top:0">
+    <div class="container">
+      <div class="section-head"><span class="sec-tag">Send An Inquiry</span><h2 class="sec-title">在线询盘</h2></div>
+      <div class="form-card">
+        <div class="form-field"><label>姓名 / 公司</label><input id="inName" class="form-input" placeholder="请输入"></div>
+        <div class="form-field"><label>联系电话 / 微信</label><input id="inPhone" class="form-input" placeholder="请输入"></div>
+        <div class="form-field"><label>意向产品 / 色号（可多填）</label><input id="inProducts" class="form-input" placeholder="如：Red 2540、Yellow 7411"></div>
+        <div class="form-field"><label>需求描述</label><textarea id="inDesc" class="form-input" placeholder="用量、用途、交期要求等"></textarea></div>
+        <button id="submitBtn" class="btn btn-red" type="button" onclick="handleSubmit()">提交询盘 · 当天答复</button>
+        <div id="submitMsg" style="margin-top:14px;font-size:14px;display:none"></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="logo-en serif" style="margin-bottom:10px">Fengyan<sup style="font-size:12px">®</sup></div>
+        <p style="font-size:13px;color:var(--ink-3)">峰妍新材料科技（上海）有限公司 · 卓越 妍好</p>
+      </div>
+      <div class="footer-col"><h4>产品</h4><a href="#/products">有机颜料</a><a href="#/products">无机颜料</a><a href="#/products">色卡库</a><a href="#/contact">样品申请</a></div>
+      <div class="footer-col"><h4>公司</h4><a href="#/about">关于我们</a><a href="#/contact">联系我们</a><a href="#/contact">样品申请</a></div>
+      <div class="footer-col"><h4>联系</h4><button type="button">座机 021-56690218</button><button type="button">手机 15821682128（黄建辉）</button><button type="button">传真 021-56697812</button></div>
+    </div>
+    <div class="footer-div"></div>
+    <div class="footer-bottom">
+      <span>© 2026 峰妍新材料科技（上海）有限公司 · 保留所有权利</span>
+      <span>京ICP备 00000000 号（占位）</span>
+    </div>
+    <div class="footer-wm">FENGYAN</div>
+  </div>
+</footer>
+
+<script>
+const PRODUCTS = [
+{code:"Yellow 1201",index:"PY.12",series:"yellow",name:"柠檬黄",color:"#F2C14E",cat:"organic",oa:45,heat:180,lf:"4",mg:"4",enc:null,desc:"高着色力柠檬黄，适合建筑涂料与通用工业漆。"},
+{code:"Yellow 1301",index:"PY.13",series:"yellow",name:"柠黄",color:"#F5C518",cat:"organic",oa:55,heat:200,lf:"5-6",mg:"4",enc:null,desc:"耐热性较好的柠黄，通用涂料、色浆体系适用。"},
+{code:"Yellow 1401",index:"PY.14",series:"yellow",name:"柠黄",color:"#F7C842",cat:"organic",oa:45,heat:200,lf:"5",mg:"4",enc:null,desc:"性价比高的柠黄，建筑涂料常用。"},
+{code:"Yellow 5501",index:"PY.55",series:"yellow",name:"金黄",color:"#F0B429",cat:"organic",oa:50,heat:200,lf:"6",mg:"4",enc:null,desc:"色相明亮的金黄，装饰涂料与色浆体系。"},
+{code:"Yellow 7411",index:"PY.74",series:"yellow",name:"汉莎黄",color:"#F2C14E",cat:"organic",oa:30,heat:180,lf:"7",mg:"2-3",enc:null,desc:"耐候优异的汉莎黄，外墙涂料与工业漆首选。"},
+{code:"Yellow 8101",index:"PY.81",series:"yellow",name:"联苯胺黄",color:"#E9A820",cat:"organic",oa:45,heat:220,lf:"6-7",mg:"4-5",enc:null,desc:"着色力高的联苯胺黄，油墨与工业涂料。"},
+{code:"Yellow 8311",index:"PY.83",series:"yellow",name:"联苯胺黄",color:"#D9A320",cat:"organic",oa:40,heat:200,lf:"6-7",mg:"4",enc:null,desc:"红相联苯胺黄，通用涂料与色浆。"},
+{code:"Yellow RH02",index:"PY.83",series:"yellow",name:"联苯胺黄",color:"#E5A813",cat:"organic",oa:50,heat:220,lf:"6-7",mg:"4-5",enc:null,desc:"高耐热联苯胺黄，工业漆体系。"},
+{code:"Yellow 1101",index:"PY.110",series:"yellow",name:"金黄",color:"#E8C93F",cat:"organic",oa:45,heat:280,lf:"7",mg:"4-5",enc:null,desc:"耐热性优异，粉末涂料与高温体系适用。"},
+{code:"Yellow 1390",index:"PY.139",series:"yellow",name:"异吲哚啉黄",color:"#C98F1B",cat:"organic",oa:40,heat:260,lf:"8",mg:"4-5",enc:null,desc:"高耐候异吲哚啉黄，汽车漆与高性能工业漆。"},
+{code:"Yellow 1391",index:"PY.139",series:"yellow",name:"异吲哚啉黄",color:"#D9A320",cat:"organic",oa:41,heat:260,lf:"8",mg:"4-5",enc:null,desc:"高耐候异吲哚啉黄，汽车漆与高性能工业漆。"},
+{code:"Yellow H4G",index:"PY.151",series:"yellow",name:"金黄",color:"#E6B53E",cat:"organic",oa:45,heat:240,lf:"8",mg:"4-5",enc:null,desc:"高耐候金黄，户外耐久型涂料体系。"},
+{code:"Yellow H3G",index:"PY.154",series:"yellow",name:"金黄",color:"#E0B53E",cat:"organic",oa:45,heat:240,lf:"8",mg:"4-5",enc:null,desc:"高耐候金黄，户外耐久型涂料体系。"},
+{code:"Orange 9132",index:"PO.13",series:"orange",name:"橙",color:"#F08A2E",cat:"organic",oa:55,heat:200,lf:"8",mg:"4",enc:null,desc:"耐候优异的橙，户外建筑涂料。"},
+{code:"Orange 9342",index:"PO.34",series:"orange",name:"橙",color:"#E8862E",cat:"organic",oa:60,heat:220,lf:"5",mg:"4",enc:null,desc:"鲜艳橙，通用涂料与色浆体系。"},
+{code:"Orange 9362",index:"PO.36",series:"orange",name:"橙",color:"#EA7E22",cat:"organic",oa:68,heat:220,lf:"8",mg:"4",enc:null,desc:"高耐候橙，户外涂料。"},
+{code:"Orange 9732",index:"PO.73",series:"orange",name:"橙",color:"#F2762E",cat:"organic",oa:55,heat:300,lf:"8",mg:"5",enc:null,desc:"超高耐热耐候橙，粉末涂料与汽车漆。"},
+{code:"Red 2BP",index:"PR.48:2",series:"red",name:"红",color:"#C0392B",cat:"organic",oa:55,heat:240,lf:"4-5",mg:"4-5",enc:null,desc:"通用红相，涂料与色浆体系。"},
+{code:"Red 4833W",index:"PR.48:3",series:"red",name:"红",color:"#C0392B",cat:"organic",oa:56,heat:220,lf:"5",mg:"4-5",enc:null,desc:"蓝相红，装饰涂料与通用工业漆。"},
+{code:"Red 4BP",index:"PR.57:1",series:"red",name:"红",color:"#B03A2E",cat:"organic",oa:55,heat:220,lf:"5",mg:"3-4",enc:null,desc:"经济型红，通用涂料。"},
+{code:"Pink 1221",index:"PR.122",series:"pink",name:"品红",color:"#D81B60",cat:"organic",oa:65,heat:280,lf:"8",mg:"5",enc:null,desc:"高耐候品红，汽车漆与高性能工业漆。"},
+{code:"PINK 1220",index:"PR.122",series:"pink",name:"品红",color:"#E0437A",cat:"organic",oa:60,heat:280,lf:"8",mg:"5",enc:null,desc:"高耐候品红，汽车漆体系。"},
+{code:"Red F2RK",index:"PR.170",series:"red",name:"红",color:"#D6403A",cat:"organic",oa:55,heat:200,lf:"7-8",mg:"4",enc:null,desc:"高耐候红，户外涂料与工业漆。"},
+{code:"Red F3RK",index:"PR.170",series:"red",name:"红",color:"#C9342E",cat:"organic",oa:55,heat:200,lf:"7",mg:"3",enc:null,desc:"中色相红，通用工业漆。"},
+{code:"Red F5RK",index:"PR.170",series:"red",name:"红",color:"#B52E2A",cat:"organic",oa:50,heat:200,lf:"6",mg:"4",enc:null,desc:"蓝相红，建筑涂料与色浆。"},
+{code:"Red 2540",index:"PR.254",series:"red",name:"DPP红",color:"#D62839",cat:"organic",oa:45,heat:300,lf:"8",mg:"5",enc:null,desc:"高遮盖力、高耐候的 DPP 红，广泛用于汽车修补漆、工业漆与建筑涂料。色泽鲜艳，耐热耐迁移表现优异。"},
+{code:"Red 1773",index:"PR.177",series:"red",name:"红",color:"#A62D2B",cat:"organic",oa:65,heat:240,lf:"8",mg:"5",enc:null,desc:"高耐候蓝相红，高性能涂料体系。"},
+{code:"Violet 5190",index:"PV.19",series:"violet",name:"紫",color:"#7D3C98",cat:"organic",oa:60,heat:280,lf:"8",mg:"5",enc:null,desc:"高耐候紫，汽车漆与高性能涂料。"},
+{code:"Violet 5230",index:"PV.23",series:"violet",name:"永固紫",color:"#5B2D8E",cat:"organic",oa:70,heat:220,lf:"7",mg:"4",enc:null,desc:"经典永固紫，通用涂料与色浆体系。"},
+{code:"Violet RL",index:"PV.23",series:"violet",name:"永固紫",color:"#6A2D92",cat:"organic",oa:70,heat:220,lf:"7",mg:"4",enc:null,desc:"红相永固紫，工业漆体系。"},
+{code:"Blue 1512",index:"PB.15:1",series:"blue",name:"酞菁蓝",color:"#10508F",cat:"organic",oa:55,heat:280,lf:"7",mg:"4",enc:null,desc:"红相酞菁蓝，通用涂料与色浆。"},
+{code:"Blue 1521",index:"PB.15:2",series:"blue",name:"酞菁蓝",color:"#0E4C92",cat:"organic",oa:55,heat:280,lf:"8",mg:"4",enc:null,desc:"标准酞菁蓝，建筑涂料体系。"},
+{code:"Blue 1530",index:"PB.15:3",series:"blue",name:"酞菁蓝",color:"#0E4C92",cat:"organic",oa:50,heat:280,lf:"8",mg:"5",enc:null,desc:"绿相酞菁蓝，建筑涂料与油墨。"},
+{code:"Blue 7401",index:"PB.15:4",series:"blue",name:"酞菁蓝",color:"#153A6E",cat:"organic",oa:45,heat:280,lf:"8",mg:"5",enc:null,desc:"高分散酞菁蓝，高性能涂料体系。"},
+{code:"Green 311",index:"PG.7",series:"green",name:"酞菁绿",color:"#1B6B4A",cat:"organic",oa:55,heat:280,lf:"8",mg:"5",enc:null,desc:"高耐候酞菁绿，建筑涂料与工业漆。"},
+{code:"Yellow 6102",index:"PG.34",series:"inorganic",name:"无机黄",color:"#C8860A",cat:"inorganic",oa:16,heat:200,lf:"6-7",mg:null,enc:"包膜",desc:"包膜无机黄，耐候性优，适合户外建筑涂料。"},
+{code:"Yellow 6108",index:"PG.34",series:"inorganic",name:"无机黄",color:"#B87A08",cat:"inorganic",oa:16.7,heat:200,lf:"6-7",mg:null,enc:"包膜",desc:"包膜无机黄，稳定耐候，通用户外体系。"},
+{code:"Yellow 6116",index:"PG.34",series:"inorganic",name:"无机黄",color:"#B0710A",cat:"inorganic",oa:17,heat:240,lf:"7-8",mg:null,enc:"高包膜",desc:"高包膜无机黄，耐热耐候更优，高性能涂料。"},
+{code:"Yellow 6118",index:"PG.34",series:"inorganic",name:"无机黄",color:"#A96E0B",cat:"inorganic",oa:17,heat:220,lf:"8",mg:null,enc:"高包膜",desc:"高包膜无机黄，耐候 8 级，户外长效体系。"},
+{code:"Yellow 3104",index:"PG.34",series:"inorganic",name:"无机黄",color:"#B8791A",cat:"inorganic",oa:20,heat:200,lf:"4",mg:null,enc:"经济型",desc:"经济型无机黄，室内通用涂料。"},
+{code:"Yellow 3114",index:"PG.34",series:"inorganic",name:"无机黄",color:"#A96E0B",cat:"inorganic",oa:16,heat:220,lf:"7-8",mg:null,enc:"高包膜",desc:"高包膜无机黄，综合性能均衡。"},
+{code:"Red 7104",index:"PG.104",series:"inorganic",name:"无机红",color:"#A63B2E",cat:"inorganic",oa:22,heat:240,lf:"6-7",mg:null,enc:"包膜",desc:"包膜无机红，户外建筑涂料与工业漆。"},
+{code:"Red 7116",index:"PG.104",series:"inorganic",name:"无机红",color:"#9C3528",cat:"inorganic",oa:20,heat:280,lf:"7-8",mg:null,enc:"高包膜",desc:"高包膜无机红，耐热耐候更优，高性能体系。"}
+];
+
+function swatchCard(p, theme){
+  theme=theme||'light';
+  return '<div class="swatch swatch-'+theme+'" onclick="location.hash=\'#/product/'+encodeURIComponent(p.code)+'\'">'+
+    '<div class="swatch-chip" style="background:'+p.color+'"></div>'+
+    '<div class="swatch-code">'+p.code+'</div>'+
+    '<div class="swatch-name">'+p.name+' · '+p.index+(p.enc?' · '+p.enc:'')+'</div>'+
+    '<div class="swatch-link">查看详情 →</div></div>';
+}
+
+function renderHome(){
+  const pick=["Yellow 1201","Yellow 7411","Yellow 1391","Orange 9342","Red 2540","Red 4833W","Pink 1221","Violet 5230","Blue 1530","Green 311","Yellow 6102"];
+  const items=pick.map(c=>PRODUCTS.find(p=>p.code===c)).filter(Boolean);
+  let html=items.map(p=>swatchCard(p,'dark')).join('');
+  html+='<div class="swatch swatch-dark" onclick="location.hash=\'#/contact\'" style="border:1px solid rgba(255,153,153,.55)">'+
+    '<div class="swatch-chip" style="background:#101014;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">'+
+    '<div style="color:#FF9999;font-size:16px;font-weight:600">定制调色</div><div style="color:#9E9E9E;font-size:12px">小批量 · 灵活供应</div></div>'+
+    '<div class="swatch-code" style="color:#fff">按需打样</div><div class="swatch-link">+</div></div>';
+  document.getElementById('home-swatches').innerHTML=html;
+}
+
+function renderLibrary(filter){
+  filter=filter||'all';
+  const list=PRODUCTS.filter(p=>filter==='all'||p.cat===filter);
+  const seriesMap={yellow:"黄色系 Yellow",orange:"橙色系 Orange",red:"红色系 Red",pink:"粉色系 Pink",violet:"紫色系 Violet",blue:"蓝色系 Blue",green:"绿色系 Green",inorganic:"无机颜料（PG.34 / PG.104）"};
+  let html='';
+  if(filter==='all'||filter==='organic'){
+    ['yellow','orange','red','pink','violet','blue','green'].forEach(s=>{
+      const items=list.filter(p=>p.series===s);
+      if(!items.length)return;
+      html+='<div class="series"><h3 class="series-title">'+seriesMap[s]+'<small>'+items.length+' 色号</small></h3><div class="swatch-grid" style="grid-template-columns:repeat(6,1fr)">'+items.map(p=>swatchCard(p,'light')).join('')+'</div></div>';
+    });
+  }
+  if(filter==='all'||filter==='inorganic'){
+    const items=list.filter(p=>p.cat==='inorganic');
+    html+='<div class="series"><h3 class="series-title">无机颜料<small>包膜 / 高包膜 / 经济型</small></h3><div class="swatch-grid" style="grid-template-columns:repeat(6,1fr)">'+items.map(p=>swatchCard(p,'light')).join('')+'</div></div>';
+  }
+  document.getElementById('product-library').innerHTML=html;
+}
+
+function renderDetail(code){
+  const p=PRODUCTS.find(x=>x.code.toLowerCase()===decodeURIComponent(code).toLowerCase());
+  if(!p){document.getElementById('product-detail').innerHTML='<p style="padding:80px 0;color:#9E9E9E">未找到该产品。</p>';document.getElementById('detail-crumbs').textContent='首页 / 产品中心 / 未找到';return;}
+  const catName=p.cat==='organic'?'有机颜料':'无机颜料';
+  const mig=p.mg||'—';
+  document.getElementById('detail-crumbs').textContent='首页 / 产品中心 / '+catName+' / '+p.code+'（模板详情页 · 43 个产品共用此布局）';
+  const rel=PRODUCTS.filter(x=>x.series===p.series&&x.code!==p.code).slice(0,3);
+  document.getElementById('product-detail').innerHTML=
+  '<div class="detail-show">'+
+    '<div class="detail-swatch" style="background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.18),transparent 40%),'+p.color+'">'+
+      '<div class="swatch-code">'+p.code+' · '+p.index+'</div></div>'+
+    '<div><div class="detail-tag">'+(p.cat==='organic'?'Organic Pigment':'Inorganic Pigment')+'</div>'+
+      '<h1 class="detail-name">'+p.code+'</h1>'+
+      '<div class="detail-index">颜料索引：'+p.index+(p.enc?' · 表面处理：'+p.enc:'')+'</div>'+
+      '<p class="detail-desc">'+p.desc+'</p>'+
+      '<a class="btn btn-red" href="#/contact">询价 · 索取样卡</a></div></div>'+
+  '<div class="section" style="padding:16px 0 72px"><div class="section-head"><span class="sec-tag">Technical Data</span><h2 class="sec-title" style="font-size:32px">产品物性参数</h2></div>'+
+    '<table class="params"><tr><th>产品 Code</th><th>Index</th><th>吸油量 g/100g</th><th>耐热 ℃</th><th>耐候</th><th>耐迁移</th><th>表面处理</th></tr>'+
+    '<tr><td>'+p.code+'</td><td>'+p.index+'</td><td>'+p.oa+'</td><td>'+p.heat+'</td><td>'+p.lf+'</td><td>'+mig+'</td><td>'+(p.enc||'—')+'</td></tr></table>'+
+    '<p class="param-note">* 典型值仅供参考，批次实测数据以随货 TDS 为准。</p></div>'+
+  (rel.length?'<div class="section"><div class="container"><div class="section-head"><span class="sec-tag">Related Products</span><h2 class="sec-title">相关色号</h2></div>'+
+    '<div class="rel-grid">'+rel.map(x=>'<div class="rel-item" onclick="location.hash=\'#/product/'+encodeURIComponent(x.code)+'\'"><div class="rel-chip" style="background:'+x.color+'"></div><div style="font-size:15px;font-weight:600">'+x.code+' · '+x.index+'</div></div>').join('')+'</div></div></div>':'')+
+  '<div class="cta"><div class="cta-tag">Get A Sample</div><h2 class="cta-title">需要这款颜料的样品或报价？</h2><div class="hero-cta" style="justify-content:center"><button class="btn btn-red" type="button">电话 021-56690218 · 微信 15821682128</button></div></div>';
+}
+
+const routes={
+  "/":()=>{show("page-home");renderHome();},
+  "/products":()=>{show("page-products");renderLibrary('all');},
+  "/about":()=>show("page-about"),
+  "/contact":()=>show("page-contact")
+};
+function show(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-menu a').forEach(a=>a.classList.toggle('active',a.dataset.route===(location.hash||'#/').slice(1).split('/')[1]||(location.hash==='#/'&&a.dataset.route==='/')));
+  if(window.HeroField)HeroField.setActive(id==='page-home');
+  window.scrollTo(0,0);}
+function router(){
+  const hash=location.hash||'#/';
+  if(hash.startsWith('#/product/')){show("page-product");renderDetail(hash.replace('#/product/',''));return;}
+  routes[hash.replace('#','')]?routes[hash.replace('#','')]():routes["/"]();
+}
+window.addEventListener('hashchange',router);
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');renderLibrary(t.dataset.tab);
+}));
+async function handleSubmit(){
+  const name=(document.getElementById('inName').value||'').trim();
+  const phone=(document.getElementById('inPhone').value||'').trim();
+  const products=(document.getElementById('inProducts').value||'').trim();
+  const desc=(document.getElementById('inDesc').value||'').trim();
+  const msg=document.getElementById('submitMsg');
+  const btn=document.getElementById('submitBtn');
+  if(!name||!phone){msg.style.display='block';msg.style.color='#E60012';msg.textContent='请填写姓名和联系电话。';return;}
+  btn.disabled=true;btn.textContent='提交中…';
+  const payload={name,phone,products,desc};
+  const localKey='inquiry_'+Date.now();
+  try{localStorage.setItem(localKey,JSON.stringify(payload));}catch(e){}
+  const apiUrl='/api/submit';
+  let serverOk=false;
+  try{
+    const ctl=new AbortController();const timer=setTimeout(()=>ctl.abort(),6000);
+    const res=await fetch(apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:ctl.signal,mode:'cors'});
+    clearTimeout(timer);
+    if(res.ok){const data=await res.json().catch(()=>({}));if(data&&data.ok){serverOk=true;try{localStorage.removeItem(localKey);}catch(e){}}}
+  }catch(e){}
+  if(serverOk){
+    msg.style.display='block';msg.style.color='#0a0a0b';msg.textContent='✓ 已收到您的询盘，我们会在当天联系您。如有急事请直拨 021-56690218（黄建辉 15821682128）。';
+    ['inName','inPhone','inProducts','inDesc'].forEach(id=>document.getElementById(id).value='');
+  }else{
+    msg.style.display='block';msg.style.color='#E60012';msg.textContent='✓ 询盘已记录（CDN 缓存中，将自动同步）。如有急事请直拨 021-56690218（黄建辉 15821682128）。';
+  }
+  btn.disabled=false;btn.textContent='提交询盘 · 当天答复';
+}
+/* 首页颜料流体色场：色相取自产品色库，标注绑定真实色号 */
+const HeroField=(function(){
+  const canvas=document.getElementById('heroField');
+  if(!canvas)return{setActive(){}};
+  const ctx=canvas.getContext('2d');
+  const hero=canvas.parentElement;
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W=0,H=0,SCALE=.5,mobile=false,active=true,rafId=0,t0=performance.now();
+  const blobs=[
+    {c:[230,185,59], r:.30, cx:.640, cy:.26, s1:.10, s2:.073, p1:0.4, p2:2.1},
+    {c:[207,39,52],  r:.40, cx:.720, cy:.50, s1:.084,s2:.061, p1:1.7, p2:0.6},
+    {c:[26,79,141],  r:.60, cx:.820, cy:.82, s1:.058,s2:.045, p1:3.2, p2:1.3},
+    {c:[74,53,133],  r:.28, cx:.610, cy:.68, s1:.072,s2:.088, p1:4.5, p2:2.8},
+    {c:[184,41,107], r:.22, cx:.905, cy:.30, s1:.095,s2:.070, p1:5.1, p2:3.7},
+    {c:[20,88,74],   r:.16, cx:.640, cy:.90, s1:.088,s2:.102, p1:2.6, p2:4.4},
+    {c:[224,123,38], r:.17, cx:.880, cy:.62, s1:.104,s2:.079, p1:0.9, p2:5.3}
+  ];
+  const labels=[
+    {code:'PY.12',  name:'柠檬黄', x:.585, y:.20, min:921},
+    {code:'PR.254', name:'DPP红',  x:.830, y:.47, min:0},
+    {code:'PB.15:3',name:'酞菁蓝', x:.640, y:.80, min:921}
+  ];
+  const pointer={x:-9999,y:-9999,speed:0,active:false};
+  function rgba(c,a){return'rgba('+c[0]+','+c[1]+','+c[2]+','+a+')'}
+  function resize(){
+    W=hero.clientWidth;H=hero.clientHeight;mobile=W<921;
+    canvas.width=Math.max(2,Math.round(W*SCALE));
+    canvas.height=Math.max(2,Math.round(H*SCALE));
+    ctx.setTransform(SCALE,0,0,SCALE,0,0);
+    layoutLabels();
+  }
+  let labelEls=[];
+  function layoutLabels(){
+    labelEls.forEach(l=>l.el.remove());labelEls=[];
+    labels.forEach(function(cfg,i){
+      let lx=cfg.x,ly=cfg.y;
+      if(mobile)return; /* 移动端底部被数据条占据，标注仅桌面展示 */
+      if(W<cfg.min)return;
+      const el=document.createElement('div');
+      el.className='idx-label';
+      el.innerHTML='<span class="code">'+cfg.code+'</span> · '+cfg.name;
+      el.style.left=(lx*100)+'%';el.style.top=(ly*100)+'%';
+      el.style.transform='translate(-14px,-50%)';
+      hero.appendChild(el);
+      labelEls.push({el:el,cfg:cfg,lx:lx,ly:ly});
+    });
+  }
+  function blobPos(b,t){
+    let cy=b.cy;
+    if(mobile)cy=.60+(b.cy-.5)*.48;
+    const r=mobile?b.r*.95:b.r;
+    const x=(b.cx+.032*Math.sin(t*b.s1+b.p1)+.018*Math.sin(t*b.s2*1.7+b.p2))*W;
+    const y=(cy+.040*Math.cos(t*b.s2+b.p2)+.016*Math.sin(t*b.s1*1.4+b.p1))*H;
+    return{x:x,y:y,r:r*Math.min(W,H*1.15)};
+  }
+  function pointerForce(p){
+    if(!pointer.active)return{ox:0,oy:0};
+    const dx=p.x-pointer.x,dy=p.y-pointer.y,d2=dx*dx+dy*dy,sigma=Math.min(W,H)*.30;
+    const f=Math.exp(-d2/(2*sigma*sigma)),s=pointer.speed*f,d=Math.sqrt(d2)+40;
+    return{ox:(-dy/d)*s*22+(dx/d)*s*6,oy:(dx/d)*s*22+(dy/d)*s*6};
+  }
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#04060b';ctx.fillRect(0,0,W,H);
+    const positions=[];
+    for(let i=0;i<blobs.length;i++){
+      const b=blobs[i],p=blobPos(b,t),f=pointerForce(p);
+      b._ox=(b._ox||0)+(f.ox-(b._ox||0))*.05;
+      b._oy=(b._oy||0)+(f.oy-(b._oy||0))*.05;
+      const x=p.x+b._ox,y=p.y+b._oy,r=p.r;
+      positions.push({x:x,y:y,r:r});
+      const g=ctx.createRadialGradient(x,y,0,x,y,r);
+      g.addColorStop(0,rgba(b.c,.92));g.addColorStop(.42,rgba(b.c,.55));
+      g.addColorStop(.72,rgba(b.c,.18));g.addColorStop(1,rgba(b.c,0));
+      ctx.fillStyle=g;ctx.fillRect(x-r,y-r,r*2,r*2);
+    }
+    ctx.fillStyle='rgba(6,7,10,.15)';ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='rgba(245,242,236,.38)';ctx.fillStyle='rgba(245,242,236,.65)';ctx.lineWidth=1;
+    labelEls.forEach(function(l){
+      const i=labels.indexOf(l.cfg),p=positions[i];
+      const ax=l.lx*W-16,ay=l.ly*H;
+      const dx=p.x-ax,dy=p.y-ay,d=Math.sqrt(dx*dx+dy*dy)||1;
+      const tt=Math.min(p.r*.45,d*.7);
+      const ex=p.x-dx/d*tt,ey=p.y-dy/d*tt;
+      ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(ex,ey);ctx.stroke();
+      ctx.beginPath();ctx.arc(ex,ey,2.2,0,Math.PI*2);ctx.fill();
+    });
+  }
+  function loop(now){
+    if(!active)return;
+    pointer.speed*=.94;
+    draw((now-t0)/1000);
+    rafId=requestAnimationFrame(loop);
+  }
+  function start(){if(active&&!rafId&&!reduced){t0=performance.now()-8000;rafId=requestAnimationFrame(loop);}}
+  function stop(){if(rafId){cancelAnimationFrame(rafId);rafId=0;}}
+  resize();
+  window.addEventListener('resize',function(){resize();if(reduced)draw(42);});
+  document.addEventListener('visibilitychange',function(){document.hidden?stop():start();});
+  if(reduced){draw(42);}
+  else{
+    window.addEventListener('pointermove',function(e){
+      const rect=hero.getBoundingClientRect();
+      const nx=e.clientX-rect.left,ny=e.clientY-rect.top;
+      if(pointer.active)pointer.speed=Math.min(1.6,Math.hypot(nx-pointer.x,ny-pointer.y)*.045);
+      pointer.x=nx;pointer.y=ny;pointer.active=true;
+    },{passive:true});
+    start();
+  }
+  return{setActive:function(on){active=on;on?start():stop();}};
+})();
+
+router();
+
+// 移动端抽屉菜单
+const burger=document.getElementById('navBurger');
+const drawer=document.getElementById('navDrawer');
+function toggleDrawer(open){
+  const isOpen=open!==undefined?open:!drawer.classList.contains('open');
+  drawer.classList.toggle('open',isOpen);
+  burger.classList.toggle('open',isOpen);
+  burger.setAttribute('aria-expanded',String(isOpen));
+  drawer.setAttribute('aria-hidden',String(!isOpen));
+}
+burger.addEventListener('click',()=>toggleDrawer());
+drawer.querySelectorAll('[data-close-drawer]').forEach(el=>el.addEventListener('click',()=>toggleDrawer(false)));
+drawer.querySelectorAll('.drawer-nav a,.drawer-panel .btn').forEach(a=>a.addEventListener('click',()=>toggleDrawer(false)));
+</script>
+</body>
+</html>

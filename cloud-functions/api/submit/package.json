@@ -1,0 +1,10 @@
+{
+  "name": "fengyan-inquiry-submit",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "峰妍官网询盘提交：KV 存档 + SMTP 邮件通知",
+  "dependencies": {
+    "nodemailer": "^6.9.0"
+  }
+}
