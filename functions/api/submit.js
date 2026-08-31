@@ -7,24 +7,95 @@
  *
  * 环境变量（Cloudflare Pages → 项目 → 设置 → 环境变量，生产/预览分别配置）：
  *   RESEND_API_KEY   必填。Resend 后台创建，形如 re_xxxxxxxx
- *   MAIL_FROM        必填。发件地址，其域名必须已在 Resend 完成 DNS 验证，如 notify@fengyan.com
+ *   MAIL_FROM        必填。发件地址，其域名必须已在 Resend 完成 DNS 验证
  *   NOTIFY_EMAIL     必填。收件邮箱，多个用英文逗号分隔
  *   ADMIN_TOKEN      可选。配置后启用 /api/inquiries 导出接口
  *
- * 可选存档：在 Pages 设置里绑定 KV 命名空间，变量名填 INQUIRY_KV，代码会自动写一份备份；
+ * 安全加固（2026-08-31）：
+ *   1. CORS 白名单 —— 只放行自家域名，杜绝第三方站点盗用接口
+ *   2. IP 频率限制 —— 防脚本刷量耗尽 Resend 额度
+ *   3. 输入校验 —— 手机号格式、字段长度、必填校验
+ *
+ * 可选存档：绑定 KV 命名空间（变量名 INQUIRY_KV）后自动写一份备份；
  * 不绑定则纯邮件运行，不依赖任何数据库。
  */
 
-const CORS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type'
-};
+/* ============ 安全配置 ============ */
 
-function json(body, status = 200) {
+/** 允许调用接口的来源。浏览器跨站请求必带 Origin，不在列表内一律拒绝。 */
+const ALLOWED_ORIGINS = [
+  'https://www.fengyanpigment.com',
+  'https://fengyanpigment.com',
+  'https://fengyan-website.pages.dev'
+];
+
+/** 频率限制：同一 IP 在窗口期内允许的提交次数 */
+const RATE_LIMIT = { windowMs: 3600 * 1000, max: 5 };
+
+/* ============ 频率限制 ============ */
+
+/**
+ * 基于内存的滑动窗口计数。
+ *
+ * 说明：Workers 会在多个 isolate / 多地边缘节点并行运行，每个实例独立计数，
+ * 所以这是「近似限流」——单实例能挡住高频脚本，跨地域分布式攻击需要上
+ * Cloudflare WAF Rate Limiting 规则才能彻底解决。对本站的询盘量而言足够。
+ */
+const hits = new Map();
+
+function rateCheck(ip) {
+  const now = Date.now();
+
+  /* 条目过多时清理过期记录，防止 Map 无限增长 */
+  if (hits.size > 500) {
+    for (const [k, v] of hits) {
+      if (now - v.start > RATE_LIMIT.windowMs) hits.delete(k);
+    }
+  }
+
+  const rec = hits.get(ip);
+  if (!rec || now - rec.start > RATE_LIMIT.windowMs) {
+    hits.set(ip, { start: now, count: 1 });
+    return { allowed: true, remaining: RATE_LIMIT.max - 1, retryAfter: 0 };
+  }
+
+  rec.count += 1;
+  if (rec.count > RATE_LIMIT.max) {
+    return {
+      allowed: false,
+      remaining: 0,
+      retryAfter: Math.ceil((RATE_LIMIT.windowMs - (now - rec.start)) / 1000)
+    };
+  }
+  return { allowed: true, remaining: RATE_LIMIT.max - rec.count, retryAfter: 0 };
+}
+
+/* ============ CORS ============ */
+
+/**
+ * 按请求来源生成 CORS 头。
+ * - 白名单内：回显该 Origin
+ * - 无 Origin（curl、服务端调用、同源）：放行，方便联调
+ * - 不在白名单：不返回 Allow-Origin，浏览器会直接拦截
+ */
+function corsFor(origin) {
+  const base = {
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '86400',
+    Vary: 'Origin'
+  };
+  if (!origin) return { ...base, 'Access-Control-Allow-Origin': '*' };
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    return { ...base, 'Access-Control-Allow-Origin': origin };
+  }
+  return base;
+}
+
+function json(body, status = 200, cors = {}) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS }
+    headers: { 'Content-Type': 'application/json; charset=utf-8', ...cors }
   });
 }
 
@@ -82,7 +153,7 @@ async function sendMail(env, rec) {
     return { status: 'skipped', reason: 'RESEND_API_KEY / MAIL_FROM / NOTIFY_EMAIL 未配置完整' };
   }
 
-  /* 允许 MAIL_FROM 直接写成 "峰妍新材料 <notify@fengyan.com>" 的完整格式 */
+  /* 允许 MAIL_FROM 直接写成 "峰妍新材料 <notify@fengyanpigment.com>" 的完整格式 */
   const fromHeader = /</.test(from) ? from : `峰妍新材料官网 <${from}>`;
 
   try {
@@ -122,22 +193,46 @@ async function saveKV(env, rec) {
   }
 }
 
+/* ============ 主流程 ============ */
+
 export async function onRequest(context) {
   const { request, env } = context;
+  const origin = request.headers.get('Origin');
+  const cors = corsFor(origin);
 
-  /* 204 响应不允许带 body，必须传 null；传空字符串会抛 TypeError，导致预检失败、跨域 POST 被浏览器拦截 */
+  /* 204 响应不允许带 body，必须传 null；传空字符串会抛 TypeError，
+     导致预检失败、跨域 POST 被浏览器拦截 */
   if (request.method === 'OPTIONS') {
-    return new Response(null, { status: 204, headers: CORS });
+    return new Response(null, { status: 204, headers: cors });
   }
+
   if (request.method !== 'POST') {
-    return json({ ok: false, error: 'Method Not Allowed' }, 405);
+    return json({ ok: false, error: 'Method Not Allowed' }, 405, cors);
+  }
+
+  /* 来源校验：带 Origin 但不在白名单 → 拒绝 */
+  if (origin && !ALLOWED_ORIGINS.includes(origin)) {
+    return json({ ok: false, error: '来源不被允许' }, 403, cors);
+  }
+
+  /* 频率限制 */
+  const ip = request.headers.get('CF-Connecting-IP')
+    || request.headers.get('X-Forwarded-For')
+    || 'unknown';
+  const rl = rateCheck(ip);
+  if (!rl.allowed) {
+    return json(
+      { ok: false, error: '提交过于频繁，请稍后再试或直接电话联系' },
+      429,
+      { ...cors, 'Retry-After': String(rl.retryAfter) }
+    );
   }
 
   let data = {};
   try {
     data = await request.json();
   } catch (e) {
-    return json({ ok: false, error: '请求体不是合法 JSON' }, 400);
+    return json({ ok: false, error: '请求体不是合法 JSON' }, 400, cors);
   }
 
   const name = String(data.name || '').trim();
@@ -146,10 +241,23 @@ export async function onRequest(context) {
   const description = String(data.desc || '').trim();
 
   if (!name || !phone) {
-    return json({ ok: false, error: '姓名和电话必填' }, 400);
+    return json({ ok: false, error: '姓名和电话必填' }, 400, cors);
   }
-  if (name.length > 60 || phone.length > 40 || description.length > 2000) {
-    return json({ ok: false, error: '字段超长' }, 400);
+  if (name.length > 60 || phone.length > 40 || description.length > 2000 || products.length > 200) {
+    return json({ ok: false, error: '字段超长' }, 400, cors);
+  }
+
+  /* 联系方式格式校验。
+     注意：表单字段是「电话/微信」，必须同时接纳手机号、固话和微信号。
+     早期版本只校验数字位数，导致 wxid_xxx 这类合法微信号被拒，直接影响询盘，已修正。 */
+  const contact = phone.replace(/[\s-]/g, '');
+  const contactOk =
+    /^1[3-9]\d{9}$/.test(contact) ||                        // 手机号 13800138000
+    /^0\d{9,11}$/.test(contact) ||                          // 固话 02156690218
+    /^[a-zA-Z][a-zA-Z0-9_]{5,19}$/.test(contact) ||         // 微信号 wxid_fengyan88
+    (/^\d{6,20}$/.test(contact));                           // 兜底：其它纯数字号码
+  if (!contactOk) {
+    return json({ ok: false, error: '请填写有效的手机号、固话或微信号' }, 400, cors);
   }
 
   const now = Date.now();
@@ -160,6 +268,7 @@ export async function onRequest(context) {
     products,
     description,
     source: 'fengyan-website',
+    ip,
     created_at: new Date(now).toISOString()
   };
 
@@ -171,8 +280,8 @@ export async function onRequest(context) {
       error: '提交失败，请稍后重试或直接电话联系',
       mail,
       store
-    }, 500);
+    }, 500, cors);
   }
 
-  return json({ ok: true, id: rec.id, mail, store });
+  return json({ ok: true, id: rec.id, mail, store, remaining: rl.remaining }, 200, cors);
 }
