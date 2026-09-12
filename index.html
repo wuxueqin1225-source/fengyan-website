@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fengyan® 峰妍新材料 · 工业颜料供应链</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <style>
 @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/playfair-400.woff2) format('woff2')}
 @font-face{font-family:'Playfair Display';font-style:italic;font-weight:400;font-display:swap;src:url(assets/fonts/playfair-400i.woff2) format('woff2')}
@@ -693,7 +696,9 @@ async function handleSubmit(){
     msg.style.display='block';msg.style.color='#0a0a0b';msg.textContent='✓ 已收到您的询盘，我们会在当天联系您。如有急事请直拨 021-56690218（黄建辉 15821682128）。';
     ['inName','inPhone','inProducts','inDesc'].forEach(id=>document.getElementById(id).value='');
   }else{
-    msg.style.display='block';msg.style.color='#E60012';msg.textContent='✓ 询盘已记录（CDN 缓存中，将自动同步）。如有急事请直拨 021-56690218（黄建辉 15821682128）。';
+    /* 失败就说失败：localStorage 只是存在访客本机，不会自动补发，
+       文案里绝不能承诺「已记录 / 将自动同步」，否则客户以为提交成功，线索直接丢失。 */
+    msg.style.display='block';msg.style.color='#E60012';msg.textContent='提交未能送达，请直接致电 021-56690218（黄建辉 15821682128），我们马上为您处理。';
   }
   btn.disabled=false;btn.textContent='提交询盘 · 当天答复';
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  本站为单文件 SPA，页面切换使用 hash 路由（#/products 等）。
+  搜索引擎不把 hash 片段当作独立 URL，因此站点地图只收录首页一个地址。
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.fengyanpigment.com/</loc>
+    <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
