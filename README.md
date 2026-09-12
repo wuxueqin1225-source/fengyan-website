@@ -210,11 +210,11 @@ edgeone makers deploy              # 部署
 ## 待办
 
 - [x] 询盘表单接入后端（已改造为 KV 存档 + 邮件通知）
-- [ ] 注册域名并提交 ICP 备案
+- [x] 注册域名并接入（**暂不进行 ICP 备案**，站点跑 Cloudflare 海外节点）
 - [ ] 配置邮件通知 SMTP（填 5 个环境变量即生效）
 - [ ] 绑定 KV 命名空间 `inquiry_kv`
 - [ ] 配置 `ADMIN_TOKEN` 并验证导出接口
 - [ ] 数据条数字替换为真实业务数据
 - [ ] 团队/关于页配图替换为真实照片
-- [ ] 替换 ICP 备案号占位
+- [x] 页脚 ICP 备案号占位已移除（暂不备案；若日后备案需在页脚补回真实备案号）
 - [ ] 验证新链路后删除 `_deprecated-cloudbase-cloudfunctions/` 并释放 CloudBase 环境
