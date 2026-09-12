@@ -228,6 +228,41 @@ edgeone makers deploy              # 部署
 
 旧后端依赖 CloudBase 云函数 + PostgreSQL，代码保留在 `_deprecated-cloudbase-cloudfunctions/`。新链路验证无误后，可以删除该目录并释放 CloudBase 环境 `hjj-d5g2vy73114fa5a59`（释放前确认无其他应用挂在上面）。
 
+## 搜索引擎与分享（2026-09-13 补充）
+
+站点的对外呈现由 `<head>` 里这几组标签决定，改文案只动 `index.html` 顶部即可：
+
+| 标签 | 作用 | 出现在哪 |
+|---|---|---|
+| `<title>` | 蓝字标题 | 搜索结果、浏览器标签页 |
+| `meta description` | 标题下面那两行灰字 | 搜索结果摘要 |
+| `og:title` / `og:description` / `og:image` | 分享卡片 | 微信、QQ、钉钉、LinkedIn 转发链接时 |
+| `twitter:*` | 同上，给 X/部分预览工具用 | 分享卡片 |
+| `<link rel="canonical">` | 声明正式地址 | 防 `www` 与裸域被当成两个站 |
+
+分享图 `og-image.png`（1200×630）由脚本生成，右侧色卡直接取 `products.json` 里的真实产品色：
+
+```bash
+python .workbuddy/tmp/make_og.py     # 产品配色变了可以重跑
+```
+
+### ⚠️ 现状：站点尚未被搜索引擎收录
+
+截至 2026-09-13 实测，`site:fengyanpigment.com` 零结果，搜公司名只出第三方企业名录。
+技术层面没有被拦（Baiduspider / Googlebot / bingbot 抓取均 200），**问题是没有任何外链、且从未提交过站点地图**。
+
+待办（需要账号权限，只能由站点所有者操作）：
+
+- [ ] 百度站长平台 / Google Search Console / Bing Webmaster 各提交一次 `sitemap.xml`
+- [ ] 企查查、启信宝、爱采购等名录**认领企业并填写官网字段**（当前显示为空）
+- [ ] 建设外链：B2B 黄页、行业名录、供应商平台
+
+结构性限制（已知，暂不处理）：
+
+- 全站 hash 路由，**只有首页 1 个可索引 URL**；产品详情不是独立页面，搜索引擎无法单独收录某个牌号
+- 产品数据在 `<script>` 里，Google 能渲染 JS 尚可，百度基本读不到产品内容
+- 未备案 + Cloudflare 境外节点，对百度收录不利
+
 ## 设计规范
 
 - 品牌色：信号红 `#E60012` / 深底浅红 `#FF9999` / 深底亮红 `#FF5757`
