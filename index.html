@@ -120,7 +120,9 @@ a{color:inherit;text-decoration:none}
 
 /* CATEGORY */
 .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px}
-@media(max-width:768px){.cat-grid{grid-template-columns:1fr;gap:24px}}
+.cat-grid-3{grid-template-columns:repeat(3,1fr);gap:44px}
+@media(max-width:1100px){.cat-grid-3{grid-template-columns:1fr 1fr;gap:32px}}
+@media(max-width:768px){.cat-grid{grid-template-columns:1fr;gap:24px}.cat-grid-3{grid-template-columns:1fr;gap:24px}}
 .cat-card{background:#fff;border-radius:var(--radius-md);overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s}
 .cat-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.08)}
 .cat-swatch{height:140px}
@@ -215,6 +217,14 @@ table.params th{background:var(--ink);color:#fff;font-weight:600;padding:14px 12
 table.params td{padding:14px 12px;border-bottom:1px solid var(--line)}
 table.params tr:nth-child(even){background:#F7F7F7}
 .param-note{font-size:13px;color:var(--ink-4);margin-top:16px}
+/* 氧化铁专版信息区（化学名称 / CAS / 包装 / 使用提示） */
+.iron-info{background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);padding:22px 26px;display:grid;grid-template-columns:1fr 1fr;gap:14px 40px;margin-top:24px}
+.iron-row{display:flex;gap:14px;align-items:center;font-size:14px}
+.iron-row span{color:var(--ink-4);min-width:84px;flex-shrink:0}
+.iron-row b{font-weight:600;color:var(--ink);word-break:break-all}
+.tint-chip{width:26px;height:26px;border-radius:4px;display:inline-block;vertical-align:middle;margin-right:8px;border:1px solid var(--line)}
+.iron-note{grid-column:1/-1;margin:6px 0 0;padding:13px 18px;background:#FFF5F5;border-left:3px solid var(--red);color:#8B1A1A;font-size:14px;line-height:1.65;border-radius:0 4px 4px 0}
+@media(max-width:768px){.iron-info{grid-template-columns:1fr;gap:12px}}
 .rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 @media(max-width:768px){.rel-grid{grid-template-columns:1fr}}
 .rel-item{cursor:pointer}
@@ -305,7 +315,7 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
     <div class="hero-content">
       <div class="hero-tag">Color Delivered, <em>Reliably.</em></div>
       <h1 class="hero-title">稳定的色彩，<br>稳定的交付</h1>
-      <p class="hero-sub">深耕涂料用有机颜料与无机颜料供应，43+ 常用色号现货，工厂位于上海宝山，全国物流当日响应。为涂料企业提供稳定、合规、可追溯的颜料供应链。</p>
+      <p class="hero-sub">深耕涂料用有机颜料、无机颜料与氧化铁系列供应，75+ 常用牌号现货，工厂位于上海宝山，全国物流当日响应。为涂料企业提供稳定、合规、可追溯的颜料供应链。</p>
       <div class="hero-cta">
         <a class="btn btn-red" href="#/contact">联系业务 · 获取报价</a>
         <a class="btn btn-ghost" href="#/contact">微信咨询</a>
@@ -314,7 +324,7 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
     </div>
     <noscript><style>.hero{background-image:radial-gradient(ellipse at 20% 75%,rgba(230,0,18,.28),transparent 50%),radial-gradient(ellipse at 80% 25%,rgba(10,70,150,.38),transparent 55%),radial-gradient(ellipse at 60% 85%,rgba(158,45,43,.22),transparent 46%),radial-gradient(ellipse at 38% 35%,rgba(14,76,146,.3),transparent 50%),linear-gradient(180deg,#04060b 0%,#0a0a0b 55%,#12131a 100%)}</style></noscript>
     <div class="stats">
-      <div class="stat"><div class="stat-num">43+</div><div class="stat-label">常备色号现货</div></div>
+      <div class="stat"><div class="stat-num">75+</div><div class="stat-label">常备色号现货</div></div>
       <div class="stat"><div class="stat-num">100+</div><div class="stat-label">服务涂料企业</div></div>
       <div class="stat"><div class="stat-num">24h</div><div class="stat-label">发货响应时效</div></div>
       <div class="stat"><div class="stat-num">100%</div><div class="stat-label">批次可追溯</div></div>
@@ -324,10 +334,10 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
   <div class="section">
     <div class="container">
       <div class="section-head">
-        <span class="sec-tag">Our Products — 有机 + 无机</span>
-        <h2 class="sec-title">两大产品线，覆盖涂料工业主流着色需求</h2>
+        <span class="sec-tag">Our Products — 有机 + 无机 + 氧化铁</span>
+        <h2 class="sec-title">三大产品线，覆盖涂料与建材工业主流着色需求</h2>
       </div>
-      <div class="cat-grid">
+      <div class="cat-grid cat-grid-3">
         <div class="cat-card" onclick="location.hash='#/products'">
           <div class="cat-swatch" style="background:linear-gradient(120deg,#f2f2f2 0%,#9e2a2b 50%,#0e4c92 100%)"></div>
           <div class="cat-body">
@@ -342,6 +352,14 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
             <div class="cat-title">无机颜料</div>
             <div class="cat-desc">PG.34 黄系列多档表面处理（包膜 / 高包膜 / 经济型），PG.104 红系列包膜 / 高包膜，专为涂料工业需求设计。</div>
             <div class="cat-meta"><span class="cat-count">8+ 色号</span><span class="cat-plus">+</span></div>
+          </div>
+        </div>
+        <div class="cat-card" onclick="location.hash='#/products'">
+          <div class="cat-swatch" style="background:linear-gradient(120deg,#952206 0%,#bd8315 34%,#790d01 66%,#220905 100%)"></div>
+          <div class="cat-body">
+            <div class="cat-title">氧化铁系列</div>
+            <div class="cat-desc">红（PR.101）、黄（PY.42）、黑（PBk.11）、棕、橙、绿、蓝共 32 个牌号，含标准型与微粉化型。适用于建材着色、混凝土制品、涂料与塑料。</div>
+            <div class="cat-meta"><span class="cat-count">32 个牌号</span><span class="cat-plus">+</span></div>
           </div>
         </div>
       </div>
@@ -407,15 +425,16 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
     <div class="container">
       <div class="page-hero-tag">Full Color Library</div>
       <h1 class="page-hero-title">产品中心</h1>
-      <p class="page-hero-sub">涂料用有机颜料 35+ 色号 · 无机颜料 8 档（包膜 / 高包膜 / 经济型）——全色号支持打样、可追溯、附 TDS/MSDS。</p>
+      <p class="page-hero-sub">有机颜料 35 档 · 无机颜料 8 档（包膜 / 高包膜 / 经济型）· 氧化铁系列 32 个牌号——全色号支持打样、可追溯、附 TDS/MSDS。</p>
       <p class="page-hero-sub" style="margin-top:12px;color:var(--red-soft);font-weight:500">点击任意色号，查看该产品的完整参数与 TDS →</p>
     </div>
   </div>
   <div class="container">
     <div class="cat-tabs">
-      <button class="tab active" data-tab="all">全部（43）</button>
-      <button class="tab" data-tab="organic">有机颜料（35）</button>
-      <button class="tab" data-tab="inorganic">无机颜料（8）</button>
+      <button class="tab active" data-tab="all">全部</button>
+      <button class="tab" data-tab="organic">有机颜料</button>
+      <button class="tab" data-tab="inorganic">无机颜料</button>
+      <button class="tab" data-tab="ironoxide">氧化铁系列</button>
     </div>
     <div id="product-library"></div>
   </div>
@@ -457,7 +476,7 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
     <div class="container">
       <div class="section-head"><span class="sec-tag">By The Numbers</span><h2 class="sec-title">用数字说话</h2></div>
       <div class="stats" style="position:static;border-top:1px solid rgba(255,255,255,.14);grid-template-columns:repeat(4,1fr);margin-top:0">
-        <div class="stat"><div class="stat-num">43+</div><div class="stat-label">常备色号现货</div></div>
+        <div class="stat"><div class="stat-num">75+</div><div class="stat-label">常备色号现货</div></div>
         <div class="stat"><div class="stat-num">100+</div><div class="stat-label">服务涂料企业</div></div>
         <div class="stat"><div class="stat-num">24h</div><div class="stat-label">发货响应时效</div></div>
         <div class="stat"><div class="stat-num">100%</div><div class="stat-label">批次可追溯</div></div>
@@ -586,7 +605,39 @@ const PRODUCTS = [
 {code:"Yellow 3104",index:"PG.34",series:"inorganic",name:"无机黄",color:"#B8791A",cat:"inorganic",oa:20,heat:200,lf:"4",mg:null,enc:"经济型",desc:"经济型无机黄，室内通用涂料。"},
 {code:"Yellow 3114",index:"PG.34",series:"inorganic",name:"无机黄",color:"#A96E0B",cat:"inorganic",oa:16,heat:220,lf:"7-8",mg:null,enc:"高包膜",desc:"高包膜无机黄，综合性能均衡。"},
 {code:"Red 7104",index:"PG.104",series:"inorganic",name:"无机红",color:"#A63B2E",cat:"inorganic",oa:22,heat:240,lf:"6-7",mg:null,enc:"包膜",desc:"包膜无机红，户外建筑涂料与工业漆。"},
-{code:"Red 7116",index:"PG.104",series:"inorganic",name:"无机红",color:"#9C3528",cat:"inorganic",oa:20,heat:280,lf:"7-8",mg:null,enc:"高包膜",desc:"高包膜无机红，耐热耐候更优，高性能体系。"}
+{code:"Red 7116",index:"PG.104",series:"inorganic",name:"无机红",color:"#9C3528",cat:"inorganic",oa:20,heat:280,lf:"7-8",mg:null,enc:"高包膜",desc:"高包膜无机红，耐热耐候更优，高性能体系。"},
+{code:"Iron Red 101",index:"PR.101",series:"iron-red",name:"氧化铁红",color:"#952206",tint:"#e27c68",cat:"ironoxide",oa:20,heat:800,lf:"8",mg:"5",enc:"标准型",desc:"鲜艳偏黄相红色粉末颜料（Fe₂O₃），色相一致性与遮盖力好，耐候、耐光、耐酸碱，兼具防锈性能；适用于建筑材料、涂料、油漆及彩色路面着色。",cas:"1309-37-1/215-168-2",chem:"Fe₂O₃",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Red 101M",index:"PR.101",series:"iron-red",name:"氧化铁红",color:"#942305",tint:"#e17b64",cat:"ironoxide",oa:25,heat:800,lf:"8",mg:"5",enc:"微粉化",desc:"鲜艳偏黄相红色粉末颜料（Fe₂O₃），色相一致性与遮盖力好，耐候、耐光、耐酸碱，兼具防锈性能；适用于建筑材料、涂料、油漆及彩色路面着色。本品经微粉化处理，分散性更佳。",cas:"1309-37-1/215-168-2",chem:"Fe₂O₃",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Red 110",index:"PR.101",series:"iron-red",name:"氧化铁红",color:"#952206",tint:"#e27c68",cat:"ironoxide",oa:20,heat:800,lf:"8",mg:"5",enc:"标准型",desc:"偏黄相红色粉末颜料（Fe₂O₃），色相一致性与遮盖力好，耐候、耐光、耐酸碱，兼具防锈性能；适用于建筑材料、涂料、油漆及彩色路面着色。",cas:"1309-37-1/215-168-2",chem:"Fe₂O₃",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Red 110M",index:"PR.101",series:"iron-red",name:"氧化铁红",color:"#931b03",tint:"#db7970",cat:"ironoxide",oa:25,heat:800,lf:"8",mg:"5",enc:"微粉化",desc:"偏黄相红色粉末颜料（Fe₂O₃），色相一致性与遮盖力好，耐候、耐光、耐酸碱，兼具防锈性能；适用于建筑材料、涂料、油漆及彩色路面着色。本品经微粉化处理，分散性更佳。",cas:"1309-37-1/215-168-2",chem:"Fe₂O₃",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Red YX110M",index:"PR.101",series:"iron-red",name:"氧化铁红",color:"#8c1e03",tint:"#d9776e",cat:"ironoxide",oa:25,heat:800,lf:"8",mg:"5",enc:"微粉化",desc:"偏黄相红色粉末颜料（Fe₂O₃），色相一致性与遮盖力好，耐候、耐光、耐酸碱，兼具防锈性能；适用于建筑材料、涂料、油漆及彩色路面着色。本品经微粉化处理，分散性更佳。",cas:"1309-37-1/215-168-2",chem:"Fe₂O₃",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Red 120",index:"PR.101",series:"iron-red",name:"氧化铁红",color:"#821802",tint:"#c97e83",cat:"ironoxide",oa:20,heat:800,lf:"8",mg:"5",enc:"标准型",desc:"偏黄相红色粉末颜料（Fe₂O₃），色相一致性与遮盖力好，耐候、耐光、耐酸碱，兼具防锈性能；适用于建筑材料、涂料、油漆及彩色路面着色。",cas:"1309-37-1/215-168-2",chem:"Fe₂O₃",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Red 120M",index:"PR.101",series:"iron-red",name:"氧化铁红",color:"#961903",tint:"#d67771",cat:"ironoxide",oa:25,heat:800,lf:"8",mg:"5",enc:"微粉化",desc:"偏黄相红色粉末颜料（Fe₂O₃），色相一致性与遮盖力好，耐候、耐光、耐酸碱，兼具防锈性能；适用于建筑材料、涂料、油漆及彩色路面着色。本品经微粉化处理，分散性更佳。",cas:"1309-37-1/215-168-2",chem:"Fe₂O₃",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Red 130",index:"PR.101",series:"iron-red",name:"氧化铁红",color:"#871402",tint:"#c47c80",cat:"ironoxide",oa:20,heat:800,lf:"8",mg:"5",enc:"标准型",desc:"中性红相红色粉末颜料（Fe₂O₃），色相一致性与遮盖力好，耐候、耐光、耐酸碱，兼具防锈性能；适用于建筑材料、涂料、油漆及彩色路面着色。",cas:"1309-37-1/215-168-2",chem:"Fe₂O₃",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Red 130M",index:"PR.101",series:"iron-red",name:"氧化铁红",color:"#851006",tint:"#c8817f",cat:"ironoxide",oa:25,heat:800,lf:"8",mg:"5",enc:"微粉化",desc:"中性红相红色粉末颜料（Fe₂O₃），色相一致性与遮盖力好，耐候、耐光、耐酸碱，兼具防锈性能；适用于建筑材料、涂料、油漆及彩色路面着色。本品经微粉化处理，分散性更佳。",cas:"1309-37-1/215-168-2",chem:"Fe₂O₃",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Red YX130M",index:"PR.101",series:"iron-red",name:"氧化铁红",color:"#811602",tint:"#c87c80",cat:"ironoxide",oa:25,heat:800,lf:"8",mg:"5",enc:"微粉化",desc:"中性红相红色粉末颜料（Fe₂O₃），色相一致性与遮盖力好，耐候、耐光、耐酸碱，兼具防锈性能；适用于建筑材料、涂料、油漆及彩色路面着色。本品经微粉化处理，分散性更佳。",cas:"1309-37-1/215-168-2",chem:"Fe₂O₃",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Red 140",index:"PR.101",series:"iron-red",name:"氧化铁红",color:"#790d01",tint:"#c48c99",cat:"ironoxide",oa:20,heat:800,lf:"8",mg:"5",enc:"标准型",desc:"中深红相红色粉末颜料（Fe₂O₃），色相一致性与遮盖力好，耐候、耐光、耐酸碱，兼具防锈性能；适用于建筑材料、涂料、油漆及彩色路面着色。",cas:"1309-37-1/215-168-2",chem:"Fe₂O₃",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Red 140M",index:"PR.101",series:"iron-red",name:"氧化铁红",color:"#700703",tint:"#c58c95",cat:"ironoxide",oa:25,heat:800,lf:"8",mg:"5",enc:"微粉化",desc:"中深红相红色粉末颜料（Fe₂O₃），色相一致性与遮盖力好，耐候、耐光、耐酸碱，兼具防锈性能；适用于建筑材料、涂料、油漆及彩色路面着色。本品经微粉化处理，分散性更佳。",cas:"1309-37-1/215-168-2",chem:"Fe₂O₃",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Red 160",index:"PR.101",series:"iron-red",name:"氧化铁红",color:"#830c04",tint:"#b26877",cat:"ironoxide",oa:20,heat:800,lf:"8",mg:"5",enc:"标准型",desc:"中深红相红色粉末颜料（Fe₂O₃），色相一致性与遮盖力好，耐候、耐光、耐酸碱，兼具防锈性能；适用于建筑材料、涂料、油漆及彩色路面着色。",cas:"1309-37-1/215-168-2",chem:"Fe₂O₃",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Red 160M",index:"PR.101",series:"iron-red",name:"氧化铁红",color:"#7e0e03",tint:"#b26879",cat:"ironoxide",oa:25,heat:800,lf:"8",mg:"5",enc:"微粉化",desc:"中深红相红色粉末颜料（Fe₂O₃），色相一致性与遮盖力好，耐候、耐光、耐酸碱，兼具防锈性能；适用于建筑材料、涂料、油漆及彩色路面着色。本品经微粉化处理，分散性更佳。",cas:"1309-37-1/215-168-2",chem:"Fe₂O₃",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Red 180",index:"PR.101",series:"iron-red",name:"氧化铁红",color:"#540501",tint:"#c3a7b6",cat:"ironoxide",oa:20,heat:800,lf:"8",mg:"5",enc:"标准型",desc:"深红偏蓝相红色粉末颜料（Fe₂O₃），色相一致性与遮盖力好，耐候、耐光、耐酸碱，兼具防锈性能；适用于建筑材料、涂料、油漆及彩色路面着色。",cas:"1309-37-1/215-168-2",chem:"Fe₂O₃",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Red 180M",index:"PR.101",series:"iron-red",name:"氧化铁红",color:"#610103",tint:"#c297a8",cat:"ironoxide",oa:25,heat:800,lf:"8",mg:"5",enc:"微粉化",desc:"深红偏蓝相红色粉末颜料（Fe₂O₃），色相一致性与遮盖力好，耐候、耐光、耐酸碱，兼具防锈性能；适用于建筑材料、涂料、油漆及彩色路面着色。本品经微粉化处理，分散性更佳。",cas:"1309-37-1/215-168-2",chem:"Fe₂O₃",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Red 190",index:"PR.101",series:"iron-red",name:"氧化铁红",color:"#730705",tint:"#b07186",cat:"ironoxide",oa:20,heat:800,lf:"8",mg:"5",enc:"标准型",desc:"深红偏蓝相红色粉末颜料（Fe₂O₃），色相一致性与遮盖力好，耐候、耐光、耐酸碱，兼具防锈性能；适用于建筑材料、涂料、油漆及彩色路面着色。",cas:"1309-37-1/215-168-2",chem:"Fe₂O₃",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Red 190M",index:"PR.101",series:"iron-red",name:"氧化铁红",color:"#710805",tint:"#b07182",cat:"ironoxide",oa:25,heat:800,lf:"8",mg:"5",enc:"微粉化",desc:"深红偏蓝相红色粉末颜料（Fe₂O₃），色相一致性与遮盖力好，耐候、耐光、耐酸碱，兼具防锈性能；适用于建筑材料、涂料、油漆及彩色路面着色。本品经微粉化处理，分散性更佳。",cas:"1309-37-1/215-168-2",chem:"Fe₂O₃",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Red YX190M",index:"PR.101",series:"iron-red",name:"氧化铁红",color:"#700704",tint:"#b37082",cat:"ironoxide",oa:25,heat:800,lf:"8",mg:"5",enc:"微粉化",desc:"深红偏蓝相红色粉末颜料（Fe₂O₃），色相一致性与遮盖力好，耐候、耐光、耐酸碱，兼具防锈性能；适用于建筑材料、涂料、油漆及彩色路面着色。本品经微粉化处理，分散性更佳。",cas:"1309-37-1/215-168-2",chem:"Fe₂O₃",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Yellow 311",index:"PY.42",series:"iron-yellow",name:"氧化铁黄",color:"#be8e1f",tint:"#fbd97f",cat:"ironoxide",oa:20,heat:180,lf:"8",mg:"5",enc:"标准型",desc:"氧化铁黄粉末颜料（α-FeOOH），针状颗粒，遮盖力高、不褪色，对弱酸弱碱稳定；适用于涂料、混凝土制品、塑料、橡胶、搪瓷与造纸着色。",cas:"20344-49-4/243-746-4",chem:"α-FeOOH",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付",note:"超过约 180℃ 会脱水转为红色，高温加工体系请改用氧化铁红。"},
+{code:"Iron Yellow 313",index:"PY.42",series:"iron-yellow",name:"氧化铁黄",color:"#bd8315",tint:"#fad891",cat:"ironoxide",oa:20,heat:180,lf:"8",mg:"5",enc:"标准型",desc:"氧化铁黄粉末颜料（α-FeOOH），针状颗粒，遮盖力高、不褪色，对弱酸弱碱稳定；适用于涂料、混凝土制品、塑料、橡胶、搪瓷与造纸着色。",cas:"20344-49-4/243-746-4",chem:"α-FeOOH",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付",note:"超过约 180℃ 会脱水转为红色，高温加工体系请改用氧化铁红。"},
+{code:"Iron Yellow YX313M",index:"PY.42",series:"iron-yellow",name:"氧化铁黄",color:"#c08213",tint:"#fbd98f",cat:"ironoxide",oa:25,heat:180,lf:"8",mg:"5",enc:"微粉化",desc:"氧化铁黄粉末颜料（α-FeOOH），针状颗粒，遮盖力高、不褪色，对弱酸弱碱稳定；适用于涂料、混凝土制品、塑料、橡胶、搪瓷与造纸着色。本品经微粉化处理，分散性更佳。",cas:"20344-49-4/243-746-4",chem:"α-FeOOH",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付",note:"超过约 180℃ 会脱水转为红色，高温加工体系请改用氧化铁红。"},
+{code:"Iron Yellow 910M",index:"PY.42",series:"iron-yellow",name:"氧化铁黄",color:"#c18f20",tint:"#fcda92",cat:"ironoxide",oa:25,heat:180,lf:"8",mg:"5",enc:"微粉化",desc:"氧化铁黄粉末颜料（α-FeOOH），针状颗粒，遮盖力高、不褪色，对弱酸弱碱稳定；适用于涂料、混凝土制品、塑料、橡胶、搪瓷与造纸着色。本品经微粉化处理，分散性更佳。",cas:"20344-49-4/243-746-4",chem:"α-FeOOH",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付",note:"超过约 180℃ 会脱水转为红色，高温加工体系请改用氧化铁红。"},
+{code:"Iron Yellow 920M",index:"PY.42",series:"iron-yellow",name:"氧化铁黄",color:"#b5820d",tint:"#fad98a",cat:"ironoxide",oa:25,heat:180,lf:"8",mg:"5",enc:"微粉化",desc:"氧化铁黄粉末颜料（α-FeOOH），针状颗粒，遮盖力高、不褪色，对弱酸弱碱稳定；适用于涂料、混凝土制品、塑料、橡胶、搪瓷与造纸着色。本品经微粉化处理，分散性更佳。",cas:"20344-49-4/243-746-4",chem:"α-FeOOH",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付",note:"超过约 180℃ 会脱水转为红色，高温加工体系请改用氧化铁红。"},
+{code:"Iron Black 318M",index:"PBk.11",series:"iron-black",name:"氧化铁黑",color:"#020202",tint:"#8d9aa2",cat:"ironoxide",oa:25,heat:180,lf:"8",mg:"5",enc:"微粉化",desc:"氧化铁黑粉末颜料（Fe₃O₄），遮盖力与着色力强，耐候耐光表现优异；适用于建材着色、涂料、塑料、水泥制品与腻子。本品经微粉化处理，分散性更佳。",cas:"1317-61-9/215-277-5",chem:"Fe₃O₄",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付",note:"约 180℃ 以上接触空气会被氧化而泛红，须留意加工与储存温度。"},
+{code:"Iron Black 722",index:"PBk.11",series:"iron-black",name:"氧化铁黑",color:"#020202",tint:"#7a878f",cat:"ironoxide",oa:20,heat:180,lf:"8",mg:"5",enc:"标准型",desc:"氧化铁黑粉末颜料（Fe₃O₄），遮盖力与着色力强，耐候耐光表现优异；适用于建材着色、涂料、塑料、水泥制品与腻子。",cas:"1317-61-9/215-277-5",chem:"Fe₃O₄",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付",note:"约 180℃ 以上接触空气会被氧化而泛红，须留意加工与储存温度。"},
+{code:"Iron Black YX722M",index:"PBk.11",series:"iron-black",name:"氧化铁黑",color:"#020202",tint:"#7f8993",cat:"ironoxide",oa:25,heat:180,lf:"8",mg:"5",enc:"微粉化",desc:"氧化铁黑粉末颜料（Fe₃O₄），遮盖力与着色力强，耐候耐光表现优异；适用于建材着色、涂料、塑料、水泥制品与腻子。本品经微粉化处理，分散性更佳。",cas:"1317-61-9/215-277-5",chem:"Fe₃O₄",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付",note:"约 180℃ 以上接触空气会被氧化而泛红，须留意加工与储存温度。"},
+{code:"Iron Black 5330",index:"PBk.11",series:"iron-black",name:"氧化铁黑",color:"#040404",tint:"#67686d",cat:"ironoxide",oa:20,heat:180,lf:"8",mg:"5",enc:"标准型",desc:"氧化铁黑粉末颜料（Fe₃O₄），遮盖力与着色力强，耐候耐光表现优异；适用于建材着色、涂料、塑料、水泥制品与腻子。",cas:"1317-61-9/215-277-5",chem:"Fe₃O₄",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付",note:"约 180℃ 以上接触空气会被氧化而泛红，须留意加工与储存温度。"},
+{code:"Iron Brown 868",index:"PBr.6",series:"iron-brown",name:"氧化铁棕",color:"#220905",tint:"#8f8488",cat:"ironoxide",oa:20,heat:180,lf:"8",mg:"5",enc:"标准型",desc:"氧化铁棕粉末颜料（复合氧化铁），由氧化铁红、黄、黑按比例调配而成，色调稳定且不迁移；适用于水泥制品、涂料与建材着色。",cas:"1309-37-1,20344-49-4,1317-61-9/215-168-2,243-746-4,215-277-5",chem:"复合氧化铁",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Green 5605",index:"PY.42+PB.15",series:"iron-green",name:"氧化铁绿",color:"#043b24",tint:"#76baad",cat:"ironoxide",oa:20,heat:180,lf:"8",mg:"5",enc:"标准型",desc:"氧化铁绿粉末颜料（复合氧化铁），以氧化铁黄与酞菁蓝调配的复合绿色，化学性质稳定；适用于涂料、建材、塑料制品着色。",cas:"20344-49-4,147-14-8,471-34-1",chem:"复合氧化铁",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Orange 960",index:"PR.101+PY.42",series:"iron-orange",name:"氧化铁橙",color:"#9f3f05",tint:"#eca47c",cat:"ironoxide",oa:20,heat:180,lf:"8",mg:"5",enc:"标准型",desc:"氧化铁橙粉末颜料（复合氧化铁），氧化铁红与氧化铁黄的调配色，耐光耐候、遮盖力好；广泛用于混凝土、屋面瓦等建筑着色。",cas:"1309-37-1,20344-49-4/215-168-2,243-746-4",chem:"复合氧化铁",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付"},
+{code:"Iron Blue 8707",index:"PB.15",series:"iron-blue",name:"氧化铁蓝",color:"#04175b",tint:"#7ed1fd",cat:"ironoxide",oa:20,heat:150,lf:"8",mg:"5",enc:"标准型",desc:"氧化铁蓝粉末颜料（复合颜料），着色力高、耐光性好，耐碱性一般；适用于涂料与塑料着色，强碱及高温体系需先试。",cas:"51274-00-1,147-14-8",chem:"复合颜料",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付",note:"超过约 150℃ 存在变色风险，不宜用于高温加工体系。"},
 ];
 
 function swatchCard(p, theme){
@@ -599,7 +650,8 @@ function swatchCard(p, theme){
 }
 
 function renderHome(){
-  const pick=["Yellow 1201","Yellow 7411","Yellow 1391","Orange 9342","Red 2540","Red 4833W","Pink 1221","Violet 5230","Blue 1530","Green 311","Yellow 6102"];
+  const pick=["Yellow 1201","Yellow 7411","Yellow 1391","Orange 9342","Red 2540","Red 4833W","Pink 1221","Violet 5230","Blue 1530","Green 311","Yellow 6102",
+              "Iron Red 101","Iron Red 190","Iron Yellow 313","Iron Black 722","Iron Brown 868","Iron Green 5605"];
   const items=pick.map(c=>PRODUCTS.find(p=>p.code===c)).filter(Boolean);
   let html=items.map(p=>swatchCard(p,'dark')).join('');
   html+='<div class="swatch swatch-dark" onclick="location.hash=\'#/contact\'" style="border:1px solid rgba(255,153,153,.55)">'+
@@ -612,18 +664,30 @@ function renderHome(){
 function renderLibrary(filter){
   filter=filter||'all';
   const list=PRODUCTS.filter(p=>filter==='all'||p.cat===filter);
-  const seriesMap={yellow:"黄色系 Yellow",orange:"橙色系 Orange",red:"红色系 Red",pink:"粉色系 Pink",violet:"紫色系 Violet",blue:"蓝色系 Blue",green:"绿色系 Green",inorganic:"无机颜料（PG.34 / PG.104）"};
+  const seriesMap={yellow:"黄色系 Yellow",orange:"橙色系 Orange",red:"红色系 Red",pink:"粉色系 Pink",violet:"紫色系 Violet",blue:"蓝色系 Blue",green:"绿色系 Green",inorganic:"无机颜料（PG.34 / PG.104）",
+    "iron-red":"氧化铁红 Red","iron-yellow":"氧化铁黄 Yellow","iron-black":"氧化铁黑 Black","iron-brown":"氧化铁棕 Brown","iron-green":"氧化铁绿 Green","iron-orange":"氧化铁橙 Orange","iron-blue":"氧化铁蓝 Blue"};
+  const IRON=['iron-red','iron-yellow','iron-black','iron-brown','iron-green','iron-orange','iron-blue'];
+  const six='<div class="swatch-grid" style="grid-template-columns:repeat(6,1fr)">';
   let html='';
   if(filter==='all'||filter==='organic'){
     ['yellow','orange','red','pink','violet','blue','green'].forEach(s=>{
       const items=list.filter(p=>p.series===s);
       if(!items.length)return;
-      html+='<div class="series"><h3 class="series-title">'+seriesMap[s]+'<small>'+items.length+' 色号</small></h3><div class="swatch-grid" style="grid-template-columns:repeat(6,1fr)">'+items.map(p=>swatchCard(p,'light')).join('')+'</div></div>';
+      html+='<div class="series"><h3 class="series-title">'+seriesMap[s]+'<small>'+items.length+' 色号</small></h3>'+six+items.map(p=>swatchCard(p,'light')).join('')+'</div></div>';
     });
   }
   if(filter==='all'||filter==='inorganic'){
     const items=list.filter(p=>p.cat==='inorganic');
-    html+='<div class="series"><h3 class="series-title">无机颜料<small>包膜 / 高包膜 / 经济型</small></h3><div class="swatch-grid" style="grid-template-columns:repeat(6,1fr)">'+items.map(p=>swatchCard(p,'light')).join('')+'</div></div>';
+    html+='<div class="series"><h3 class="series-title">无机颜料<small>包膜 / 高包膜 / 经济型</small></h3>'+six+items.map(p=>swatchCard(p,'light')).join('')+'</div></div>';
+  }
+  if(filter==='all'||filter==='ironoxide'){
+    const items=list.filter(p=>p.cat==='ironoxide');
+    html+='<div class="series"><h3 class="series-title">氧化铁系列 Iron Oxide<small>'+items.length+' 个牌号 · 分档明细见下</small></h3></div>';
+    IRON.forEach(s=>{
+      const one=items.filter(p=>p.series===s);
+      if(!one.length)return;
+      html+='<div class="series"><h3 class="series-title">'+seriesMap[s]+'<small>'+one.length+' 个牌号</small></h3>'+six+one.map(p=>swatchCard(p,'light')).join('')+'</div></div>';
+    });
   }
   document.getElementById('product-library').innerHTML=html;
 }
@@ -631,15 +695,26 @@ function renderLibrary(filter){
 function renderDetail(code){
   const p=PRODUCTS.find(x=>x.code.toLowerCase()===decodeURIComponent(code).toLowerCase());
   if(!p){document.getElementById('product-detail').innerHTML='<p style="padding:80px 0;color:#9E9E9E">未找到该产品。</p>';document.getElementById('detail-crumbs').textContent='首页 / 产品中心 / 未找到';return;}
-  const catName=p.cat==='organic'?'有机颜料':'无机颜料';
+  const CAT={organic:"有机颜料",inorganic:"无机颜料",ironoxide:"氧化铁系列"};
+  const CATEN={organic:"Organic Pigment",inorganic:"Inorganic Pigment",ironoxide:"Iron Oxide Pigment"};
+  const catName=CAT[p.cat]||'颜料';
   const mig=p.mg||'—';
-  document.getElementById('detail-crumbs').textContent='首页 / 产品中心 / '+catName+' / '+p.code+'（模板详情页 · 43 个产品共用此布局）';
+  document.getElementById('detail-crumbs').textContent='首页 / 产品中心 / '+catName+' / '+p.code;
   const rel=PRODUCTS.filter(x=>x.series===p.series&&x.code!==p.code).slice(0,3);
+  const info=(p.cas||p.pack||p.note)?
+    '<div class="iron-info">'+
+      '<div class="iron-row"><span>化学名称</span><b>'+(p.chem||'—')+'</b></div>'+
+      '<div class="iron-row"><span>CAS NO.</span><b>'+(p.cas||'—')+'</b></div>'+
+      '<div class="iron-row"><span>交货形式</span><b>粉末</b></div>'+
+      '<div class="iron-row"><span>销售包装</span><b>'+(p.pack||'—')+'</b></div>'+
+      (p.tint?'<div class="iron-row"><span>冲淡色</span><b><i class="tint-chip" style="background:'+p.tint+'"></i>'+p.tint+'</b></div>':'')+
+      (p.note?'<p class="iron-note">提示：'+p.note+'</p>':'')+
+    '</div>':'';
   document.getElementById('product-detail').innerHTML=
   '<div class="detail-show">'+
     '<div class="detail-swatch" style="background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.18),transparent 40%),'+p.color+'">'+
       '<div class="swatch-code">'+p.code+' · '+p.index+'</div></div>'+
-    '<div><div class="detail-tag">'+(p.cat==='organic'?'Organic Pigment':'Inorganic Pigment')+'</div>'+
+    '<div><div class="detail-tag">'+(CATEN[p.cat]||'Pigment')+'</div>'+
       '<h1 class="detail-name">'+p.code+'</h1>'+
       '<div class="detail-index">颜料索引：'+p.index+(p.enc?' · 表面处理：'+p.enc:'')+'</div>'+
       '<p class="detail-desc">'+p.desc+'</p>'+
@@ -647,7 +722,7 @@ function renderDetail(code){
   '<div class="section" style="padding:16px 0 72px"><div class="section-head"><span class="sec-tag">Technical Data</span><h2 class="sec-title" style="font-size:32px">产品物性参数</h2></div>'+
     '<table class="params"><tr><th>产品 Code</th><th>Index</th><th>吸油量 g/100g</th><th>耐热 ℃</th><th>耐候</th><th>耐迁移</th><th>表面处理</th></tr>'+
     '<tr><td>'+p.code+'</td><td>'+p.index+'</td><td>'+p.oa+'</td><td>'+p.heat+'</td><td>'+p.lf+'</td><td>'+mig+'</td><td>'+(p.enc||'—')+'</td></tr></table>'+
-    '<p class="param-note">* 典型值仅供参考，批次实测数据以随货 TDS 为准。</p></div>'+
+    '<p class="param-note">* 典型值仅供参考，批次实测数据以随货 TDS 为准。</p>'+info+'</div>'+
   (rel.length?'<div class="section"><div class="container"><div class="section-head"><span class="sec-tag">Related Products</span><h2 class="sec-title">相关色号</h2></div>'+
     '<div class="rel-grid">'+rel.map(x=>'<div class="rel-item" onclick="location.hash=\'#/product/'+encodeURIComponent(x.code)+'\'"><div class="rel-chip" style="background:'+x.color+'"></div><div style="font-size:15px;font-weight:600">'+x.code+' · '+x.index+'</div></div>').join('')+'</div></div></div>':'')+
   '<div class="cta"><div class="cta-tag">Get A Sample</div><h2 class="cta-title">需要这款颜料的样品或报价？</h2><div class="hero-cta" style="justify-content:center"><button class="btn btn-red" type="button">电话 021-56690218 · 微信 15821682128</button></div></div>';
@@ -669,6 +744,12 @@ function router(){
   routes[hash.replace('#','')]?routes[hash.replace('#','')]():routes["/"]();
 }
 window.addEventListener('hashchange',router);
+/* 类目标签的数量由数据实时算出，加产品时不用再手动改数字 */
+document.querySelectorAll('.cat-tabs .tab').forEach(b=>{
+  const f=b.dataset.tab;
+  const n=f==='all'?PRODUCTS.length:PRODUCTS.filter(p=>p.cat===f).length;
+  b.textContent=b.textContent.replace(/（\d+）$/,'')+'（'+n+'）';
+});
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
   document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');renderLibrary(t.dataset.tab);
 }));
