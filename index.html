@@ -277,6 +277,44 @@ table.params tr:nth-child(even){background:#F7F7F7}
 .form-input{width:100%;height:48px;background:#F7F7F7;border:1px solid var(--line);border-radius:var(--radius);padding:0 16px;font-size:14px;font-family:var(--font-sans);outline:none}
 .form-input:focus{border-color:var(--red)}
 textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
+
+/* ============================================================
+   移动端适配补充（2026-09-13）
+   注意：色卡栅格的列数只能由这里的媒体查询控制，
+   绝不能在 HTML/JS 里写 style="grid-template-columns:..."
+   —— 行内样式优先级高于媒体查询，会导致手机上永远 6 列挤成一团。
+   ============================================================ */
+.swatch-code,.swatch-name{overflow-wrap:anywhere}
+@media(max-width:768px){
+  /* 类目标签：4 个标签在窄屏放不下，改为横向滑动，不换行 */
+  .cat-tabs{gap:10px;padding:16px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .cat-tabs::-webkit-scrollbar{display:none}
+  .tab{padding:9px 15px;font-size:14px;white-space:nowrap;flex:0 0 auto}
+
+  /* 页头：52px 的标题在手机上过大，同时收紧顶部留白 */
+  .page-hero{padding:104px 0 40px}
+  .page-hero-tag{font-size:19px;margin-bottom:12px}
+  .page-hero-title{font-size:34px;letter-spacing:-.5px;margin-bottom:14px}
+  .page-hero-sub{font-size:15px;line-height:1.7}
+
+  /* 产品详情 */
+  .detail-name{font-size:34px}
+  .detail-tag{font-size:18px;margin-bottom:10px}
+  .detail-index{font-size:15px}
+
+  /* 区块标题与间距 */
+  .sec-title{font-size:26px}
+  .section-head{margin-bottom:30px}
+  .series{margin-bottom:30px}
+  .series-title{font-size:16px;margin-bottom:14px}
+
+  /* 色卡：缩小色块与字号，保证两列下 code 不被挤断 */
+  .swatch-grid{gap:12px}
+  .swatch-chip{height:86px}
+  .swatch-code{font-size:13px;padding:10px 10px 3px}
+  .swatch-name{font-size:12px;padding:0 10px 7px}
+  .swatch-link{font-size:12px;padding:2px 10px 12px}
+}
 </style>
 </head>
 <body>
@@ -491,7 +529,7 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
   <div class="section section-dark">
     <div class="container">
       <div class="section-head"><span class="sec-tag">By The Numbers</span><h2 class="sec-title">用数字说话</h2></div>
-      <div class="stats" style="position:static;border-top:1px solid rgba(255,255,255,.14);grid-template-columns:repeat(4,1fr);margin-top:0">
+      <div class="stats" style="position:static;border-top:1px solid rgba(255,255,255,.14);margin-top:0">
         <div class="stat"><div class="stat-num">75+</div><div class="stat-label">常备色号现货</div></div>
         <div class="stat"><div class="stat-num">100+</div><div class="stat-label">服务涂料企业</div></div>
         <div class="stat"><div class="stat-num">24h</div><div class="stat-label">发货响应时效</div></div>
@@ -683,7 +721,7 @@ function renderLibrary(filter){
   const seriesMap={yellow:"黄色系 Yellow",orange:"橙色系 Orange",red:"红色系 Red",pink:"粉色系 Pink",violet:"紫色系 Violet",blue:"蓝色系 Blue",green:"绿色系 Green",inorganic:"无机颜料（PG.34 / PG.104）",
     "iron-red":"氧化铁红 Red","iron-yellow":"氧化铁黄 Yellow","iron-black":"氧化铁黑 Black","iron-brown":"氧化铁棕 Brown","iron-green":"氧化铁绿 Green","iron-orange":"氧化铁橙 Orange","iron-blue":"氧化铁蓝 Blue"};
   const IRON=['iron-red','iron-yellow','iron-black','iron-brown','iron-green','iron-orange','iron-blue'];
-  const six='<div class="swatch-grid" style="grid-template-columns:repeat(6,1fr)">';
+  const six='<div class="swatch-grid">';
   let html='';
   if(filter==='all'||filter==='organic'){
     ['yellow','orange','red','pink','violet','blue','green'].forEach(s=>{
