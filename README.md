@@ -37,10 +37,15 @@ fengyan-website/
 | 路由 | 页面 |
 |---|---|
 | `#/` | 首页（Hero / 产品分类 / 色卡速览 / 客户案例 / 团队 / CTA） |
-| `#/products` | 产品中心（43 个色号，全部/有机/无机筛选） |
-| `#/product/{code}` | 产品详情页（参数表 + 相关色号），如 `#/product/red-2540` |
+| `#/products` | 产品中心（全部 75 个牌号，按色系分组） |
+| `#/products/organic` | 产品中心 · 只显示有机颜料（35）。`inorganic`（8）/ `ironoxide`（32）同理 |
+| `#/product/{code}` | 产品详情页（参数表 + 相关色号）。**code 里有空格，URL 里要编码成 `%20`**，如 `#/product/Red%202540` |
 | `#/about` | 关于我们 |
 | `#/contact` | 联系我们（询盘表单） |
+
+> 首页三张类目卡分别指向 `#/products/organic`、`#/products/inorganic`、`#/products/ironoxide`；
+> 详情页面包屑里的类目也可点，同样落到对应筛选。
+> 页签点击会改写 URL，所以后退键能在「全部 / 各类目」之间正常来回。
 
 ## 产品数据说明
 

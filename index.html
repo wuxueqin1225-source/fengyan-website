@@ -29,7 +29,11 @@
 @font-face{font-family:'Playfair Display';font-style:italic;font-weight:500;font-display:swap;src:url(assets/fonts/playfair-500i.woff2) format('woff2')}
 @font-face{font-family:'Playfair Display';font-style:normal;font-weight:600;font-display:swap;src:url(assets/fonts/playfair-600.woff2) format('woff2')}
 @font-face{font-family:'Playfair Display';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/playfair-700.woff2) format('woff2')}
-:root{--coal:#0A0A0B;--coal-2:#050506;--coal-3:#141417;--coal-4:#1A1A1C;--light:#F5F5F4;--card:#FFFFFF;--line:#E0E0E0;--ink:#1E1E1F;--ink-2:#666666;--ink-3:#757575;--ink-4:#9E9E9E;--ink-5:#C9C9CC;--red:#E60012;--red-bright:#FF5757;--red-soft:#FF9999;--radius:3px;--radius-md:6px;--font-sans:'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Helvetica Neue',Arial,sans-serif;--font-serif:'Playfair Display',Georgia,'Times New Roman','Songti SC','SimSun',serif;--w:1280px}
+:root{--coal:#0A0A0B;--coal-2:#050506;--coal-3:#141417;--coal-4:#1A1A1C;--light:#F5F5F4;--card:#FFFFFF;--line:#E0E0E0;--ink:#1E1E1F;--ink-2:#666666;--ink-3:#757575;--ink-4:#9E9E9E;--ink-5:#C9C9CC;--red:#E60012;--red-deep:#C50010;--red-bright:#FF5757;--red-soft:#FF9999;--radius:3px;--radius-md:6px;--font-sans:'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Helvetica Neue',Arial,sans-serif;--font-serif:'Playfair Display',Georgia,'Times New Roman','Songti SC','SimSun',serif;--w:1280px}
+/* 对比度说明（2026-09-13）：--ink-4 #9E9E9E 在白底只有 2.68:1、在浅灰底 2.46:1，远低于 AA 4.5:1。
+   浅色底上的次要文字一律改用 --ink-3（白底 4.6:1）或 --ink-2（浅灰底 5.26:1）；
+   深色底上的次要文字改用 --ink-4（#0A0A0B 上 7.39:1）。
+   --red 在浅灰底只有 4.4:1，浅色底上的红色文字改用 --red-deep（5.69:1）；白底上的红字仍是 4.8:1，无需改。 */
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:var(--font-sans);color:var(--ink);background:var(--light);line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -104,7 +108,9 @@ a{color:inherit;text-decoration:none}
 @media(prefers-reduced-motion:reduce){
   .hero-content>*,.idx-label{animation:none;opacity:1;transform:none;filter:none}
 }
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius);padding:16px 30px;font-size:16px;font-weight:600;cursor:pointer;border:none;font-family:var(--font-sans);transition:all .2s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius);padding:16px 30px;font-size:16px;font-weight:600;cursor:pointer;border:none;font-family:var(--font-sans);transition:all .2s;text-decoration:none}
+/* 焦点环：原先全靠浏览器默认，深色底上几乎看不见。统一给可交互元素一个品牌红焦点环。 */
+a:focus-visible,button:focus-visible,[onclick]:focus-visible,.form-input:focus-visible{outline:2px solid var(--red);outline-offset:2px}
 .btn-red{background:var(--red);color:#fff}.btn-red:hover{background:#c50010}
 .btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5)}.btn-ghost:hover{border-color:#fff}
 .stats{position:absolute;left:0;right:0;bottom:0;z-index:3;border-top:1px solid rgba(255,255,255,.14);display:grid;grid-template-columns:repeat(4,1fr);background:rgba(5,6,10,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
@@ -129,7 +135,7 @@ a{color:inherit;text-decoration:none}
 .section{padding:88px 0}
 .section-dark{background:var(--coal);color:#fff}
 .section-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:56px;gap:20px;flex-wrap:wrap}
-.sec-tag{font-family:var(--font-serif);font-style:italic;font-size:22px;color:var(--red)}
+.sec-tag{font-family:var(--font-serif);font-style:italic;font-size:22px;color:var(--red-deep)}
 .section-dark .sec-tag{color:var(--red-soft)}
 .sec-title{font-size:36px;font-weight:900;letter-spacing:-.5px;color:var(--ink)}
 .section-dark .sec-title{color:#fff}
@@ -139,21 +145,21 @@ a{color:inherit;text-decoration:none}
 .cat-grid-3{grid-template-columns:repeat(3,1fr);gap:44px}
 @media(max-width:1100px){.cat-grid-3{grid-template-columns:1fr 1fr;gap:32px}}
 @media(max-width:768px){.cat-grid{grid-template-columns:1fr;gap:24px}.cat-grid-3{grid-template-columns:1fr;gap:24px}}
-.cat-card{background:#fff;border-radius:var(--radius-md);overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s}
+.cat-card{display:block;background:#fff;border-radius:var(--radius-md);overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s;text-decoration:none;color:inherit}
 .cat-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.08)}
 .cat-swatch{height:140px}
 .cat-body{padding:24px}
 .cat-title{font-size:23px;font-weight:700;color:var(--ink);margin-bottom:12px}
 .cat-desc{font-size:14px;color:var(--ink-2);margin-bottom:16px}
 .cat-meta{display:flex;justify-content:space-between;align-items:center}
-.cat-count{font-size:13px;color:var(--ink-4)}
+.cat-count{font-size:13px;color:var(--ink-3)}
 .cat-plus{font-size:20px;color:var(--red)}
 
 /* SWATCH */
 .swatch-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
 @media(max-width:900px){.swatch-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:560px){.swatch-grid{grid-template-columns:repeat(2,1fr)}}
-.swatch{background:#0A0A0B;border-radius:var(--radius-md);overflow:hidden;cursor:pointer;transition:transform .2s}
+.swatch{display:block;background:#0A0A0B;border-radius:var(--radius-md);overflow:hidden;cursor:pointer;transition:transform .2s;text-decoration:none;color:inherit}
 .swatch:hover{transform:translateY(-3px)}
 .swatch-chip{height:110px;position:relative}
 .swatch-chip::after{content:'';position:absolute;inset:0;border:1px solid rgba(255,255,255,.15);border-radius:0}
@@ -173,7 +179,7 @@ a{color:inherit;text-decoration:none}
 .t-card{background:#fff;border-radius:var(--radius-md);padding:30px;display:flex;flex-direction:column;gap:16px}
 .t-tag{font-size:13px;font-weight:600;color:var(--red)}
 .t-quote{font-size:17px;font-weight:500;color:var(--ink);line-height:1.65}
-.t-author{font-size:14px;color:var(--ink-4)}
+.t-author{font-size:14px;color:var(--ink-3)}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 @media(max-width:768px){.grid-3{grid-template-columns:1fr}}
 
@@ -190,17 +196,19 @@ a{color:inherit;text-decoration:none}
 .cta-tag{font-family:var(--font-serif);font-style:italic;font-size:22px;color:var(--red-soft);margin-bottom:18px}
 .cta-title{font-size:44px;font-weight:900;color:#fff;letter-spacing:-.5px;margin-bottom:20px}
 .cta-sub{font-size:16px;color:var(--ink-4);margin-bottom:36px}
-.cta-note{font-size:13px;color:var(--ink-3);margin-top:24px}
+.cta-note{font-size:13px;color:var(--ink-4);margin-top:24px}
 
 /* FOOTER */
 .footer{background:var(--coal-2);padding:64px 0 40px;overflow:hidden;position:relative}
 .footer-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px}
-.footer-col h4{font-size:14px;font-weight:600;color:var(--ink-4);margin-bottom:14px}
+.footer-col h3{font-size:14px;font-weight:600;color:var(--ink-4);margin-bottom:14px}
 .footer-col a{display:block;font-size:13px;color:var(--ink-5);margin-bottom:10px}
 .footer-col a:hover{color:#fff}
-.footer-col button{display:block;width:100%;font-size:13px;color:var(--ink-5);margin-bottom:10px;background:transparent;border:none;padding:0;text-align:left;cursor:default;font-family:inherit}
+/* 页脚第三列原先 3 个 <button> 无任何 handler（点了没反应）却可聚焦，读屏还会播报成按钮；
+   电话改成真 tel: 链接，传真只是文字，用 span 承载。 */
+.footer-col span{display:block;font-size:13px;color:var(--ink-5);margin-bottom:10px}
 .footer-div{height:1px;background:rgba(255,255,255,.08);margin:44px 0 24px}
-.footer-bottom{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-3);flex-wrap:wrap;gap:8px}
+.footer-bottom{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-4);flex-wrap:wrap;gap:8px}
 .footer-wm{font-family:var(--font-serif);font-weight:700;font-size:160px;color:rgba(255,255,255,.04);letter-spacing:-2px;line-height:.8;margin-top:30px;user-select:none}
 @media(max-width:768px){.footer-wm{font-size:80px}}
 
@@ -209,7 +217,11 @@ a{color:inherit;text-decoration:none}
 .page-hero-tag{font-family:var(--font-serif);font-style:italic;font-size:24px;color:var(--red-soft);margin-bottom:18px}
 .page-hero-title{font-size:52px;font-weight:900;color:#fff;letter-spacing:-1px;margin-bottom:18px}
 .page-hero-sub{font-size:17px;color:var(--ink-5);max-width:780px}
-.crumbs{font-size:13px;color:var(--ink-4);padding-top:24px}
+/* 面包屑：顶部留白必须超过固定导航（桌面实测 80px）。
+   原先 padding-top:24px → 面包屑整条落在导航底下，可点区域也被导航拦截，用户完全看不见。 */
+.crumbs{font-size:13px;color:var(--ink-2);padding-top:104px}
+.crumbs a{color:inherit;text-decoration:none}
+.crumbs a:hover{color:var(--red)}
 
 /* LIBRARY */
 .cat-tabs{display:flex;gap:14px;padding:22px 0}
@@ -217,14 +229,15 @@ a{color:inherit;text-decoration:none}
 .tab.active{background:var(--red);color:#fff;border-color:var(--red)}
 .series{margin-bottom:44px}
 .series-title{font-size:18px;font-weight:600;margin-bottom:20px}
-.series-title small{font-weight:400;color:var(--ink-4);font-size:13px;margin-left:8px}
+.series-title small{font-weight:400;color:var(--ink-2);font-size:13px;margin-left:8px}
 
 /* DETAIL */
-.detail-show{display:grid;grid-template-columns:520px 1fr;gap:64px;align-items:center;padding:120px 0 72px}
-@media(max-width:768px){.detail-show{grid-template-columns:1fr;padding:80px 0 60px}}
+/* 顶部留白由 .crumbs 承担，这里不再重复 120px */
+.detail-show{display:grid;grid-template-columns:520px 1fr;gap:64px;align-items:center;padding:32px 0 72px}
+@media(max-width:768px){.detail-show{grid-template-columns:1fr;padding:20px 0 60px}}
 .detail-swatch{height:400px;border-radius:var(--radius-md);position:relative;display:flex;align-items:flex-end;padding:24px}
 .detail-swatch .swatch-code{color:#fff;font-size:18px;padding:0}
-.detail-tag{font-family:var(--font-serif);font-style:italic;font-size:22px;color:var(--red);margin-bottom:14px}
+.detail-tag{font-family:var(--font-serif);font-style:italic;font-size:22px;color:var(--red-deep);margin-bottom:14px}
 .detail-name{font-size:52px;font-weight:900;letter-spacing:-1px;margin-bottom:14px}
 .detail-index{font-size:16px;font-weight:500;color:var(--ink-2);margin-bottom:16px}
 .detail-desc{font-size:15px;color:var(--ink-2);line-height:1.7;margin-bottom:28px;max-width:640px}
@@ -232,18 +245,18 @@ table.params{width:100%;border-collapse:collapse;background:#fff;border-radius:v
 table.params th{background:var(--ink);color:#fff;font-weight:600;padding:14px 12px;text-align:left;font-size:13px}
 table.params td{padding:14px 12px;border-bottom:1px solid var(--line)}
 table.params tr:nth-child(even){background:#F7F7F7}
-.param-note{font-size:13px;color:var(--ink-4);margin-top:16px}
+.param-note{font-size:13px;color:var(--ink-2);margin-top:16px}
 /* 氧化铁专版信息区（化学名称 / CAS / 包装 / 使用提示） */
 .iron-info{background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);padding:22px 26px;display:grid;grid-template-columns:1fr 1fr;gap:14px 40px;margin-top:24px}
 .iron-row{display:flex;gap:14px;align-items:center;font-size:14px}
-.iron-row span{color:var(--ink-4);min-width:84px;flex-shrink:0}
+.iron-row span{color:var(--ink-3);min-width:84px;flex-shrink:0}
 .iron-row b{font-weight:600;color:var(--ink);word-break:break-all}
 .tint-chip{width:26px;height:26px;border-radius:4px;display:inline-block;vertical-align:middle;margin-right:8px;border:1px solid var(--line)}
 .iron-note{grid-column:1/-1;margin:6px 0 0;padding:13px 18px;background:#FFF5F5;border-left:3px solid var(--red);color:#8B1A1A;font-size:14px;line-height:1.65;border-radius:0 4px 4px 0}
 @media(max-width:768px){.iron-info{grid-template-columns:1fr;gap:12px}}
 .rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 @media(max-width:768px){.rel-grid{grid-template-columns:1fr}}
-.rel-item{cursor:pointer}
+.rel-item{display:block;cursor:pointer;text-decoration:none;color:inherit}
 .rel-chip{height:160px;border-radius:var(--radius-md);margin-bottom:10px}
 
 /* ABOUT */
@@ -266,12 +279,18 @@ table.params tr:nth-child(even){background:#F7F7F7}
 
 /* CONTACT */
 .info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+/* 手机上排 2 列时，22px 粗体的 11 位手机号（min-content 约 209px）会把网格撑破、
+   导致整页横向滚动。560px 以下改单列。 */
 @media(max-width:768px){.info-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.info-grid{grid-template-columns:1fr}}
 .info-card{background:#fff;border-radius:var(--radius-md);padding:30px}
 .info-label{font-size:13px;font-weight:600;color:var(--red);margin-bottom:12px}
 .info-value{font-size:22px;font-weight:700;margin-bottom:6px}
-.info-sub{font-size:13px;color:var(--ink-4)}
+.info-value a{color:inherit;text-decoration:none}
+.info-value a:hover{color:var(--red)}
+.info-sub{font-size:13px;color:var(--ink-3)}
 .form-card{background:#fff;border-radius:var(--radius-md);padding:44px 48px;max-width:900px}
+.form-note{font-size:13px;color:var(--ink-2);margin-top:16px;line-height:1.7}
 .form-field{margin-bottom:20px}
 .form-field label{font-size:14px;font-weight:600;display:block;margin-bottom:8px}
 .form-input{width:100%;height:48px;background:#F7F7F7;border:1px solid var(--line);border-radius:var(--radius);padding:0 16px;font-size:14px;font-family:var(--font-sans);outline:none}
@@ -286,10 +305,15 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
    ============================================================ */
 .swatch-code,.swatch-name{overflow-wrap:anywhere}
 @media(max-width:768px){
-  /* 类目标签：4 个标签在窄屏放不下，改为横向滑动，不换行 */
-  .cat-tabs{gap:10px;padding:16px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-  .cat-tabs::-webkit-scrollbar{display:none}
-  .tab{padding:9px 15px;font-size:14px;white-space:nowrap;flex:0 0 auto}
+  /* 类目标签：4 个类目必须一次看全。
+     原先「横向滑动 + 隐藏滚动条」，实测在 390px 下「无机颜料」被裁断、
+     「氧化铁系列（32）」起点在 x=413 完全在屏幕外，用户根本发现不了。
+     改成 2×2 网格：四类全部可见、无需滑动、触控高度 44px。 */
+  .cat-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:16px 0}
+  .tab{padding:13px 8px;font-size:13px;line-height:1.4;text-align:center}
+
+  /* 详情页面包屑：手机上导航更矮，留白相应收紧（仍要盖过固定导航） */
+  .crumbs{padding-top:88px}
 
   /* 页头：52px 的标题在手机上过大，同时收紧顶部留白 */
   .page-hero{padding:104px 0 40px}
@@ -314,6 +338,10 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
   .swatch-code{font-size:13px;padding:10px 10px 3px}
   .swatch-name{font-size:12px;padding:0 10px 7px}
   .swatch-link{font-size:12px;padding:2px 10px 12px}
+
+  /* 询盘表单：原先 44px 48px 的内边距在手机上没缩减，
+     375px 屏下输入框只剩 239px 宽（实测）。 */
+  .form-card{padding:28px 20px}
 }
 </style>
 </head>
@@ -392,30 +420,30 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
         <h2 class="sec-title">三大产品线，覆盖涂料与建材工业主流着色需求</h2>
       </div>
       <div class="cat-grid cat-grid-3">
-        <div class="cat-card" onclick="location.hash='#/products'">
+        <a class="cat-card" href="#/products/organic">
           <div class="cat-swatch" style="background:linear-gradient(120deg,#f2f2f2 0%,#9e2a2b 50%,#0e4c92 100%)"></div>
           <div class="cat-body">
             <div class="cat-title">涂料用有机颜料</div>
             <div class="cat-desc">全色谱 30+ 色号，覆盖黄 / 橙 / 红 / 粉 / 紫 / 蓝 / 绿系列。建筑涂料、工业漆、汽车修补漆用。</div>
             <div class="cat-meta"><span class="cat-count">30+ 色号</span><span class="cat-plus">+</span></div>
           </div>
-        </div>
-        <div class="cat-card" onclick="location.hash='#/products'">
+        </a>
+        <a class="cat-card" href="#/products/inorganic">
           <div class="cat-swatch" style="background:linear-gradient(120deg,#f2c14e 0%,#e07b39 50%,#c0392b 100%)"></div>
           <div class="cat-body">
             <div class="cat-title">无机颜料</div>
             <div class="cat-desc">PG.34 黄系列多档表面处理（包膜 / 高包膜 / 经济型），PG.104 红系列包膜 / 高包膜，专为涂料工业需求设计。</div>
             <div class="cat-meta"><span class="cat-count">8+ 色号</span><span class="cat-plus">+</span></div>
           </div>
-        </div>
-        <div class="cat-card" onclick="location.hash='#/products'">
+        </a>
+        <a class="cat-card" href="#/products/ironoxide">
           <div class="cat-swatch" style="background:linear-gradient(120deg,#952206 0%,#bd8315 34%,#790d01 66%,#220905 100%)"></div>
           <div class="cat-body">
             <div class="cat-title">氧化铁系列</div>
             <div class="cat-desc">红（PR.101）、黄（PY.42）、黑（PBk.11）、棕、橙、绿、蓝共 32 个牌号，含标准型与微粉化型。适用于建材着色、混凝土制品、涂料与塑料。</div>
             <div class="cat-meta"><span class="cat-count">32 个牌号</span><span class="cat-plus">+</span></div>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </div>
@@ -466,8 +494,8 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
     <h2 class="cta-title">需要稳定的颜料供应？</h2>
     <p class="cta-sub">电话或微信，样品免费，报价当天给。我们在上海宝山，欢迎实地考察。</p>
     <div class="hero-cta" style="justify-content:center">
-      <button class="btn btn-red" type="button">电话 021-56690218</button>
-      <button class="btn btn-ghost" type="button">微信 15821682128</button>
+      <a class="btn btn-red" href="tel:+862156690218">电话 021-56690218</a>
+      <a class="btn btn-ghost" href="tel:+8615821682128">手机 / 微信 15821682128</a>
     </div>
     <p class="cta-note">工作日 8:30–18:00 · 上海宝山 · 全国物流当日响应</p>
   </div>
@@ -573,8 +601,8 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
     <div class="container">
       <div class="section-head"><span class="sec-tag">Direct Contact</span><h2 class="sec-title">直接联系</h2></div>
       <div class="info-grid">
-        <div class="info-card"><div class="info-label">座机</div><div class="info-value">021-56690218</div><div class="info-sub">工作日 8:30–18:00</div></div>
-        <div class="info-card"><div class="info-label">手机 / 微信</div><div class="info-value">15821682128</div><div class="info-sub">联系人 黄建辉</div></div>
+        <div class="info-card"><div class="info-label">座机</div><div class="info-value"><a href="tel:+862156690218">021-56690218</a></div><div class="info-sub">工作日 8:30–18:00</div></div>
+        <div class="info-card"><div class="info-label">手机 / 微信</div><div class="info-value"><a href="tel:+8615821682128">15821682128</a></div><div class="info-sub">联系人 黄建辉</div></div>
         <div class="info-card"><div class="info-label">传真</div><div class="info-value">021-56697812</div><div class="info-sub">资料往来专用</div></div>
         <div class="info-card"><div class="info-label">公司地址</div><div class="info-value" style="font-size:15px;font-weight:500;line-height:1.5">上海市宝山区<br>淞宝路 155 弄 2 号楼 1611 室</div><div class="info-sub">欢迎实地考察</div></div>
       </div>
@@ -583,14 +611,15 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
   <div class="section" style="padding-top:0">
     <div class="container">
       <div class="section-head"><span class="sec-tag">Send An Inquiry</span><h2 class="sec-title">在线询盘</h2></div>
-      <div class="form-card">
-        <div class="form-field"><label>姓名 / 公司</label><input id="inName" class="form-input" placeholder="请输入"></div>
-        <div class="form-field"><label>联系电话 / 微信</label><input id="inPhone" class="form-input" placeholder="请输入"></div>
-        <div class="form-field"><label>意向产品 / 色号（可多填）</label><input id="inProducts" class="form-input" placeholder="如：Red 2540、Yellow 7411"></div>
-        <div class="form-field"><label>需求描述</label><textarea id="inDesc" class="form-input" placeholder="用量、用途、交期要求等"></textarea></div>
-        <button id="submitBtn" class="btn btn-red" type="button" onclick="handleSubmit()">提交询盘 · 当天答复</button>
-        <div id="submitMsg" style="margin-top:14px;font-size:14px;display:none"></div>
-      </div>
+      <form class="form-card" id="inquiryForm" onsubmit="event.preventDefault();handleSubmit()">
+        <div class="form-field"><label for="inName">姓名 / 公司</label><input id="inName" name="name" class="form-input" type="text" autocomplete="name" placeholder="请输入"></div>
+        <div class="form-field"><label for="inPhone">联系电话 / 微信</label><input id="inPhone" name="phone" class="form-input" type="tel" inputmode="tel" autocomplete="tel" placeholder="请输入"></div>
+        <div class="form-field"><label for="inProducts">意向产品 / 色号（可多填）</label><input id="inProducts" name="products" class="form-input" type="text" placeholder="如：Red 2540、Yellow 7411"></div>
+        <div class="form-field"><label for="inDesc">需求描述</label><textarea id="inDesc" name="desc" class="form-input" placeholder="用量、用途、交期要求等"></textarea></div>
+        <button id="submitBtn" class="btn btn-red" type="submit">提交询盘 · 当天答复</button>
+        <div id="submitMsg" role="status" aria-live="polite" style="margin-top:14px;font-size:14px;display:none"></div>
+        <p class="form-note">提交后会收到报价单和对应牌号的 TDS；样品可随单寄出。信息仅用于本次询价，不对外提供。</p>
+      </form>
     </div>
   </div>
 </section>
@@ -601,11 +630,12 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
     <div class="footer-top">
       <div>
         <div class="logo-en serif" style="margin-bottom:10px">Fengyan<sup style="font-size:12px">®</sup></div>
-        <p style="font-size:13px;color:var(--ink-3)">峰妍新材料科技（上海）有限公司 · 卓越 妍好</p>
+        <p style="font-size:13px;color:var(--ink-4)">峰妍新材料科技（上海）有限公司 · 卓越 妍好</p>
       </div>
-      <div class="footer-col"><h4>产品</h4><a href="#/products">有机颜料</a><a href="#/products">无机颜料</a><a href="#/products">色卡库</a><a href="#/contact">样品申请</a></div>
-      <div class="footer-col"><h4>公司</h4><a href="#/about">关于我们</a><a href="#/contact">联系我们</a><a href="#/contact">样品申请</a></div>
-      <div class="footer-col"><h4>联系</h4><button type="button">座机 021-56690218</button><button type="button">手机 15821682128（黄建辉）</button><button type="button">传真 021-56697812</button></div>
+      <!-- 页脚三列标题原用 <h4>，但前面只有 <h2>，造成 h2→h4 跳级；改为 h3。视觉不变。 -->
+      <div class="footer-col"><h3>产品</h3><a href="#/products">有机颜料</a><a href="#/products">无机颜料</a><a href="#/products">色卡库</a><a href="#/contact">样品申请</a></div>
+      <div class="footer-col"><h3>公司</h3><a href="#/about">关于我们</a><a href="#/contact">联系我们</a><a href="#/contact">样品申请</a></div>
+      <div class="footer-col"><h3>联系</h3><a href="tel:+862156690218">座机 021-56690218</a><a href="tel:+8615821682128">手机 15821682128（黄建辉）</a><span>传真 021-56697812</span></div>
     </div>
     <div class="footer-div"></div>
     <div class="footer-bottom">
@@ -694,13 +724,25 @@ const PRODUCTS = [
 {code:"Iron Blue 8707",index:"PB.15",series:"iron-blue",name:"氧化铁蓝",color:"#04175b",tint:"#7ed1fd",cat:"ironoxide",oa:20,heat:150,lf:"8",mg:"5",enc:"标准型",desc:"氧化铁蓝粉末颜料（复合颜料），着色力高、耐光性好，耐碱性一般；适用于涂料与塑料着色，强碱及高温体系需先试。",cas:"51274-00-1,147-14-8",chem:"复合颜料",pack:"25 kg 纸袋 / 1000 kg 吨袋，托盘化交付",note:"超过约 150℃ 存在变色风险，不宜用于高温加工体系。"},
 ];
 
+/* 按底色亮度选文字色：浅色底用近黑字、深色底用白字。
+   实测 75 个产品色全部达到 WCAG AA 4.5:1（最差 4.51:1），
+   替换原先一律写死的 #fff —— 在黄/橙系底色上白字只有 1.58:1，完全看不清。 */
+function readableOn(hex){
+  const c=String(hex||'#000').replace('#','');
+  const n=c.length===3?c.split('').map(x=>x+x).join(''):c;
+  const lin=v=>v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4);
+  const L=0.2126*lin(parseInt(n.slice(0,2),16)/255)+0.7152*lin(parseInt(n.slice(2,4),16)/255)+0.0722*lin(parseInt(n.slice(4,6),16)/255);
+  const ratio=(a,b)=>(Math.max(a,b)+0.05)/(Math.min(a,b)+0.05);
+  return ratio(1,L)>=ratio(L,0.003056)?'#FFFFFF':'#0A0A0B';
+}
+
 function swatchCard(p, theme){
   theme=theme||'light';
-  return '<div class="swatch swatch-'+theme+'" onclick="location.hash=\'#/product/'+encodeURIComponent(p.code)+'\'">'+
+  return '<a class="swatch swatch-'+theme+'" href="#/product/'+encodeURIComponent(p.code)+'">'+
     '<div class="swatch-chip" style="background:'+p.color+'"></div>'+
     '<div class="swatch-code">'+p.code+'</div>'+
     '<div class="swatch-name">'+p.name+' · '+p.index+(p.enc?' · '+p.enc:'')+'</div>'+
-    '<div class="swatch-link">查看详情 →</div></div>';
+    '<div class="swatch-link">查看详情 →</div></a>';
 }
 
 function renderHome(){
@@ -708,15 +750,17 @@ function renderHome(){
               "Iron Red 101","Iron Red 190","Iron Yellow 313","Iron Black 722","Iron Brown 868","Iron Green 5605"];
   const items=pick.map(c=>PRODUCTS.find(p=>p.code===c)).filter(Boolean);
   let html=items.map(p=>swatchCard(p,'dark')).join('');
-  html+='<div class="swatch swatch-dark" onclick="location.hash=\'#/contact\'" style="border:1px solid rgba(255,153,153,.55)">'+
+  html+='<a class="swatch swatch-dark" href="#/contact" style="border:1px solid rgba(255,153,153,.55)">'+
     '<div class="swatch-chip" style="background:#101014;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">'+
     '<div style="color:#FF9999;font-size:16px;font-weight:600">定制调色</div><div style="color:#9E9E9E;font-size:12px">小批量 · 灵活供应</div></div>'+
-    '<div class="swatch-code" style="color:#fff">按需打样</div><div class="swatch-link">+</div></div>';
+    '<div class="swatch-code" style="color:#fff">按需打样</div><div class="swatch-link">+</div></a>';
   document.getElementById('home-swatches').innerHTML=html;
 }
 
 function renderLibrary(filter){
   filter=filter||'all';
+  /* 页签高亮跟着实际渲染的筛选走（点了类目卡深链进来、或按后退键，高亮都不会错位） */
+  document.querySelectorAll('.cat-tabs .tab').forEach(t=>t.classList.toggle('active',(t.dataset.tab||'all')===filter));
   const list=PRODUCTS.filter(p=>filter==='all'||p.cat===filter);
   const seriesMap={yellow:"黄色系 Yellow",orange:"橙色系 Orange",red:"红色系 Red",pink:"粉色系 Pink",violet:"紫色系 Violet",blue:"蓝色系 Blue",green:"绿色系 Green",inorganic:"无机颜料（PG.34 / PG.104）",
     "iron-red":"氧化铁红 Red","iron-yellow":"氧化铁黄 Yellow","iron-black":"氧化铁黑 Black","iron-brown":"氧化铁棕 Brown","iron-green":"氧化铁绿 Green","iron-orange":"氧化铁橙 Orange","iron-blue":"氧化铁蓝 Blue"};
@@ -748,12 +792,25 @@ function renderLibrary(filter){
 
 function renderDetail(code){
   const p=PRODUCTS.find(x=>x.code.toLowerCase()===decodeURIComponent(code).toLowerCase());
-  if(!p){document.getElementById('product-detail').innerHTML='<p style="padding:80px 0;color:#9E9E9E">未找到该产品。</p>';document.getElementById('detail-crumbs').textContent='首页 / 产品中心 / 未找到';return;}
+  if(!p){
+    /* 未找到时给出口：原先只有一句灰色文字，是死胡同。
+       code 来自 URL，属于不可信输入 —— 先剥掉尖括号与引号再插入。 */
+    const asked=String(decodeURIComponent(code)||'').replace(/[<>"'&]/g,'').slice(0,40);
+    document.getElementById('detail-crumbs').innerHTML='<a href="#/">首页</a> / <a href="#/products">产品中心</a> / 未找到';
+    document.getElementById('product-detail').innerHTML=
+      '<div style="padding:64px 0 96px">'+
+        '<p style="font-size:20px;font-weight:700;margin-bottom:12px">没找到「'+asked+'」这个牌号。</p>'+
+        '<p style="font-size:15px;color:var(--ink-2);line-height:1.75;margin-bottom:28px;max-width:640px">可能牌号写法不同，或该型号不在现货目录里。可以回产品中心按色系查找，也可以直接把牌号发给我们 —— 2 小时内答复。</p>'+
+        '<a class="btn btn-red" href="#/products">← 回到产品中心</a>'+
+        '<p style="margin-top:20px"><a href="tel:+862156690218" style="color:var(--red);font-weight:600;font-size:15px">或直接致电 021-56690218</a></p>'+
+      '</div>';
+    return;
+  }
   const CAT={organic:"有机颜料",inorganic:"无机颜料",ironoxide:"氧化铁系列"};
   const CATEN={organic:"Organic Pigment",inorganic:"Inorganic Pigment",ironoxide:"Iron Oxide Pigment"};
   const catName=CAT[p.cat]||'颜料';
   const mig=p.mg||'—';
-  document.getElementById('detail-crumbs').textContent='首页 / 产品中心 / '+catName+' / '+p.code;
+  document.getElementById('detail-crumbs').innerHTML='<a href="#/">首页</a> / <a href="#/products">产品中心</a> / <a href="#/products/'+p.cat+'">'+catName+'</a> / '+p.code;
   const rel=PRODUCTS.filter(x=>x.series===p.series&&x.code!==p.code).slice(0,3);
   const info=(p.cas||p.pack||p.note)?
     '<div class="iron-info">'+
@@ -767,7 +824,7 @@ function renderDetail(code){
   document.getElementById('product-detail').innerHTML=
   '<div class="detail-show">'+
     '<div class="detail-swatch" style="background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.18),transparent 40%),'+p.color+'">'+
-      '<div class="swatch-code">'+p.code+' · '+p.index+'</div></div>'+
+      '<div class="swatch-code" style="color:'+readableOn(p.color)+'">'+p.code+' · '+p.index+'</div></div>'+
     '<div><div class="detail-tag">'+(CATEN[p.cat]||'Pigment')+'</div>'+
       '<h1 class="detail-name">'+p.code+'</h1>'+
       '<div class="detail-index">颜料索引：'+p.index+(p.enc?' · 表面处理：'+p.enc:'')+'</div>'+
@@ -778,8 +835,15 @@ function renderDetail(code){
     '<tr><td>'+p.code+'</td><td>'+p.index+'</td><td>'+p.oa+'</td><td>'+p.heat+'</td><td>'+p.lf+'</td><td>'+mig+'</td><td>'+(p.enc||'—')+'</td></tr></table>'+
     '<p class="param-note">* 典型值仅供参考，批次实测数据以随货 TDS 为准。</p>'+info+'</div>'+
   (rel.length?'<div class="section"><div class="container"><div class="section-head"><span class="sec-tag">Related Products</span><h2 class="sec-title">相关色号</h2></div>'+
-    '<div class="rel-grid">'+rel.map(x=>'<div class="rel-item" onclick="location.hash=\'#/product/'+encodeURIComponent(x.code)+'\'"><div class="rel-chip" style="background:'+x.color+'"></div><div style="font-size:15px;font-weight:600">'+x.code+' · '+x.index+'</div></div>').join('')+'</div></div></div>':'')+
-  '<div class="cta"><div class="cta-tag">Get A Sample</div><h2 class="cta-title">需要这款颜料的样品或报价？</h2><div class="hero-cta" style="justify-content:center"><button class="btn btn-red" type="button">电话 021-56690218 · 微信 15821682128</button></div></div>';
+    '<div class="rel-grid">'+rel.map(x=>'<a class="rel-item" href="#/product/'+encodeURIComponent(x.code)+'"><div class="rel-chip" style="background:'+x.color+'"></div><div style="font-size:15px;font-weight:600">'+x.code+' · '+x.index+'</div></a>').join('')+'</div></div></div>':'')+
+  /* 底部 CTA 原是 type="button" 且无任何 handler，点了完全没反应。改为真拨号链接。 */
+  '<div class="cta"><div class="cta-tag">Get A Sample</div><h2 class="cta-title">需要这款颜料的样品或报价？</h2>'+
+  '<p class="cta-sub">样品免费，报价当天给。可直接拨号，或加微信把牌号发我们。</p>'+
+  '<div class="hero-cta" style="justify-content:center">'+
+    '<a class="btn btn-red" href="tel:+862156690218">电话 021-56690218</a>'+
+    '<a class="btn btn-ghost" href="tel:+8615821682128">手机 / 微信 15821682128</a>'+
+  '</div>'+
+  '<p class="cta-note">工作日 8:30–18:00 · 联系人 黄建辉</p></div>';
 }
 
 const routes={
@@ -789,12 +853,21 @@ const routes={
   "/contact":()=>show("page-contact")
 };
 function show(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');
-  document.querySelectorAll('.nav-menu a').forEach(a=>a.classList.toggle('active',a.dataset.route===(location.hash||'#/').slice(1).split('/')[1]||(location.hash==='#/'&&a.dataset.route==='/')));
+  /* 当前页高亮。dataset.route 的值带前导斜杠（"/products"），
+     原先把 hash 切成不带斜杠的 "products" 去比，除首页外永远不相等 —— 导航高亮一直是坏的。
+     产品详情页（/product/xxx）归到「产品中心」。 */
+  const seg=(location.hash||'#/').slice(1).split('/')[1]||'';
+  const want=seg===''?'/':(seg==='product'?'/products':'/'+seg);
+  document.querySelectorAll('.nav-menu a,.drawer-nav a').forEach(a=>a.classList.toggle('active',a.dataset.route===want));
   if(window.HeroField)HeroField.setActive(id==='page-home');
   window.scrollTo(0,0);}
 function router(){
   const hash=location.hash||'#/';
   if(hash.startsWith('#/product/')){show("page-product");renderDetail(hash.replace('#/product/',''));return;}
+  /* 类目可深链：#/products/ironoxide —— 首页三张类目卡直接落到对应筛选，
+     以前卡片只跳 #/products，点了「氧化铁系列」却看到全部 75 个牌号。 */
+  const m=hash.match(/^#\/products\/(organic|inorganic|ironoxide)$/);
+  if(m){show("page-products");renderLibrary(m[1]);return;}
   routes[hash.replace('#','')]?routes[hash.replace('#','')]():routes["/"]();
 }
 window.addEventListener('hashchange',router);
@@ -805,7 +878,10 @@ document.querySelectorAll('.cat-tabs .tab').forEach(b=>{
   b.textContent=b.textContent.replace(/（\d+）$/,'')+'（'+n+'）';
 });
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
-  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');renderLibrary(t.dataset.tab);
+  /* 点页签改 hash，由 router 统一渲染 —— 这样 URL 会如实反映筛选、后退键也能用，
+     不会再出现「标签高亮氧化铁系列、内容却是全部 75 项」的自相矛盾。 */
+  const f=t.dataset.tab||'all';
+  location.hash = f==='all' ? '#/products' : '#/products/'+f;
 }));
 async function handleSubmit(){
   const name=(document.getElementById('inName').value||'').trim();
