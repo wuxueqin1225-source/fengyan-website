@@ -7,24 +7,29 @@ Fengyan® 工业颜料供应链官网 · 单文件静态站 · 托管于 EdgeOne
 ```
 fengyan-website/
 ├── index.html                 # 网站主文件（单文件 SPA，含全部 CSS/JS/产品数据）
-├── products.json              # 产品数据（43 个产品完整参数，独立数据文件）
-├── cloud-functions/           # EdgeOne Makers 云函数
-│   └── api/
-│       ├── submit/            # POST /api/submit   询盘提交：KV 存档 + 邮件通知
-│       │   ├── index.js
-│       │   └── package.json   # 依赖 nodemailer
-│       └── inquiries/         # GET  /api/inquiries 询盘导出（需 token）
-│           └── index.js
-├── edgeone.json               # Makers 配置：声明 cloud-functions 目录
-├── assets/                    # 素材（fonts/ 被引用；色卡与名片为原始备份）
-│   ├── about-office.jpg       # 被引用
-│   ├── team-workspace.jpg     # 被引用
-│   └── fonts/                 # Playfair Display，被引用
-├── _deprecated-cloudbase-cloudfunctions/   # CloudBase 旧后端，已停用，待删除
+├── products.json              # 产品数据（75 个产品完整参数，独立数据文件）
+├── functions/api/submit.js    # Cloudflare Pages Function —— 当前唯一的表单链路
+├── _routes.json               # Cloudflare Pages 路由配置
+├── assets/                    # 素材（下列文件均被页面引用，除非注明）
+│   ├── about-office.webp      # 关于页配图（WebP）
+│   ├── team-workspace.webp    # 团队页配图（WebP）
+│   ├── fonts/                 # Playfair Display 四档子集（400i / 500i / 600 / 700）
+│   ├── 色卡-橙红粉紫.jpg       # 原始素材备份，未被页面引用
+│   ├── 色卡-蓝绿无机.jpg       # 同上
+│   ├── 色卡-黄橙红.jpg         # 同上
+│   └── 名片-峰妍新材料.jpg     # 同上
+├── tools/sync-products.js     # 校验字段与 code 唯一性，再把数据同步到 products.json
+├── sitemap.xml / robots.txt / favicon.* / apple-touch-icon.png / og-image.png
+├── _originals/                # 本地留档：配图原图、已下线素材（gitignore，不部署）
+├── _deprecated-edgeone-makers/          # EdgeOne Makers 旧后端 + edgeone.json（gitignore，不部署）
+├── _deprecated-cloudbase-cloudfunctions/ # CloudBase 旧后端（gitignore，不部署）
 └── README.md
 ```
 
-> `assets/` 里的 `hero-pigment.jpg` 与四张色卡/名片**未被引用**，属于原始素材备份，部署前可移出以减小上传体积。
+> `assets/` 里的四张色卡 / 名片**未被引用**，属于原始素材备份，部署前可移出以减小上传体积。
+> `_originals/` 存放的是被 WebP 替换掉的配图原图（`about-office.png` —— 它虽然叫 .jpg，
+> 实际是 PNG；`team-workspace.jpg`）与已下线的 `hero-pigment.jpg`、`playfair-400.woff2`。
+> 这三个目录都写在 `.gitignore` 里，不进仓库、也不参与任何平台的部署；需要时从 git 历史取回。
 
 ## 运行方式
 
@@ -83,7 +88,15 @@ node tools/sync-products.js
 
 ## 询盘表单后端
 
-联系页表单提交后，云函数 `cloud-functions/api/submit` 做两件事：**写入 Makers KV 存档** + **发送邮件通知**。两条路互不影响，任一失败另一条仍会走完；只有两条都断掉才返回失败，此时前端会暂存 localStorage 兜底。
+联系页表单提交后，Pages Function `functions/api/submit.js` 做两件事：**写一份到 KV 存档（需绑定）** + **调 Resend HTTP API 发邮件通知**。两条路互不影响，任一失败另一条仍会走完；只有两条都断掉才返回失败。
+
+> ⚠️ 2026-09-14：EdgeOne 时代的旧后端（`cloud-functions/api/submit`、`cloud-functions/api/inquiries`）
+> 与它对应的 `edgeone.json` 已整体移入 `_deprecated-edgeone-makers/`。
+> 原因见「修复记录 → P1-11」：那条链路没有 CORS 白名单、没有限流、没有长度上限，
+> 却仍被 `edgeone.json` 指向，任何一次按它部署都会把无防护版本发上线。
+> **仓库里现在只剩 `functions/api/submit.js` 一条可部署的表单链路。**
+> 顺带一提：`/api/inquiries` 导出接口是 EdgeOne 独有的，迁移到 Cloudflare 后就已不可用，
+> 归档它不损失任何现有能力。
 
 ### 环境变量
 
@@ -202,6 +215,8 @@ curl -X POST https://你的域名/api/submit \
 ## 部署到 EdgeOne Makers（历史方案）
 
 > 已迁移至 Cloudflare Pages，以下内容仅作回退参考。
+> **2026-09-14 起，本节涉及的 `cloud-functions/` 与 `edgeone.json` 已移入 `_deprecated-edgeone-makers/`**
+> （gitignore，不进仓库、不参与部署）。要彻底回到 EdgeOne，需先把这两个路径移回项目根目录。
 
 ### 前置条件：域名与备案（硬门槛）
 
@@ -272,17 +287,79 @@ python .workbuddy/tmp/make_og.py     # 产品配色变了可以重跑
 
 - 品牌色：信号红 `#E60012` / 深底浅红 `#FF9999` / 深底亮红 `#FF5757`
 - 底色：近黑 `#0A0A0B` + 浅灰 `#F5F5F4`
-- 字体：Noto Sans SC（中文）+ Playfair Display（英文衬线点缀）
+- 字体：**中文走系统无衬线栈**（`PingFang SC` → `Hiragino Sans GB` → `Microsoft YaHei`），
+  英文点缀用 `Playfair Display`（仅意大利体出现在眉标与 logo）；
+  色号 / 参数 / 索引统一走等宽栈（`ui-monospace` 系列）。
+  > 此前这里写的是「Noto Sans SC」，但 CSS 从未加载过该字体，实际一直落到系统中文字体 ——
+  > 2026-09-14 已把文档改成与实际一致（不是改代码去迁就文档）。
 - 圆角：按钮 3px / 卡片 6px（Fleet 风格工业硬朗）
+- 令牌：色值一律走 `:root` 变量，**不在样式里写裸 hex**（`hover` 用 `var(--red-deep)`）
+
+## 修复记录（2026-09-14 · 按 OpenDesign 评审报告执行）
+
+评审报告：`fengyan-website-review.html`（5 项 P0 / 11 项 P1 / 8 项 P2）。
+本次把报告里**不需要外部输入**的条目全部落地，三条涉及真实业务内容的按下方方案处理。
+
+### P0
+
+| 条目 | 处理 |
+|---|---|
+| P0-1 数据条无出处、口径不一致 | 首页与关于页统一加 `.stats-note` 声明；「100% 批次可追溯」改为可核验的「每批随货提供 TDS/MSDS」 |
+| P0-2 三条匿名客户证言 | 换成方案型内容块「色差投诉，多半出在这三处」，标题与眉标同步改（未伪造具名署名） |
+| P0-3 配图走 CSS 背景、读屏不可达 | `.team-img` / `.about-img` 改为真 `<img>` + `alt`（图片仍为图库素材，待实拍替换） |
+| P0-4 `about-office.jpg` 实为 PNG 且 1.58 MB | 转 WebP，1040×754，**1,657,155 → 66,144 字节（4%）**；`team-workspace` 同步转 1120×812（182 KB → 96 KB）；未引用的 `hero-pigment.jpg` 归档 |
+| P0-5 服务端错误从不回显 | `handleSubmit` 按状态码分流：400 落到字段级提示（`aria-describedby` + `aria-invalid`）、429 提示稍后重试、403 提示来源、仅网络异常走致电兜底。已用 5 组 mock 响应逐个验证 |
+
+### P1
+
+| 条目 | 处理 |
+|---|---|
+| P1-1 首屏两个实心红主按钮 | 导航 CTA 降级为幽灵描边，唯一的实心红留给首屏主按钮 |
+| P1-2 「微信咨询」不触发微信 | 按钮改为真复制微信号（含 `execCommand` 兜底，失败则跳联系页）；联系页补「复制微信号」按钮 |
+| P1-3 导航 CTA 用 `button onclick` | 改回 `<a href="#/contact">`（抽屉内的 CTA 一并改），删掉全局 `[onclick]:focus-visible` 补丁 |
+| P1-4 畸形百分号编码导致白屏 | 新增 `safeDecode()`，解码失败走已有的「未找到牌号」分支。`#/product/%` 已验证不再空白 |
+| P1-5 离开首页后画布仍在逐帧绘制 | `window.HeroField` → `HeroField`（顶层 `const` 不挂 `window`，原引用恒为 `undefined`） |
+| P1-6 平板 769–830px 横向溢出 | 导航折叠断点 768 → 900px，`.team-wrap` 改 `minmax(0,560px) 1fr` 并在 ≤1100px 降为两列等宽。原版 769px 溢出 34px / 800px 溢出 3px，现全为 0 |
+| P1-7 类目卡与数据条缺语义 | `.cat-title` 改 `<h3>`；两处数据条改 `<dl>`（dt/dd 分组） |
+| P1-8 全站无结构化数据 | `<head>` 静态输出 `Organization` + `LocalBusiness`；`renderDetail()` 动态注入 `Product` + `BreadcrumbList`，离开详情页时清除 |
+| P1-9 同一件事四种数量口径 | 类目卡与产品中心页头改由 `PRODUCTS` 实时计算（保留静态兜底值）；README 的「43 个产品」改为 75 |
+| P1-10 询盘 PII 留在访客本机 | 移除 localStorage 兜底（它并不补发，只留下隐私成本）。已验证提交前后 localStorage 均为 0 条 |
+| P1-11 旧 EdgeOne 后端仍被部署配置指向 | `cloud-functions/` 与 `edgeone.json` 移入 `_deprecated-edgeone-makers/` 并 gitignore |
+
+### P2
+
+令牌收敛（裸 hex 收进 `:root`，新增 `--font-mono` 等 12 个令牌）；`.iron-note` 去掉「左侧色条 + 单侧圆角」的模板样式，改整块浅底 + 顶部细线；
+数据条与参数表补 `tabular-nums`，色号 / 索引统一走等宽栈；`.hero` 高度下限 680 → 560px 并补小高度媒体查询；
+页脚链接窄屏触控高度补到约 45px；删除未被命中的 `playfair-400.woff2` 与未引用的 `hero-pigment.jpg`；
+路由切换改为瞬时置顶（临时关掉 `scroll-behavior`）；`resize` 加 150ms 防抖。
+
+### 评审未列出、本次一并修掉的
+
+| 问题 | 说明 |
+|---|---|
+| 窄屏参数表撑破页面 | 详情页 7 列参数表最少需要约 360px，320–390px 屏可用宽度只有 265–335px，**原版就会整页横向滚动**（320px 溢出 74px）。改为表格自身横向可滚（`.params-wrap`），页面不再跟着滚 |
+| 抽屉关闭时撑出横向滚动条 | 关闭态面板停在 `translateX(100%)`，右边缘落到视口外，原版在 390px 下即有 4px 溢出。给 `.nav-drawer` 加 `overflow:hidden` |
+
+> 全站 7 条路由 × 10 个视口宽度（320 / 360 / 390 / 414 / 620 / 769 / 830 / 900 / 1024 / 1440）
+> 已逐个核对 `scrollWidth - clientWidth`，当前全部为 0。
+
+### 仍未完成（需要外部输入）
+
+- [ ] **配图替换为实拍**：现在用的是图库素材，代码已改成真 `<img>`，换 `src` + `alt` + 宽高即可
+- [ ] **数据条换成真实业务数字**：现在文案里标注了「示例口径」
+- [ ] **客户证言**：拿到书面授权后，可把方案型内容块换回具名证言（企业简称 + 职衔 + 授权确认）
+- [ ] 无机颜料的 Pigment Index 存疑：`Yellow 6102/6108/6116/6118/3104/3114` 写作 `PG.34`、
+  `Red 7104/7116` 写作 `PG.104`，按色系推断应为 `PY.34` / `PR.104`，**等客户确认后再改**
+  > 注：`PG.7` 是酞菁绿，与上述无机黄/红不是一回事，不要顺手改
 
 ## 待办
 
 - [x] 询盘表单接入后端（已改造为 KV 存档 + 邮件通知）
 - [x] 注册域名并接入（**暂不进行 ICP 备案**，站点跑 Cloudflare 海外节点）
-- [ ] 配置邮件通知 SMTP（填 5 个环境变量即生效）
-- [ ] 绑定 KV 命名空间 `inquiry_kv`
-- [ ] 配置 `ADMIN_TOKEN` 并验证导出接口
-- [ ] 数据条数字替换为真实业务数据
-- [ ] 团队/关于页配图替换为真实照片
+- [ ] 配置邮件通知（填 3 个环境变量即生效）
+- [ ] 绑定 KV 命名空间 `INQUIRY_KV`
+- [ ] 数据条数字替换为真实业务数据（当前已标注示例口径）
+- [ ] 团队/关于页配图替换为真实照片（代码侧已就绪）
 - [x] 页脚 ICP 备案号占位已移除（暂不备案；若日后备案需在页脚补回真实备案号）
-- [ ] 验证新链路后删除 `_deprecated-cloudbase-cloudfunctions/` 并释放 CloudBase 环境
+- [x] 旧后端下线：EdgeOne 链路已归档，CloudBase 目录仍留在 `_deprecated-cloudbase-cloudfunctions/`
+- [ ] 释放 CloudBase 环境 `hjj-d5g2vy73114fa5a59`（确认无其他应用挂载后再释放）

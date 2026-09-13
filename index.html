@@ -23,17 +23,94 @@
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<!-- P1-8（2026-09-14）：全站原先不含任何结构化数据。本站是 hash 路由，
+    只有首页一个可索引 URL（sitemap.xml 里已注明），结构化数据几乎是唯一的可见性抓手。
+     这里静态输出 Organization + LocalBusiness；产品维度由 renderDetail() 动态注入
+     Product + BreadcrumbList（见文末 setLd）。数据全部取自页面里已有的事实，不新增任何声明。 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.fengyanpigment.com/#organization",
+      "name": "峰妍新材料科技（上海）有限公司",
+      "alternateName": "Fengyan 峰妍新材料",
+      "url": "https://www.fengyanpigment.com/",
+      "logo": "https://www.fengyanpigment.com/favicon-192.png",
+      "description": "涂料用有机颜料、无机颜料与氧化铁系列供应。75 个常用牌号现货，上海宝山仓储，当天报价、全国发货，每批可追溯并附 TDS/MSDS。",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "宝山区淞宝路 155 弄 2 号楼 1611 室",
+        "addressLocality": "上海市",
+        "addressRegion": "上海市",
+        "addressCountry": "CN"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "sales",
+          "name": "黄建辉",
+          "telephone": "+86-21-56690218",
+          "availableLanguage": ["zh-CN"]
+        }
+      ]
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://www.fengyanpigment.com/#localbusiness",
+      "name": "峰妍新材料科技（上海）有限公司",
+      "url": "https://www.fengyanpigment.com/",
+      "image": "https://www.fengyanpigment.com/og-image.png",
+      "telephone": "+86-21-56690218",
+      "faxNumber": "+86-21-56697812",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "宝山区淞宝路 155 弄 2 号楼 1611 室",
+        "addressLocality": "上海市",
+        "addressRegion": "上海市",
+        "addressCountry": "CN"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "08:30",
+          "closes": "18:00"
+        }
+      ],
+      "parentOrganization": { "@id": "https://www.fengyanpigment.com/#organization" }
+    }
+  ]
+}
+</script>
 <style>
-@font-face{font-family:'Playfair Display';font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/playfair-400.woff2) format('woff2')}
+/* P2-6（2026-09-14）：原字体子集有五档，其中 normal 400 从未被命中 ——
+   页面上所有 400 字重的衬线文本都是 italic（走 playfair-400i），
+   .serif 只出现在 .logo-en（600）。删掉这一档，省 21 KB 与一次无效字体请求。
+   剩余四档全部有实际命中：400i / 500i（区块眉标与 logo）/ 600（logo）/ 700（页脚水印）。 */
 @font-face{font-family:'Playfair Display';font-style:italic;font-weight:400;font-display:swap;src:url(assets/fonts/playfair-400i.woff2) format('woff2')}
 @font-face{font-family:'Playfair Display';font-style:italic;font-weight:500;font-display:swap;src:url(assets/fonts/playfair-500i.woff2) format('woff2')}
 @font-face{font-family:'Playfair Display';font-style:normal;font-weight:600;font-display:swap;src:url(assets/fonts/playfair-600.woff2) format('woff2')}
 @font-face{font-family:'Playfair Display';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/playfair-700.woff2) format('woff2')}
-:root{--coal:#0A0A0B;--coal-2:#050506;--coal-3:#141417;--coal-4:#1A1A1C;--light:#F5F5F4;--card:#FFFFFF;--line:#E0E0E0;--ink:#1E1E1F;--ink-2:#666666;--ink-3:#757575;--ink-4:#9E9E9E;--ink-5:#C9C9CC;--red:#E60012;--red-deep:#C50010;--red-bright:#FF5757;--red-soft:#FF9999;--radius:3px;--radius-md:6px;--font-sans:'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Helvetica Neue',Arial,sans-serif;--font-serif:'Playfair Display',Georgia,'Times New Roman','Songti SC','SimSun',serif;--w:1280px}
+:root{--coal:#0A0A0B;--coal-2:#050506;--coal-3:#141417;--coal-4:#1A1A1C;--light:#F5F5F4;--card:#FFFFFF;--surface-2:#F7F7F7;--line:#E0E0E0;--ink:#1E1E1F;--ink-2:#666666;--ink-3:#757575;--ink-4:#9E9E9E;--ink-5:#C9C9CC;--ink-6:#E8E8EA;--ink-7:#4A4A4C;--on-dark:#FFFFFF;--on-dark-2:#D4D4D6;--red:#E60012;--red-deep:#C50010;--red-bright:#FF5757;--red-soft:#FF9999;--red-soft-line:rgba(255,153,153,.55);--warn-bg:#FFF5F5;--warn-line:#F2D2D2;--warn-ink:#8B1A1A;--hero-bg:#04060b;--chip-bg:#101014;--radius:3px;--radius-md:6px;--font-sans:'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Helvetica Neue',Arial,sans-serif;--font-serif:'Playfair Display',Georgia,'Times New Roman','Songti SC','SimSun',serif;--font-mono:ui-monospace,'SF Mono','Cascadia Mono',Consolas,monospace;--w:1280px}
 /* 对比度说明（2026-09-13）：--ink-4 #9E9E9E 在白底只有 2.68:1、在浅灰底 2.46:1，远低于 AA 4.5:1。
    浅色底上的次要文字一律改用 --ink-3（白底 4.6:1）或 --ink-2（浅灰底 5.26:1）；
    深色底上的次要文字改用 --ink-4（#0A0A0B 上 7.39:1）。
    --red 在浅灰底只有 4.4:1，浅色底上的红色文字改用 --red-deep（5.69:1）；白底上的红字仍是 4.8:1，无需改。 */
+/* P2-1 令牌收敛（2026-09-14）：原先文件里散着 60 余处裸 hex，同一件事（深底白字、输入框底、
+   提示块底色）各写各的。高频值一律收进这里，改品牌色时只需动一处。
+     --ink-6  深色底上的正文强调（原散落 5 处 #E8E8EA）
+     --ink-7  浅色卡片内的次要文字（原 #4A4A4C）
+     --on-dark 深色底纯白（原 #fff / #FFFFFF 共 31 处）
+     --on-dark-2 深色底最弱一档文字（原 #D4D4D6）
+     --surface-2 输入框底与表格斑马纹（原 #F7F7F7）
+     --warn-bg / --warn-line / --warn-ink  提示块（原 #FFF5F5 / #8B1A1A）
+     --hero-bg 首屏底色（原 #04060b）
+     --chip-bg 色卡库「定制调色」卡底色（原 #101014）
+     --red-soft-line 色卡库虚线描边（原 rgba(255,153,153,.55)）
+     --font-mono 色号 / 参数 / 索引专用等宽栈（原先只在 .idx-label 里内联了一次）
+   hover 一律走 var(--red-deep)，不再各自硬写 #c50010。 */
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:var(--font-sans);color:var(--ink);background:var(--light);line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -41,55 +118,66 @@ img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 .serif{font-family:var(--font-serif)}
 .container{max-width:var(--w);margin:0 auto;padding:0 80px}
+/* P1-6（2026-09-14）：移动端规则原先止于 768px，769px 起桌面导航与 80px 内边距同时生效，
+   导航实测需要约 810px、容器只剩 609px，出现横向滚动条 —— 正好覆盖 iPad mini 竖屏与平板分屏。
+   把折叠断点提到 900px，并给该带宽一档 40px 内边距。 */
+@media(max-width:900px){.container{padding:0 40px}}
 @media(max-width:768px){.container{padding:0 20px}}
 
 /* NAV */
 .nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(5,6,10,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.08)}
 .nav-in{max-width:var(--w);margin:0 auto;padding:18px 80px;display:flex;align-items:center;justify-content:space-between}
+@media(max-width:900px){.nav-in{padding:14px 40px}}
 @media(max-width:768px){.nav-in{padding:14px 20px}}
 .logo{display:flex;align-items:baseline;gap:14px}
-.logo-en{font-family:var(--font-serif);font-weight:600;font-size:24px;color:#fff;letter-spacing:.2px}
+.logo-en{font-family:var(--font-serif);font-weight:600;font-size:24px;color:var(--on-dark);letter-spacing:.2px}
 .logo-cn{font-size:13px;color:var(--ink-5)}
 .nav-menu{display:flex;gap:40px;align-items:center}
-.nav-menu a{font-size:15px;color:#E8E8EA;transition:color .2s}
+.nav-menu a{font-size:15px;color:var(--ink-6);transition:color .2s}
 .nav-menu a:hover,.nav-menu a.active{color:var(--red-soft)}
-.nav-cta{background:var(--red);color:#fff;border:none;border-radius:var(--radius);padding:12px 22px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-sans);transition:background .2s}
-.nav-cta:hover{background:#c50010}
+/* P1-1（2026-09-14）：.nav-cta 与首屏 .btn-red 原先同为信号红实心、href 同为 #/contact，
+   在 100vh 首屏内同时可见，两个同级主按钮互相分流注意力。
+   导航 CTA 降级为幽灵描边，唯一的实心红留给首屏「联系业务 · 获取报价」。 */
+.nav-cta{display:inline-flex;align-items:center;background:transparent;color:var(--ink-6);border:1px solid rgba(255,255,255,.35);border-radius:var(--radius);padding:11px 21px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-sans);text-decoration:none;transition:border-color .2s,color .2s,background .2s}
+.nav-cta:hover{border-color:var(--on-dark);color:var(--on-dark);background:rgba(255,255,255,.06)}
 .nav-burger{display:none;background:none;border:none;padding:8px;cursor:pointer;flex-direction:column;gap:5px;margin-left:auto}
-.nav-burger span{display:block;width:22px;height:2px;background:#fff;border-radius:1px;transition:transform .2s,opacity .2s}
+.nav-burger span{display:block;width:22px;height:2px;background:var(--on-dark);border-radius:1px;transition:transform .2s,opacity .2s}
 .nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .nav-burger.open span:nth-child(2){opacity:0}
 .nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-.nav-drawer{position:fixed;inset:0;z-index:200;pointer-events:none;visibility:hidden}
+/* overflow:hidden 是必须的：抽屉关闭时面板停在 translateX(100%)，
+   它的右边缘会落到视口之外，在窄屏上给整页撑出 4–5px 的横向滚动条（原版即存在）。
+   抽屉本体与视口等大，裁剪不影响打开状态。 */
+.nav-drawer{position:fixed;inset:0;z-index:200;pointer-events:none;visibility:hidden;overflow:hidden}
 .nav-drawer.open{pointer-events:auto;visibility:visible}
 .nav-drawer .drawer-mask{position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;transition:opacity .25s}
 .nav-drawer.open .drawer-mask{opacity:1}
-.nav-drawer .drawer-panel{position:absolute;top:0;right:0;bottom:0;width:300px;max-width:85vw;background:#0A0A0B;border-left:1px solid rgba(255,255,255,.1);padding:24px;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column;gap:6px;overflow-y:auto}
+.nav-drawer .drawer-panel{position:absolute;top:0;right:0;bottom:0;width:300px;max-width:85vw;background:var(--coal);border-left:1px solid rgba(255,255,255,.1);padding:24px;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column;gap:6px;overflow-y:auto}
 .nav-drawer.open .drawer-panel{transform:translateX(0)}
 .nav-drawer .drawer-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid rgba(255,255,255,.08)}
-.drawer-close{background:none;border:none;color:#fff;font-size:28px;line-height:1;padding:0 8px;cursor:pointer}
+.drawer-close{background:none;border:none;color:var(--on-dark);font-size:28px;line-height:1;padding:0 8px;cursor:pointer}
 .drawer-nav{display:flex;flex-direction:column;gap:0}
-.drawer-nav a{display:block;padding:16px 0;font-size:17px;color:#E8E8EA;border-bottom:1px solid rgba(255,255,255,.06);text-decoration:none}
+.drawer-nav a{display:block;padding:16px 0;font-size:17px;color:var(--ink-6);border-bottom:1px solid rgba(255,255,255,.06);text-decoration:none}
 .drawer-nav a:hover,.drawer-nav a.active{color:var(--red-soft)}
 .drawer-contact{margin-top:auto;padding-top:24px;border-top:1px solid rgba(255,255,255,.08);color:var(--ink-5);font-size:14px}
 .drawer-contact p{margin:6px 0}
-@media(max-width:768px){.nav-menu{display:none}.nav-burger{display:flex}.nav-cta{display:none}.logo-cn{display:none}.nav-in{padding:14px 20px;gap:12px}.logo{gap:0}}
+@media(max-width:900px){.nav-menu{display:none}.nav-burger{display:flex}.nav-cta{display:none}.logo-cn{display:none}.nav-in{padding:14px 20px;gap:12px}.logo{gap:0}}
 
 /* PAGES */
 .page{display:none}.page.active{display:block}
 
 /* HERO — 颜料流体色场：canvas(0) → 暗角(1) → 文字侧压暗(2) → 胶片颗粒(3) → 内容(10) */
-.hero{position:relative;height:100vh;min-height:680px;overflow:hidden;background-color:#04060b}
+.hero{position:relative;height:100vh;min-height:560px;overflow:hidden;background-color:var(--hero-bg)}
 @supports(height:100svh){.hero{height:100svh}}
 .hero-field{position:absolute;inset:0;width:100%;height:100%;z-index:0}
 .hero-vignette{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(130% 95% at 74% 42%,transparent 38%,rgba(4,5,8,.62) 100%)}
 .hero-scrim{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(92deg,rgba(4,5,8,.90) 0%,rgba(4,5,8,.66) 34%,rgba(4,5,8,.22) 58%,rgba(4,5,8,0) 74%)}
 .hero-grain{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
 .hero-content{position:absolute;top:42%;left:0;right:0;transform:translateY(-50%);z-index:10;padding:0 80px;max-width:var(--w);margin:0 auto;width:100%}
-.hero-tag{font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:clamp(24px,2.2vw,32px);color:#fff;margin-bottom:18px}
+.hero-tag{font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:clamp(24px,2.2vw,32px);color:var(--on-dark);margin-bottom:18px}
 .hero-tag em{font-style:italic;color:var(--red-soft)}
-.hero-title{font-size:68px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1.15;margin-bottom:20px}
-.hero-sub{font-size:19px;color:#E8E8EA;max-width:720px;margin-bottom:34px;line-height:1.6}
+.hero-title{font-size:68px;font-weight:900;color:var(--on-dark);letter-spacing:-1px;line-height:1.15;margin-bottom:20px}
+.hero-sub{font-size:19px;color:var(--ink-6);max-width:720px;margin-bottom:34px;line-height:1.6}
 .hero-cta{display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap}
 .hero-contact{font-size:14px;color:var(--ink-5)}
 .hero-contact .nowrap{white-space:nowrap}
@@ -102,21 +190,29 @@ a{color:inherit;text-decoration:none}
 .hero-content>*:nth-child(4){animation-delay:.38s}
 .hero-content>*:nth-child(5){animation-delay:.5s}
 /* 色号索引标注 */
-.idx-label{position:absolute;z-index:12;pointer-events:none;font-family:ui-monospace,'SF Mono','Cascadia Mono',Consolas,monospace;font-size:12px;letter-spacing:.1em;color:#E8E8EA;white-space:nowrap;opacity:0;animation:heroRise 1s cubic-bezier(.16,1,.3,1) .75s forwards}
+.idx-label{position:absolute;z-index:12;pointer-events:none;font-family:var(--font-mono);font-size:12px;letter-spacing:.1em;color:var(--ink-6);white-space:nowrap;opacity:0;animation:heroRise 1s cubic-bezier(.16,1,.3,1) .75s forwards}
 .idx-label .code{color:var(--red-soft);font-weight:600}
 .idx-label::before{content:'';position:absolute;left:-14px;top:50%;width:6px;height:6px;border:1px solid rgba(245,242,236,.6);transform:translateY(-50%) rotate(45deg)}
 @media(prefers-reduced-motion:reduce){
   .hero-content>*,.idx-label{animation:none;opacity:1;transform:none;filter:none}
 }
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius);padding:16px 30px;font-size:16px;font-weight:600;cursor:pointer;border:none;font-family:var(--font-sans);transition:all .2s;text-decoration:none}
-/* 焦点环：原先全靠浏览器默认，深色底上几乎看不见。统一给可交互元素一个品牌红焦点环。 */
-a:focus-visible,button:focus-visible,[onclick]:focus-visible,.form-input:focus-visible{outline:2px solid var(--red);outline-offset:2px}
-.btn-red{background:var(--red);color:#fff}.btn-red:hover{background:#c50010}
-.btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5)}.btn-ghost:hover{border-color:#fff}
+/* 焦点环：原先全靠浏览器默认，深色底上几乎看不见。统一给可交互元素一个品牌红焦点环。
+   P1-3（2026-09-14）：导航 CTA 已从 <button onclick> 改回真 <a>，
+   原先为它们专门挂的 [onclick]:focus-visible 补丁选择器随之删除。 */
+a:focus-visible,button:focus-visible,.form-input:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.btn-red{background:var(--red);color:var(--on-dark)}.btn-red:hover{background:var(--red-deep)}
+.btn-ghost{background:transparent;color:var(--on-dark);border:1px solid rgba(255,255,255,.5)}.btn-ghost:hover{border-color:var(--on-dark);background:rgba(255,255,255,.06)}
 .stats{position:absolute;left:0;right:0;bottom:0;z-index:3;border-top:1px solid rgba(255,255,255,.14);display:grid;grid-template-columns:repeat(4,1fr);background:rgba(5,6,10,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .stat{padding:28px 20px;text-align:center}
-.stat-num{font-size:42px;font-weight:700;color:var(--red-soft);letter-spacing:-1px}
+.stat-num{font-size:42px;font-weight:700;color:var(--red-soft);letter-spacing:-1px;font-variant-numeric:tabular-nums}
+/* P0-1：文字型数据项（如「TDS/MSDS」）要降档，否则 42px 下会撑破栅格 */
+.stat-num.is-text{font-size:clamp(20px,2.2vw,26px);line-height:1.5;letter-spacing:0}
 .stat-label{font-size:14px;color:var(--ink-4);margin-top:6px}
+/* P0-1（2026-09-14）：数据条口径声明。关于页早有这一句，首页没有 ——
+   同一组数字一处声明、一处不声明，访客会把首页那组当成真实业绩，
+   而首屏数据条正是全站最强的信任锚点。两处现在用同一条样式。 */
+.stats-note{grid-column:1/-1;text-align:center;font-size:12px;color:var(--ink-4);padding:0 20px 14px;margin:0;line-height:1.6}
 @media(max-width:768px){
   .hero-content{padding:0 20px}
   .hero-scrim{background:linear-gradient(180deg,rgba(4,5,8,.92) 0%,rgba(4,5,8,.76) 40%,rgba(4,5,8,.16) 66%,rgba(4,5,8,.04) 84%,rgba(4,5,8,.34) 100%)}
@@ -128,8 +224,20 @@ a:focus-visible,button:focus-visible,[onclick]:focus-visible,.form-input:focus-v
   .hero-cta .btn{padding:13px 22px;font-size:14px}
   .hero-contact{font-size:12px}
 }
-@media(max-width:768px){.stat{padding:18px 14px}.stat-num{font-size:26px}.stat-label{font-size:11px}}
+@media(max-width:768px){.stat{padding:18px 14px}.stat-num{font-size:26px}.stat-label{font-size:11px}.stats-note{font-size:11px;padding:0 14px 10px}}
 @media(max-width:768px){.stats{grid-template-columns:repeat(2,1fr)}}
+/* P2-4（2026-09-14）：首屏高度下限原为 680px，矮窗口（13 寸笔记本分屏、横屏平板）下
+   hero 会高过视口，底部数据条必然落到折线以下 —— 而数据条恰是首屏的信任锚点。
+   下限降到 560px，并在小高度窗口压缩首屏文字的字号与间距。 */
+@media(max-height:680px) and (min-width:769px){
+  .hero-content{top:46%}
+  .hero-tag{font-size:20px;margin-bottom:12px}
+  .hero-title{font-size:clamp(32px,4.4vw,50px);margin-bottom:14px}
+  .hero-sub{font-size:16px;margin-bottom:22px}
+  .stat{padding:18px 14px}
+  .stat-num{font-size:32px}
+  .stat-label{font-size:12px}
+}
 
 /* SECTION */
 .section{padding:88px 0}
@@ -145,56 +253,72 @@ a:focus-visible,button:focus-visible,[onclick]:focus-visible,.form-input:focus-v
 .cat-grid-3{grid-template-columns:repeat(3,1fr);gap:44px}
 @media(max-width:1100px){.cat-grid-3{grid-template-columns:1fr 1fr;gap:32px}}
 @media(max-width:768px){.cat-grid{grid-template-columns:1fr;gap:24px}.cat-grid-3{grid-template-columns:1fr;gap:24px}}
-.cat-card{display:block;background:#fff;border-radius:var(--radius-md);overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s;text-decoration:none;color:inherit}
+.cat-card{display:block;background:var(--card);border-radius:var(--radius-md);overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s;text-decoration:none;color:inherit}
 .cat-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.08)}
 .cat-swatch{height:140px}
 .cat-body{padding:24px}
-.cat-title{font-size:23px;font-weight:700;color:var(--ink);margin-bottom:12px}
+/* P1-7（2026-09-14）：三大产品线是首页的信息骨架，标题原先落在 <div> 上，
+   不在标题大纲里，读屏用户无法按标题在三条产品线之间跳转。已改为 <h3>（上游是 <h2>，不跳级）。 */
+.cat-title{font-size:23px;font-weight:700;line-height:1.35;color:var(--ink);margin-bottom:12px}
 .cat-desc{font-size:14px;color:var(--ink-2);margin-bottom:16px}
 .cat-meta{display:flex;justify-content:space-between;align-items:center}
-.cat-count{font-size:13px;color:var(--ink-3)}
+.cat-count{font-size:13px;color:var(--ink-3);font-variant-numeric:tabular-nums}
 .cat-plus{font-size:20px;color:var(--red)}
 
 /* SWATCH */
 .swatch-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
 @media(max-width:900px){.swatch-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:560px){.swatch-grid{grid-template-columns:repeat(2,1fr)}}
-.swatch{display:block;background:#0A0A0B;border-radius:var(--radius-md);overflow:hidden;cursor:pointer;transition:transform .2s;text-decoration:none;color:inherit}
+.swatch{display:block;background:var(--coal);border-radius:var(--radius-md);overflow:hidden;cursor:pointer;transition:transform .2s;text-decoration:none;color:inherit}
 .swatch:hover{transform:translateY(-3px)}
 .swatch-chip{height:110px;position:relative}
 .swatch-chip::after{content:'';position:absolute;inset:0;border:1px solid rgba(255,255,255,.15);border-radius:0}
-.swatch-code{font-size:14px;font-weight:700;padding:12px 12px 4px;color:inherit;letter-spacing:.2px}
+/* P2-3：色号是本行业的主要检索单位，改用已有的等宽栈并启用表格数字，多列对齐时不再左右抖动 */
+.swatch-code{font-family:var(--font-mono);font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;padding:12px 12px 4px;color:inherit;letter-spacing:0}
 .swatch-name{font-size:13px;color:inherit;padding:0 12px 8px;line-height:1.4;font-weight:500}
 .swatch-link{font-size:13px;font-weight:600;padding:4px 12px 14px}
-.swatch-dark{background:#0A0A0B}
-.swatch-dark .swatch-code{color:#FFFFFF}
-.swatch-dark .swatch-name{color:#D4D4D6}
-.swatch-dark .swatch-link{color:#FF9999}
-.swatch-light{background:#FFFFFF}
-.swatch-light .swatch-code{color:#1E1E1F}
-.swatch-light .swatch-name{color:#4A4A4C}
-.swatch-light .swatch-link{color:#E60012}
+.swatch-dark{background:var(--coal)}
+.swatch-dark .swatch-code{color:var(--on-dark)}
+.swatch-dark .swatch-name{color:var(--on-dark-2)}
+.swatch-dark .swatch-link{color:var(--red-soft)}
+.swatch-light{background:var(--card)}
+.swatch-light .swatch-code{color:var(--ink)}
+.swatch-light .swatch-name{color:var(--ink-7)}
+.swatch-light .swatch-link{color:var(--red)}
 
-/* TESTIMONIAL */
-.t-card{background:#fff;border-radius:var(--radius-md);padding:30px;display:flex;flex-direction:column;gap:16px}
+/* INSIGHT（原 TESTIMONIAL）
+   P0-2（2026-09-14）：原先三条带引号的「客户原话」配的是一律匿名泛称的署名
+   （「某汽车修补漆厂 · 采购负责人」），没有企业名、没有可核验职衔，仓库内也无客户授权记录。
+   带引号的直接引用配匿名出处，是最容易被认定为虚构宣传的形态；且这类「某厂」证言在 B2B 场景里
+   几乎不被采信，本区块的实际收益是负的。在拿到书面授权之前，换成方案型内容，用专业度替代证言。
+   卡片骨架沿用，引述相关样式换成标题 + 正文。 */
+.t-card{background:var(--card);border-radius:var(--radius-md);padding:30px;display:flex;flex-direction:column;gap:14px}
 .t-tag{font-size:13px;font-weight:600;color:var(--red)}
-.t-quote{font-size:17px;font-weight:500;color:var(--ink);line-height:1.65}
-.t-author{font-size:14px;color:var(--ink-3)}
+.i-title{font-size:19px;font-weight:700;line-height:1.4;color:var(--ink)}
+.i-body{font-size:15px;color:var(--ink-2);line-height:1.75}
+.insight-foot{font-size:15px;color:var(--ink-2);margin-top:28px;line-height:1.75;max-width:760px}
+.insight-foot a{color:var(--red);font-weight:600}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 @media(max-width:768px){.grid-3{grid-template-columns:1fr}}
 
 /* TEAM */
-.team-wrap{display:grid;grid-template-columns:560px 1fr;gap:72px;align-items:center}
-@media(max-width:768px){.team-wrap{grid-template-columns:1fr}}
-.team-img{height:430px;border-radius:var(--radius-md);background:url('assets/team-workspace.jpg') center/cover no-repeat;background-color:#15161c}
+/* P1-6：固定列 560px 在 769–900px 视口下会被推出视口（列 + 间隙共需 632px，容器只有 609px）。
+   固定轨道改为 minmax(0,560px)，并在中段降为两列等宽。 */
+.team-wrap{display:grid;grid-template-columns:minmax(0,560px) 1fr;gap:72px;align-items:center}
+@media(max-width:1100px){.team-wrap{grid-template-columns:1fr 1fr;gap:40px}}
+@media(max-width:900px){.team-wrap{grid-template-columns:1fr;gap:32px}}
+/* P0-3（2026-09-14）：原先内容型配图走 CSS background，节点是空 <div>，
+   读屏器读不到、搜索引擎抓不到、分享卡片也用不上，而且想加 alt 都没有地方可加。
+   改为真 <img>，裁切交给 object-fit，视觉与原先一致。 */
+.team-img{width:100%;height:430px;object-fit:cover;border-radius:var(--radius-md);background-color:var(--coal-3)}
 .team-point{display:flex;gap:14px;align-items:center;margin-bottom:16px}
 .team-dot{width:8px;height:8px;border-radius:2px;background:var(--red-bright);flex-shrink:0}
-.team-point p{font-size:16px;color:#E8E8EA}
+.team-point p{font-size:16px;color:var(--ink-6)}
 
 /* CTA */
 .cta{background:var(--coal);text-align:center;padding:100px 20px}
 .cta-tag{font-family:var(--font-serif);font-style:italic;font-size:22px;color:var(--red-soft);margin-bottom:18px}
-.cta-title{font-size:44px;font-weight:900;color:#fff;letter-spacing:-.5px;margin-bottom:20px}
+.cta-title{font-size:44px;font-weight:900;color:var(--on-dark);letter-spacing:-.5px;margin-bottom:20px}
 .cta-sub{font-size:16px;color:var(--ink-4);margin-bottom:36px}
 .cta-note{font-size:13px;color:var(--ink-4);margin-top:24px}
 
@@ -203,10 +327,15 @@ a:focus-visible,button:focus-visible,[onclick]:focus-visible,.form-input:focus-v
 .footer-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px}
 .footer-col h3{font-size:14px;font-weight:600;color:var(--ink-4);margin-bottom:14px}
 .footer-col a{display:block;font-size:13px;color:var(--ink-5);margin-bottom:10px}
-.footer-col a:hover{color:#fff}
+.footer-col a:hover{color:var(--on-dark)}
 /* 页脚第三列原先 3 个 <button> 无任何 handler（点了没反应）却可聚焦，读屏还会播报成按钮；
    电话改成真 tel: 链接，传真只是文字，用 span 承载。 */
 .footer-col span{display:block;font-size:13px;color:var(--ink-5);margin-bottom:10px}
+/* P2-5（2026-09-14）：页脚链接实测行高约 31px，低于 44px 触控目标下限；
+   移动端四列链接密排，误触概率高。窄屏改 padding 撑到约 45px。 */
+@media(max-width:900px){
+  .footer-col a,.footer-col span{padding:12px 0;margin-bottom:0}
+}
 .footer-div{height:1px;background:rgba(255,255,255,.08);margin:44px 0 24px}
 .footer-bottom{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-4);flex-wrap:wrap;gap:8px}
 .footer-wm{font-family:var(--font-serif);font-weight:700;font-size:160px;color:rgba(255,255,255,.04);letter-spacing:-2px;line-height:.8;margin-top:30px;user-select:none}
@@ -215,7 +344,7 @@ a:focus-visible,button:focus-visible,[onclick]:focus-visible,.form-input:focus-v
 /* PAGE HERO */
 .page-hero{background:var(--coal);padding:150px 0 56px}
 .page-hero-tag{font-family:var(--font-serif);font-style:italic;font-size:24px;color:var(--red-soft);margin-bottom:18px}
-.page-hero-title{font-size:52px;font-weight:900;color:#fff;letter-spacing:-1px;margin-bottom:18px}
+.page-hero-title{font-size:52px;font-weight:900;color:var(--on-dark);letter-spacing:-1px;margin-bottom:18px}
 .page-hero-sub{font-size:17px;color:var(--ink-5);max-width:780px}
 /* 面包屑：顶部留白必须超过固定导航（桌面实测 80px）。
    原先 padding-top:24px → 面包屑整条落在导航底下，可点区域也被导航拦截，用户完全看不见。 */
@@ -225,55 +354,68 @@ a:focus-visible,button:focus-visible,[onclick]:focus-visible,.form-input:focus-v
 
 /* LIBRARY */
 .cat-tabs{display:flex;gap:14px;padding:22px 0}
-.tab{padding:11px 26px;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;border:1px solid var(--line);background:transparent;font-family:var(--font-sans)}
-.tab.active{background:var(--red);color:#fff;border-color:var(--red)}
+.tab{padding:11px 26px;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;border:1px solid var(--line);background:transparent;font-family:var(--font-sans);color:var(--ink)}
+.tab.active{background:var(--red);color:var(--on-dark);border-color:var(--red)}
 .series{margin-bottom:44px}
 .series-title{font-size:18px;font-weight:600;margin-bottom:20px}
 .series-title small{font-weight:400;color:var(--ink-2);font-size:13px;margin-left:8px}
 
 /* DETAIL */
 /* 顶部留白由 .crumbs 承担，这里不再重复 120px */
-.detail-show{display:grid;grid-template-columns:520px 1fr;gap:64px;align-items:center;padding:32px 0 72px}
+.detail-show{display:grid;grid-template-columns:minmax(0,520px) 1fr;gap:64px;align-items:center;padding:32px 0 72px}
 @media(max-width:768px){.detail-show{grid-template-columns:1fr;padding:20px 0 60px}}
 .detail-swatch{height:400px;border-radius:var(--radius-md);position:relative;display:flex;align-items:flex-end;padding:24px}
-.detail-swatch .swatch-code{color:#fff;font-size:18px;padding:0}
+.detail-swatch .swatch-code{color:var(--on-dark);font-size:16px;padding:0}
 .detail-tag{font-family:var(--font-serif);font-style:italic;font-size:22px;color:var(--red-deep);margin-bottom:14px}
 .detail-name{font-size:52px;font-weight:900;letter-spacing:-1px;margin-bottom:14px}
 .detail-index{font-size:16px;font-weight:500;color:var(--ink-2);margin-bottom:16px}
 .detail-desc{font-size:15px;color:var(--ink-2);line-height:1.7;margin-bottom:28px;max-width:640px}
-table.params{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--radius-md);overflow:hidden;font-size:14px}
-table.params th{background:var(--ink);color:#fff;font-weight:600;padding:14px 12px;text-align:left;font-size:13px}
-table.params td{padding:14px 12px;border-bottom:1px solid var(--line)}
-table.params tr:nth-child(even){background:#F7F7F7}
+/* 参数表是 7 列，手机上最少需要约 360px，而 320–390px 屏的可用宽度只有 265–335px，
+   原先整页被这张表撑出横向滚动条（原版即存在，评审未列出）。
+   改为表格自身横向可滚，页面不再跟着滚。 */
+.params-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--radius-md)}
+@media(max-width:768px){table.params{min-width:360px}}
+table.params{width:100%;border-collapse:collapse;background:var(--card);border-radius:var(--radius-md);overflow:hidden;font-size:14px}
+table.params th{background:var(--ink);color:var(--on-dark);font-weight:600;padding:14px 12px;text-align:left;font-size:13px}
+/* P2-3：参数位启用表格数字，多列对齐不再抖动；色号与颜料索引改用等宽栈（本行业主要检索单位） */
+table.params td{padding:14px 12px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+table.params td:first-child,table.params td:nth-child(2){font-family:var(--font-mono);font-size:13px}
+table.params tr:nth-child(even){background:var(--surface-2)}
 .param-note{font-size:13px;color:var(--ink-2);margin-top:16px}
 /* 氧化铁专版信息区（化学名称 / CAS / 包装 / 使用提示） */
-.iron-info{background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);padding:22px 26px;display:grid;grid-template-columns:1fr 1fr;gap:14px 40px;margin-top:24px}
+.iron-info{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-md);padding:22px 26px;display:grid;grid-template-columns:1fr 1fr;gap:14px 40px;margin-top:24px}
 .iron-row{display:flex;gap:14px;align-items:center;font-size:14px}
 .iron-row span{color:var(--ink-3);min-width:84px;flex-shrink:0}
-.iron-row b{font-weight:600;color:var(--ink);word-break:break-all}
+.iron-row b{font-weight:600;color:var(--ink);word-break:break-all;font-variant-numeric:tabular-nums}
 .tint-chip{width:26px;height:26px;border-radius:4px;display:inline-block;vertical-align:middle;margin-right:8px;border:1px solid var(--line)}
-.iron-note{grid-column:1/-1;margin:6px 0 0;padding:13px 18px;background:#FFF5F5;border-left:3px solid var(--red);color:#8B1A1A;font-size:14px;line-height:1.65;border-radius:0 4px 4px 0}
+/* P2-2（2026-09-14）：原为「左侧 3px 色条 + 单侧圆角」的通用模板提示样式
+   （border-left + #FFF5F5 + border-radius:0 4px 4px 0），与全站自建的发丝线语言不一致。
+   改为整块浅底 + 顶部细线，与参数表沿用同一套线。 */
+.iron-note{grid-column:1/-1;margin:6px 0 0;padding:14px 18px;background:var(--warn-bg);border-top:1px solid var(--warn-line);color:var(--warn-ink);font-size:14px;line-height:1.65;border-radius:var(--radius-md)}
 @media(max-width:768px){.iron-info{grid-template-columns:1fr;gap:12px}}
 .rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 @media(max-width:768px){.rel-grid{grid-template-columns:1fr}}
 .rel-item{display:block;cursor:pointer;text-decoration:none;color:inherit}
 .rel-chip{height:160px;border-radius:var(--radius-md);margin-bottom:10px}
+/* P2-3：相关色号也走等宽，与参数表、色卡库的色号写法保持一致 */
+.rel-code{font-size:14px;font-weight:600;font-family:var(--font-mono);font-variant-numeric:tabular-nums}
 
 /* ABOUT */
-.about-grid{display:grid;grid-template-columns:520px 1fr;gap:64px;align-items:center}
-@media(max-width:768px){.about-grid{grid-template-columns:1fr}}
-.about-img{height:380px;border-radius:var(--radius-md);background:url('assets/about-office.jpg') center/cover no-repeat;background-color:#1a1b21}
+.about-grid{display:grid;grid-template-columns:minmax(0,520px) 1fr;gap:64px;align-items:center}
+@media(max-width:900px){.about-grid{grid-template-columns:1fr;gap:32px}}
+/* P0-3：同 .team-img，由 CSS 背景改为真 <img> + alt */
+.about-img{width:100%;height:380px;object-fit:cover;border-radius:var(--radius-md);background-color:var(--coal-3)}
 .about-point{display:flex;gap:14px;align-items:center;margin-bottom:16px}
 .about-point .team-dot{background:var(--red)}
 .about-point p{font-size:16px;color:var(--ink)}
 .value-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 @media(max-width:768px){.value-grid{grid-template-columns:1fr}}
-.value-card{background:#fff;border-radius:var(--radius-md);padding:32px 30px}
+.value-card{background:var(--card);border-radius:var(--radius-md);padding:32px 30px}
 .value-num{font-size:22px;font-weight:700;color:var(--red);margin-bottom:16px}
 .value-card p{font-size:15px;color:var(--ink-2);line-height:1.7}
 .addr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 @media(max-width:768px){.addr-grid{grid-template-columns:1fr}}
-.addr-card{background:#fff;border-radius:var(--radius-md);padding:30px}
+.addr-card{background:var(--card);border-radius:var(--radius-md);padding:30px}
 .addr-label{font-size:13px;font-weight:600;color:var(--red);margin-bottom:12px}
 .addr-value{font-size:17px;font-weight:500;line-height:1.6;white-space:pre-line}
 
@@ -283,19 +425,28 @@ table.params tr:nth-child(even){background:#F7F7F7}
    导致整页横向滚动。560px 以下改单列。 */
 @media(max-width:768px){.info-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.info-grid{grid-template-columns:1fr}}
-.info-card{background:#fff;border-radius:var(--radius-md);padding:30px}
+.info-card{background:var(--card);border-radius:var(--radius-md);padding:30px}
 .info-label{font-size:13px;font-weight:600;color:var(--red);margin-bottom:12px}
-.info-value{font-size:22px;font-weight:700;margin-bottom:6px}
+.info-value{font-size:22px;font-weight:700;margin-bottom:6px;font-variant-numeric:tabular-nums}
 .info-value a{color:inherit;text-decoration:none}
 .info-value a:hover{color:var(--red)}
 .info-sub{font-size:13px;color:var(--ink-3)}
-.form-card{background:#fff;border-radius:var(--radius-md);padding:44px 48px;max-width:900px}
+/* P1-2：首屏「微信咨询」原先跳到联系页却在那里找不到微信的任何落地动作。
+   现在真的能拿到微信号，复制按钮就落在这张卡片上。 */
+.wx-copy{display:inline-flex;align-items:center;gap:6px;margin-top:12px;padding:9px 14px;background:transparent;border:1px solid var(--line);border-radius:var(--radius);font-size:13px;font-weight:600;font-family:var(--font-sans);color:var(--ink);cursor:pointer;transition:border-color .2s,color .2s}
+.wx-copy:hover{border-color:var(--red);color:var(--red)}
+.form-card{background:var(--card);border-radius:var(--radius-md);padding:44px 48px;max-width:900px}
 .form-note{font-size:13px;color:var(--ink-2);margin-top:16px;line-height:1.7}
 .form-field{margin-bottom:20px}
 .form-field label{font-size:14px;font-weight:600;display:block;margin-bottom:8px}
-.form-input{width:100%;height:48px;background:#F7F7F7;border:1px solid var(--line);border-radius:var(--radius);padding:0 16px;font-size:14px;font-family:var(--font-sans);outline:none}
+.form-input{width:100%;height:48px;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius);padding:0 16px;font-size:14px;font-family:var(--font-sans);outline:none}
 .form-input:focus{border-color:var(--red)}
 textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
+/* P0-5（2026-09-14）：服务端其实有完整的错误语义（400 联系方式格式不符 / 429 限流），
+   但这些 error 字段原先全被前端丢弃，任何非 2xx 都统一显示为「提交未能送达」。
+   现在按状态码分流，字段级错误就落在对应输入框下方，并用 aria-describedby 关联。 */
+.field-error{font-size:13px;color:var(--warn-ink);margin-top:8px;line-height:1.6}
+.field-error[hidden]{display:none}
 
 /* ============================================================
    移动端适配补充（2026-09-13）
@@ -328,14 +479,17 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
 
   /* 区块标题与间距 */
   .sec-title{font-size:26px}
+  .cat-title{font-size:20px}
+  .i-title{font-size:17px}
   .section-head{margin-bottom:30px}
   .series{margin-bottom:30px}
   .series-title{font-size:16px;margin-bottom:14px}
 
-  /* 色卡：缩小色块与字号，保证两列下 code 不被挤断 */
+  /* 色卡：缩小色块与字号，保证两列下 code 不被挤断
+     （P2-3 起色号走等宽栈，同字号下更宽，故再降 1px） */
   .swatch-grid{gap:12px}
   .swatch-chip{height:86px}
-  .swatch-code{font-size:13px;padding:10px 10px 3px}
+  .swatch-code{font-size:12px;padding:10px 10px 3px}
   .swatch-name{font-size:12px;padding:0 10px 7px}
   .swatch-link{font-size:12px;padding:2px 10px 12px}
 
@@ -359,7 +513,10 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
       <a href="#/about" data-route="/about">关于我们</a>
       <a href="#/contact" data-route="/contact">联系我们</a>
     </nav>
-    <button class="nav-cta" onclick="location.hash='#/contact'">获取报价</button>
+    <!-- P1-3（2026-09-14）：原先用 <button onclick="location.hash=..."> 承担页面跳转，
+         丢失 <a> 的全部语义（新标签打开、右键菜单、状态栏目标地址、键盘与读屏角色）。
+         改为真链接后，全局那条 [onclick]:focus-visible 补丁选择器也一并删掉了。 -->
+    <a class="nav-cta" href="#/contact">获取报价</a>
     <button class="nav-burger" id="navBurger" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </header>
@@ -378,7 +535,9 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
       <a href="#/about" data-route="/about">关于我们</a>
       <a href="#/contact" data-route="/contact">联系我们</a>
     </nav>
-    <button class="btn btn-red" onclick="location.hash='#/contact';document.getElementById('navDrawer').classList.remove('open')" style="width:100%;margin-top:8px">获取报价</button>
+    <!-- 抽屉里的 CTA。原先也是 <button onclick>，同样改为真链接；
+         data-close-drawer 会被下方抽屉脚本的 .drawer-panel .btn 选择器接住并关闭抽屉。 -->
+    <a class="btn btn-red" href="#/contact" data-close-drawer style="width:100%;margin-top:8px">获取报价</a>
     <div class="drawer-contact">
       <p>座机 021-56690218</p>
       <p>联系人 黄建辉 15821682128</p>
@@ -400,17 +559,26 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
       <p class="hero-sub">深耕涂料用有机颜料、无机颜料与氧化铁系列供应，75+ 常用牌号现货，工厂位于上海宝山，全国物流当日响应。为涂料企业提供稳定、合规、可追溯的颜料供应链。</p>
       <div class="hero-cta">
         <a class="btn btn-red" href="#/contact">联系业务 · 获取报价</a>
-        <a class="btn btn-ghost" href="#/contact">微信咨询</a>
+        <!-- P1-2（2026-09-14）：原先这个是 <a href="#/contact">微信咨询</a>，
+             承诺与实际结果不符 —— 联系页既没有二维码，也没有任何微信号复制动作。
+             现在按钮真的落地：复制微信号，失败则退回到联系页。 -->
+        <button class="btn btn-ghost" type="button" id="heroWechat">微信咨询</button>
       </div>
       <p class="hero-contact">座机 <span class="nowrap">021-56690218</span> · 联系人 黄建辉 <span class="nowrap">15821682128</span></p>
     </div>
     <noscript><style>.hero{background-image:radial-gradient(ellipse at 20% 75%,rgba(230,0,18,.28),transparent 50%),radial-gradient(ellipse at 80% 25%,rgba(10,70,150,.38),transparent 55%),radial-gradient(ellipse at 60% 85%,rgba(158,45,43,.22),transparent 46%),radial-gradient(ellipse at 38% 35%,rgba(14,76,146,.3),transparent 50%),linear-gradient(180deg,#04060b 0%,#0a0a0b 55%,#12131a 100%)}</style></noscript>
-    <div class="stats">
-      <div class="stat"><div class="stat-num">75+</div><div class="stat-label">常备色号现货</div></div>
-      <div class="stat"><div class="stat-num">100+</div><div class="stat-label">服务涂料企业</div></div>
-      <div class="stat"><div class="stat-num">24h</div><div class="stat-label">发货响应时效</div></div>
-      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">批次可追溯</div></div>
-    </div>
+    <!-- 数据条。P1-7（2026-09-14）：原先四个平行 <div>，读屏用户感知不到这是一个四项列表，
+         改为 <dl>（div 分组式，每项 dt 术语 + dd 说明）。
+         P0-1：四个数字原先是占位口径，但关于页有「示例口径」声明、首页没有 ——
+         同一组数字一处声明一处不声明，访客会把首页那组当成真实业绩。
+         现在两处用同一条声明；「100% 批次可追溯」是绝对化承诺，改为可核验的「每批随货提供 TDS/MSDS」。 -->
+    <dl class="stats">
+      <div class="stat"><dt class="stat-num">75+</dt><dd class="stat-label">常备色号现货</dd></div>
+      <div class="stat"><dt class="stat-num">100+</dt><dd class="stat-label">服务涂料企业</dd></div>
+      <div class="stat"><dt class="stat-num">24h</dt><dd class="stat-label">发货响应时效</dd></div>
+      <div class="stat"><dt class="stat-num is-text">TDS/MSDS</dt><dd class="stat-label">每批随货提供，可追溯</dd></div>
+      <div class="stats-note">* 牌号数取自现货目录；其余数字为示例口径，实际数据请以最新业务为准</div>
+    </dl>
   </div>
 
   <div class="section">
@@ -420,28 +588,32 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
         <h2 class="sec-title">三大产品线，覆盖涂料与建材工业主流着色需求</h2>
       </div>
       <div class="cat-grid cat-grid-3">
+        <!-- P1-7：标题由 <div> 改 <h3>，让三条产品线进入标题大纲，读屏可按标题跳转。
+             P1-9：数量口径改为由 PRODUCTS 实时计算（data-cat-count 由文末脚本填充），
+             并去掉原先「30+ / 8+」的「+」—— 同一件事原先有四种说法（30+ / 35 / 43 / 75），
+             且「30+」还会被读成「不到 35」，白白少报。 -->
         <a class="cat-card" href="#/products/organic">
           <div class="cat-swatch" style="background:linear-gradient(120deg,#f2f2f2 0%,#9e2a2b 50%,#0e4c92 100%)"></div>
           <div class="cat-body">
-            <div class="cat-title">涂料用有机颜料</div>
-            <div class="cat-desc">全色谱 30+ 色号，覆盖黄 / 橙 / 红 / 粉 / 紫 / 蓝 / 绿系列。建筑涂料、工业漆、汽车修补漆用。</div>
-            <div class="cat-meta"><span class="cat-count">30+ 色号</span><span class="cat-plus">+</span></div>
+            <h3 class="cat-title">涂料用有机颜料</h3>
+            <div class="cat-desc">覆盖黄 / 橙 / 红 / 粉 / 紫 / 蓝 / 绿全色谱。建筑涂料、工业漆、汽车修补漆用。</div>
+            <div class="cat-meta"><span class="cat-count" data-cat-count="organic">35 个牌号</span><span class="cat-plus">→</span></div>
           </div>
         </a>
         <a class="cat-card" href="#/products/inorganic">
           <div class="cat-swatch" style="background:linear-gradient(120deg,#f2c14e 0%,#e07b39 50%,#c0392b 100%)"></div>
           <div class="cat-body">
-            <div class="cat-title">无机颜料</div>
+            <h3 class="cat-title">无机颜料</h3>
             <div class="cat-desc">PG.34 黄系列多档表面处理（包膜 / 高包膜 / 经济型），PG.104 红系列包膜 / 高包膜，专为涂料工业需求设计。</div>
-            <div class="cat-meta"><span class="cat-count">8+ 色号</span><span class="cat-plus">+</span></div>
+            <div class="cat-meta"><span class="cat-count" data-cat-count="inorganic">8 个牌号</span><span class="cat-plus">→</span></div>
           </div>
         </a>
         <a class="cat-card" href="#/products/ironoxide">
           <div class="cat-swatch" style="background:linear-gradient(120deg,#952206 0%,#bd8315 34%,#790d01 66%,#220905 100%)"></div>
           <div class="cat-body">
-            <div class="cat-title">氧化铁系列</div>
-            <div class="cat-desc">红（PR.101）、黄（PY.42）、黑（PBk.11）、棕、橙、绿、蓝共 32 个牌号，含标准型与微粉化型。适用于建材着色、混凝土制品、涂料与塑料。</div>
-            <div class="cat-meta"><span class="cat-count">32 个牌号</span><span class="cat-plus">+</span></div>
+            <h3 class="cat-title">氧化铁系列</h3>
+            <div class="cat-desc">红（PR.101）、黄（PY.42）、黑（PBk.11）及棕、橙、绿、蓝，含标准型与微粉化型。适用于建材着色、混凝土制品、涂料与塑料。</div>
+            <div class="cat-meta"><span class="cat-count" data-cat-count="ironoxide">32 个牌号</span><span class="cat-plus">→</span></div>
           </div>
         </a>
       </div>
@@ -460,22 +632,44 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
 
   <div class="section">
     <div class="container">
+      <!-- P0-2（2026-09-14）：原区块是三条带引号的「客户原话」，署名一律是
+           「某 + 行业 + 岗职」式的匿名泛称 —— 没有企业名、没有可核验职衔，
+           仓库内也没有任何客户授权记录。带引号的直接引用配匿名出处，是最容易被认定为
+           虚构宣传的形态；且这类匿名证言在 B2B 场景里几乎不被采信，实际收益是负的。
+           在拿到书面授权之前，按评审建议换成方案型内容，用专业度替代证言。 -->
       <div class="section-head">
-        <span class="sec-tag">Client Stories</span>
-        <h2 class="sec-title">客户怎么说</h2>
+        <span class="sec-tag">Troubleshooting</span>
+        <h2 class="sec-title">色差投诉，多半出在这三处</h2>
       </div>
       <div class="grid-3">
-        <div class="t-card"><span class="t-tag">汽车修补漆 · 华东</span><p class="t-quote">「换了颜料供应商之后，批次色差投诉明显减少，返工率也跟着降下来了。」</p><span class="t-author">某汽车修补漆厂 · 采购负责人</span></div>
-        <div class="t-card"><span class="t-tag">建筑涂料 · 华南</span><p class="t-quote">「从询价到发货 48 小时搞定，颜料按时到位，帮我们稳稳赶上了工程交期。」</p><span class="t-author">某建筑涂料企业 · 供应链经理</span></div>
-        <div class="t-card"><span class="t-tag">工业防腐漆 · 华北</span><p class="t-quote">「小批量也能灵活供货，试色再也不用压一堆库存，成本省了不少。」</p><span class="t-author">某工业漆企业 · 技术负责人</span></div>
+        <div class="t-card">
+          <span class="t-tag">根因 01</span>
+          <h3 class="i-title">换了批次，没重新打板</h3>
+          <p class="i-body">同一牌号不同批次的色相与着色力会有细微浮动，这是颜料本身的特性，不是质量事故。批量投产前用新批次打一次板，比上线之后再回头调配便宜得多。</p>
+        </div>
+        <div class="t-card">
+          <span class="t-tag">根因 02</span>
+          <h3 class="i-title">分散与研磨没跑到位</h3>
+          <p class="i-body">研磨时间不足、分散剂选型不匹配，都会让颜料团聚、着色力忽高忽低。外观上就表现为同一张配方、两次做出来颜色不一样。</p>
+        </div>
+        <div class="t-card">
+          <span class="t-tag">根因 03</span>
+          <h3 class="i-title">基料或溶剂体系换过</h3>
+          <p class="i-body">树脂、溶剂体系一换，颜料在其中的润湿与分布随之改变，色相就会偏移。这类问题看着像颜料的问题，实际出在配方适配上。</p>
+        </div>
       </div>
+      <p class="insight-foot">这三类我们都碰过。把牌号、当前配方体系和看到的色差一起发过来，可以直接帮你定位到是哪一环 —— <a href="#/contact">提交询盘</a>，或直拨 021-56690218。</p>
     </div>
   </div>
 
   <div class="section section-dark">
     <div class="container">
       <div class="team-wrap">
-        <div class="team-img"></div>
+        <!-- P0-3（2026-09-14）：原为空 <div> 走 CSS background，读屏器读不到、搜索引擎抓不到、
+             分享卡片用不上，想加 alt 都没有地方可加。改为真 <img>（裁切交给 object-fit，视觉不变）。
+             注意：图片本身仍是图库素材，alt 只描述画面，不冒充自家实景；
+             实拍照片到位后替换 src/alt 并同步更新宽高即可。 -->
+        <img class="team-img" src="assets/team-workspace.webp" width="1120" height="812" alt="办公与团队协作场景" loading="lazy" decoding="async">
         <div>
           <div class="sec-tag">Our Team</div>
           <h2 class="sec-title" style="margin:16px 0 20px">小而精，但足够专业</h2>
@@ -507,7 +701,9 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
     <div class="container">
       <div class="page-hero-tag">Full Color Library</div>
       <h1 class="page-hero-title">产品中心</h1>
-      <p class="page-hero-sub">有机颜料 35 档 · 无机颜料 8 档（包膜 / 高包膜 / 经济型）· 氧化铁系列 32 个牌号——全色号支持打样、可追溯、附 TDS/MSDS。</p>
+      <!-- P1-9：数量由 PRODUCTS 实时计算（data-cat-count，文末脚本填充）。
+           这里保留一份静态兜底值，脚本失效时也不会空着。 -->
+      <p class="page-hero-sub">有机颜料 <span data-cat-count="organic">35 个牌号</span> · 无机颜料 <span data-cat-count="inorganic">8 个牌号</span>（包膜 / 高包膜 / 经济型）· 氧化铁系列 <span data-cat-count="ironoxide">32 个牌号</span>——全色号支持打样、可追溯、附 TDS/MSDS。</p>
       <p class="page-hero-sub" style="margin-top:12px;color:var(--red-soft);font-weight:500">点击任意色号，查看该产品的完整参数与 TDS →</p>
     </div>
   </div>
@@ -542,7 +738,9 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
   <div class="section">
     <div class="container">
       <div class="about-grid">
-        <div class="about-img"></div>
+        <!-- P0-3：同团队页，由空 <div> + CSS 背景改为真 <img>。
+             图片仍是图库素材，alt 只描述画面；实拍到位后替换 src/alt 与宽高。 -->
+        <img class="about-img" src="assets/about-office.webp" width="1040" height="754" alt="办公与样品陈列空间" loading="lazy" decoding="async">
         <div>
           <div class="sec-tag">Why Fengyan</div>
           <h2 class="sec-title" style="margin:16px 0 20px">一家专注颜料的公司</h2>
@@ -557,13 +755,15 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
   <div class="section section-dark">
     <div class="container">
       <div class="section-head"><span class="sec-tag">By The Numbers</span><h2 class="sec-title">用数字说话</h2></div>
-      <div class="stats" style="position:static;border-top:1px solid rgba(255,255,255,.14);margin-top:0">
-        <div class="stat"><div class="stat-num">75+</div><div class="stat-label">常备色号现货</div></div>
-        <div class="stat"><div class="stat-num">100+</div><div class="stat-label">服务涂料企业</div></div>
-        <div class="stat"><div class="stat-num">24h</div><div class="stat-label">发货响应时效</div></div>
-        <div class="stat"><div class="stat-num">100%</div><div class="stat-label">批次可追溯</div></div>
-      </div>
-      <p class="page-hero-sub" style="text-align:center;color:var(--ink-4);margin:0">* 数字为示例口径，实际数据请以最新业务为准</p>
+      <!-- P1-7：改为 <dl>；P0-1：「100% 批次可追溯」是绝对化承诺，改为可核验的
+           「每批随货提供 TDS/MSDS」。口径声明统一用 .stats-note，与首页同一条样式。 -->
+      <dl class="stats" style="position:static;border-top:1px solid rgba(255,255,255,.14);margin-top:0">
+        <div class="stat"><dt class="stat-num">75+</dt><dd class="stat-label">常备色号现货</dd></div>
+        <div class="stat"><dt class="stat-num">100+</dt><dd class="stat-label">服务涂料企业</dd></div>
+        <div class="stat"><dt class="stat-num">24h</dt><dd class="stat-label">发货响应时效</dd></div>
+        <div class="stat"><dt class="stat-num is-text">TDS/MSDS</dt><dd class="stat-label">每批随货提供，可追溯</dd></div>
+        <div class="stats-note">* 牌号数取自现货目录；其余数字为示例口径，实际数据请以最新业务为准</div>
+      </dl>
     </div>
   </div>
   <div class="section">
@@ -602,7 +802,14 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
       <div class="section-head"><span class="sec-tag">Direct Contact</span><h2 class="sec-title">直接联系</h2></div>
       <div class="info-grid">
         <div class="info-card"><div class="info-label">座机</div><div class="info-value"><a href="tel:+862156690218">021-56690218</a></div><div class="info-sub">工作日 8:30–18:00</div></div>
-        <div class="info-card"><div class="info-label">手机 / 微信</div><div class="info-value"><a href="tel:+8615821682128">15821682128</a></div><div class="info-sub">联系人 黄建辉</div></div>
+        <!-- P1-2：首屏「微信咨询」的落地处。原先整个联系页没有任何微信号的获取动作，
+             按钮承诺与结果不符。这里补一键复制，让那个按钮兑现它写的话。 -->
+        <div class="info-card">
+          <div class="info-label">手机 / 微信</div>
+          <div class="info-value"><a href="tel:+8615821682128">15821682128</a></div>
+          <div class="info-sub">联系人 黄建辉</div>
+          <button class="wx-copy" type="button" id="wxCopy">复制微信号</button>
+        </div>
         <div class="info-card"><div class="info-label">传真</div><div class="info-value">021-56697812</div><div class="info-sub">资料往来专用</div></div>
         <div class="info-card"><div class="info-label">公司地址</div><div class="info-value" style="font-size:15px;font-weight:500;line-height:1.5">上海市宝山区<br>淞宝路 155 弄 2 号楼 1611 室</div><div class="info-sub">欢迎实地考察</div></div>
       </div>
@@ -613,7 +820,14 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
       <div class="section-head"><span class="sec-tag">Send An Inquiry</span><h2 class="sec-title">在线询盘</h2></div>
       <form class="form-card" id="inquiryForm" onsubmit="event.preventDefault();handleSubmit()">
         <div class="form-field"><label for="inName">姓名 / 公司</label><input id="inName" name="name" class="form-input" type="text" autocomplete="name" placeholder="请输入"></div>
-        <div class="form-field"><label for="inPhone">联系电话 / 微信</label><input id="inPhone" name="phone" class="form-input" type="tel" inputmode="tel" autocomplete="tel" placeholder="请输入"></div>
+        <!-- P0-5：服务端对「电话 / 微信」这一栏有专门的格式校验（手机号 / 固话 / 微信号三类都放行），
+             前端原先却把它的 error 文案丢掉、统一显示成「提交未能送达」。
+             现在 400 的错误会落在这条 p 上，并通过 aria-describedby 与输入框关联。 -->
+        <div class="form-field">
+          <label for="inPhone">联系电话 / 微信</label>
+          <input id="inPhone" name="phone" class="form-input" type="tel" inputmode="tel" autocomplete="tel" placeholder="请输入" aria-describedby="inPhoneError">
+          <p class="field-error" id="inPhoneError" role="alert" hidden></p>
+        </div>
         <div class="form-field"><label for="inProducts">意向产品 / 色号（可多填）</label><input id="inProducts" name="products" class="form-input" type="text" placeholder="如：Red 2540、Yellow 7411"></div>
         <div class="form-field"><label for="inDesc">需求描述</label><textarea id="inDesc" name="desc" class="form-input" placeholder="用量、用途、交期要求等"></textarea></div>
         <button id="submitBtn" class="btn btn-red" type="submit">提交询盘 · 当天答复</button>
@@ -750,10 +964,11 @@ function renderHome(){
               "Iron Red 101","Iron Red 190","Iron Yellow 313","Iron Black 722","Iron Brown 868","Iron Green 5605"];
   const items=pick.map(c=>PRODUCTS.find(p=>p.code===c)).filter(Boolean);
   let html=items.map(p=>swatchCard(p,'dark')).join('');
-  html+='<a class="swatch swatch-dark" href="#/contact" style="border:1px solid rgba(255,153,153,.55)">'+
-    '<div class="swatch-chip" style="background:#101014;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">'+
-    '<div style="color:#FF9999;font-size:16px;font-weight:600">定制调色</div><div style="color:#9E9E9E;font-size:12px">小批量 · 灵活供应</div></div>'+
-    '<div class="swatch-code" style="color:#fff">按需打样</div><div class="swatch-link">+</div></a>';
+  /* P2-1：原先这里硬写了 4 个色值，改成引用 :root 令牌 */
+  html+='<a class="swatch swatch-dark" href="#/contact" style="border:1px solid var(--red-soft-line)">'+
+    '<div class="swatch-chip" style="background:var(--chip-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">'+
+    '<div style="color:var(--red-soft);font-size:16px;font-weight:600">定制调色</div><div style="color:var(--ink-4);font-size:12px">小批量 · 灵活供应</div></div>'+
+    '<div class="swatch-code" style="color:var(--on-dark)">按需打样</div><div class="swatch-link">→</div></a>';
   document.getElementById('home-swatches').innerHTML=html;
 }
 
@@ -790,12 +1005,33 @@ function renderLibrary(filter){
   document.getElementById('product-library').innerHTML=html;
 }
 
+/* P1-4（2026-09-14）：decodeURIComponent 遇到非法转义会抛 URIError（例如 #/product/%）。
+   而 router() 是先 show("page-product") 再调 renderDetail，异常发生在渲染之前，
+   结果是整张产品页全白 —— 没有面包屑、没有内容、也没有出口。
+   链接被聊天工具或邮件客户端截断、用户手改 URL，都会踩到这条路径。 */
+function safeDecode(s){
+  try{return decodeURIComponent(s);}catch(e){return null;}
+}
+
+/* P1-8：产品维度的结构化数据。renderDetail 每次重建一个 ld+json 的 script 节点，
+   离开产品详情页时由 show() 清掉，避免把上一款产品的标记留在 head 里。
+   JSON 里的 < 一律转义成 \u003c —— 否则字符串里一旦出现 script 结束标签，
+   HTML 解析器会在此处提前闭合整个脚本块。 */
+function setLd(obj){
+  let el=document.getElementById('ld-detail');
+  if(!obj){if(el)el.remove();return;}
+  if(!el){el=document.createElement('script');el.type='application/ld+json';el.id='ld-detail';document.head.appendChild(el);}
+  el.textContent=JSON.stringify(obj).replace(/</g,'\\u003c');
+}
+
 function renderDetail(code){
-  const p=PRODUCTS.find(x=>x.code.toLowerCase()===decodeURIComponent(code).toLowerCase());
+  const decoded=safeDecode(code);
+  const p=decoded===null?null:PRODUCTS.find(x=>x.code.toLowerCase()===decoded.toLowerCase());
   if(!p){
     /* 未找到时给出口：原先只有一句灰色文字，是死胡同。
-       code 来自 URL，属于不可信输入 —— 先剥掉尖括号与引号再插入。 */
-    const asked=String(decodeURIComponent(code)||'').replace(/[<>"'&]/g,'').slice(0,40);
+       code 来自 URL，属于不可信输入 —— 先剥掉尖括号与引号再插入。
+       P1-4 起，非法百分号编码也落到这个分支（此前会抛异常导致页面全白）。 */
+    const asked=String(decoded===null?code:decoded).replace(/[<>"'&]/g,'').slice(0,40);
     document.getElementById('detail-crumbs').innerHTML='<a href="#/">首页</a> / <a href="#/products">产品中心</a> / 未找到';
     document.getElementById('product-detail').innerHTML=
       '<div style="padding:64px 0 96px">'+
@@ -804,6 +1040,7 @@ function renderDetail(code){
         '<a class="btn btn-red" href="#/products">← 回到产品中心</a>'+
         '<p style="margin-top:20px"><a href="tel:+862156690218" style="color:var(--red);font-weight:600;font-size:15px">或直接致电 021-56690218</a></p>'+
       '</div>';
+    setLd(null);
     return;
   }
   const CAT={organic:"有机颜料",inorganic:"无机颜料",ironoxide:"氧化铁系列"};
@@ -831,11 +1068,11 @@ function renderDetail(code){
       '<p class="detail-desc">'+p.desc+'</p>'+
       '<a class="btn btn-red" href="#/contact">询价 · 索取样卡</a></div></div>'+
   '<div class="section" style="padding:16px 0 72px"><div class="section-head"><span class="sec-tag">Technical Data</span><h2 class="sec-title" style="font-size:32px">产品物性参数</h2></div>'+
-    '<table class="params"><tr><th>产品 Code</th><th>Index</th><th>吸油量 g/100g</th><th>耐热 ℃</th><th>耐候</th><th>耐迁移</th><th>表面处理</th></tr>'+
-    '<tr><td>'+p.code+'</td><td>'+p.index+'</td><td>'+p.oa+'</td><td>'+p.heat+'</td><td>'+p.lf+'</td><td>'+mig+'</td><td>'+(p.enc||'—')+'</td></tr></table>'+
+    '<div class="params-wrap"><table class="params"><tr><th>产品 Code</th><th>Index</th><th>吸油量 g/100g</th><th>耐热 ℃</th><th>耐候</th><th>耐迁移</th><th>表面处理</th></tr>'+
+    '<tr><td>'+p.code+'</td><td>'+p.index+'</td><td>'+p.oa+'</td><td>'+p.heat+'</td><td>'+p.lf+'</td><td>'+mig+'</td><td>'+(p.enc||'—')+'</td></tr></table></div>'+
     '<p class="param-note">* 典型值仅供参考，批次实测数据以随货 TDS 为准。</p>'+info+'</div>'+
   (rel.length?'<div class="section"><div class="container"><div class="section-head"><span class="sec-tag">Related Products</span><h2 class="sec-title">相关色号</h2></div>'+
-    '<div class="rel-grid">'+rel.map(x=>'<a class="rel-item" href="#/product/'+encodeURIComponent(x.code)+'"><div class="rel-chip" style="background:'+x.color+'"></div><div style="font-size:15px;font-weight:600">'+x.code+' · '+x.index+'</div></a>').join('')+'</div></div></div>':'')+
+    '<div class="rel-grid">'+rel.map(x=>'<a class="rel-item" href="#/product/'+encodeURIComponent(x.code)+'"><div class="rel-chip" style="background:'+x.color+'"></div><div class="rel-code">'+x.code+' · '+x.index+'</div></a>').join('')+'</div></div></div>':'')+
   /* 底部 CTA 原是 type="button" 且无任何 handler，点了完全没反应。改为真拨号链接。 */
   '<div class="cta"><div class="cta-tag">Get A Sample</div><h2 class="cta-title">需要这款颜料的样品或报价？</h2>'+
   '<p class="cta-sub">样品免费，报价当天给。可直接拨号，或加微信把牌号发我们。</p>'+
@@ -844,6 +1081,50 @@ function renderDetail(code){
     '<a class="btn btn-ghost" href="tel:+8615821682128">手机 / 微信 15821682128</a>'+
   '</div>'+
   '<p class="cta-note">工作日 8:30–18:00 · 联系人 黄建辉</p></div>';
+
+  /* P1-8：随时把当前牌号的 Product + BreadcrumbList 写进 <head>。
+     数据源就是 PRODUCTS 里的字段，不新增任何声明。 */
+  const base='https://www.fengyanpigment.com/';
+  const detailUrl=base+'#/product/'+encodeURIComponent(p.code);
+  const props=[
+    {name:"颜料索引",value:p.index},
+    {name:"吸油量",value:p.oa+' g/100g'},
+    {name:"耐热",value:p.heat+' ℃'},
+    {name:"耐候",value:String(p.lf)},
+    {name:"耐迁移",value:String(mig)}
+  ];
+  if(p.enc)props.push({name:"表面处理",value:p.enc});
+  if(p.chem)props.push({name:"化学名称",value:p.chem});
+  if(p.cas)props.push({name:"CAS NO.",value:p.cas});
+  if(p.pack)props.push({name:"销售包装",value:p.pack});
+  setLd({
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Product",
+        "@id":detailUrl,
+        "name":p.code+'（'+p.name+'）',
+        "sku":p.code,
+        "mpn":p.code,
+        "category":catName,
+        "description":p.desc,
+        "brand":{"@type":"Brand","name":"Fengyan 峰妍新材料"},
+        "manufacturer":{"@id":base+'#organization'},
+        "additionalProperty":props.map(function(x){
+          return {"@type":"PropertyValue","name":x.name,"value":x.value};
+        })
+      },
+      {
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"首页","item":base},
+          {"@type":"ListItem","position":2,"name":"产品中心","item":base+'#/products'},
+          {"@type":"ListItem","position":3,"name":catName,"item":base+'#/products/'+p.cat},
+          {"@type":"ListItem","position":4,"name":p.code,"item":detailUrl}
+        ]
+      }
+    ]
+  });
 }
 
 const routes={
@@ -852,15 +1133,32 @@ const routes={
   "/about":()=>show("page-about"),
   "/contact":()=>show("page-contact")
 };
-function show(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
   /* 当前页高亮。dataset.route 的值带前导斜杠（"/products"），
      原先把 hash 切成不带斜杠的 "products" 去比，除首页外永远不相等 —— 导航高亮一直是坏的。
      产品详情页（/product/xxx）归到「产品中心」。 */
   const seg=(location.hash||'#/').slice(1).split('/')[1]||'';
   const want=seg===''?'/':(seg==='product'?'/products':'/'+seg);
   document.querySelectorAll('.nav-menu a,.drawer-nav a').forEach(a=>a.classList.toggle('active',a.dataset.route===want));
-  if(window.HeroField)HeroField.setActive(id==='page-home');
-  window.scrollTo(0,0);}
+  /* P1-5（2026-09-14）：HeroField 用 const 声明，而经典脚本顶层的 const 只创建全局词法绑定、
+     不会挂到 window 上 —— 所以 window.HeroField 恒为 undefined，setActive 从未被调用过一次。
+     后果：切到产品中心或关于页后，requestAnimationFrame 仍在不可见的画布上逐帧绘制七个径向渐变，
+     持续占用 CPU 与电池；visibilitychange 的停帧只能覆盖「切到其他标签页」，覆盖不了站内路由，
+     而站内路由恰恰是最常发生的场景。去掉 window. 前缀即可恢复设计意图。
+     这里执行时 HeroField 已完成初始化（router() 在脚本末尾、IIFE 之后才被调用）。 */
+  HeroField.setActive(id==='page-home');
+  /* P1-8：离开产品详情页时清掉 Product / BreadcrumbList 标记，不把上一款产品的数据留在 head 里 */
+  if(id!=='page-product')setLd(null);
+  /* P2-7（2026-09-14）：全局 html{scroll-behavior:smooth} 会与路由切换互相干扰 ——
+     从产品中心底部切页时会先看到一段平滑回滚动画再出现新页面，切页的「瞬时感」被削弱，
+     长列表页尤其明显。这里临时关掉平滑、做一次瞬时置顶，再恢复原值。 */
+  const root=document.documentElement;
+  root.style.scrollBehavior='auto';
+  window.scrollTo(0,0);
+  root.style.scrollBehavior='';
+}
 function router(){
   const hash=location.hash||'#/';
   if(hash.startsWith('#/product/')){show("page-product");renderDetail(hash.replace('#/product/',''));return;}
@@ -877,6 +1175,60 @@ document.querySelectorAll('.cat-tabs .tab').forEach(b=>{
   const n=f==='all'?PRODUCTS.length:PRODUCTS.filter(p=>p.cat===f).length;
   b.textContent=b.textContent.replace(/（\d+）$/,'')+'（'+n+'）';
 });
+/* P1-9（2026-09-14）：类目卡与产品中心页头的数量也改成由 PRODUCTS 实时计算。
+   同一件事原先有四种口径（卡片「30+ 色号」/ 页头「35 档」/ README「43 个产品」/ 数组实测 75），
+   运营改数据时很容易改到不生效的那一处；而「30+」还会被读成「不到 35」，白白少报。
+   HTML 里保留了一份静态兜底值，脚本失效时不会空着。 */
+document.querySelectorAll('[data-cat-count]').forEach(el=>{
+  const n=PRODUCTS.filter(p=>p.cat===el.dataset.catCount).length;
+  if(n)el.textContent=n+' 个牌号';
+});
+
+/* P1-2（2026-09-14）：首屏「微信咨询」原先只跳到联系页，而联系页既没有二维码、
+   也没有任何获取微信号的动作 —— 按钮承诺与实际结果不符。
+   现在按钮与联系页的「复制微信号」都真的给出微信号（站点已声明手机号即微信号），
+   复制不可用时退回联系页，不让它变成死路。 */
+const WECHAT_ID='15821682128';
+async function copyText(t){
+  /* Clipboard API 需要安全上下文 + 用户激活，被拒时会直接抛异常（NotAllowedError）。
+     先试它，失败再走下面的 execCommand 兜底；两路都失败才返回 false。 */
+  try{
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      await navigator.clipboard.writeText(t);
+      return true;
+    }
+  }catch(e){/* 落到兜底路径 */}
+  const ta=document.createElement('textarea');
+  ta.value=t;ta.setAttribute('readonly','');
+  ta.style.position='fixed';ta.style.top='-1000px';
+  document.body.appendChild(ta);
+  ta.select();
+  let ok=false;
+  try{ok=document.execCommand('copy');}catch(e){ok=false;}
+  ta.remove();
+  return ok;
+}
+const heroWechat=document.getElementById('heroWechat');
+if(heroWechat)heroWechat.addEventListener('click',async()=>{
+  const old=heroWechat.textContent;
+  try{
+    if(!await copyText(WECHAT_ID))throw new Error('copy failed');
+    heroWechat.textContent='✓ 微信号已复制';
+  }catch(e){
+    /* 复制不了就直接把人带到有联系方式的页面，不让按钮变成死路 */
+    location.hash='#/contact';
+    return;
+  }
+  setTimeout(()=>{heroWechat.textContent=old;},2600);
+});
+const wxCopy=document.getElementById('wxCopy');
+if(wxCopy)wxCopy.addEventListener('click',async()=>{
+  const old=wxCopy.textContent;
+  let ok=false;
+  try{ok=await copyText(WECHAT_ID);}catch(e){ok=false;}
+  wxCopy.textContent=ok?('✓ 已复制 '+WECHAT_ID):('请手动记下 '+WECHAT_ID);
+  setTimeout(()=>{wxCopy.textContent=old;},3000);
+});
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
   /* 点页签改 hash，由 router 统一渲染 —— 这样 URL 会如实反映筛选、后退键也能用，
      不会再出现「标签高亮氧化铁系列、内容却是全部 75 项」的自相矛盾。 */
@@ -885,31 +1237,72 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
 }));
 async function handleSubmit(){
   const name=(document.getElementById('inName').value||'').trim();
-  const phone=(document.getElementById('inPhone').value||'').trim();
+  const phoneEl=document.getElementById('inPhone');
+  const phone=(phoneEl.value||'').trim();
   const products=(document.getElementById('inProducts').value||'').trim();
   const desc=(document.getElementById('inDesc').value||'').trim();
   const msg=document.getElementById('submitMsg');
   const btn=document.getElementById('submitBtn');
-  if(!name||!phone){msg.style.display='block';msg.style.color='#E60012';msg.textContent='请填写姓名和联系电话。';return;}
+  const phoneErr=document.getElementById('inPhoneError');
+
+  function clearPhoneErr(){
+    phoneErr.hidden=true;phoneErr.textContent='';
+    phoneEl.removeAttribute('aria-invalid');
+    msg.style.display='none';
+  }
+  function showPhoneErr(t){
+    phoneErr.hidden=false;phoneErr.textContent=t;
+    phoneEl.setAttribute('aria-invalid','true');
+    msg.style.display='none';
+    phoneEl.focus();
+  }
+  clearPhoneErr();
+
+  if(!name||!phone){msg.style.display='block';msg.style.color='var(--red)';msg.textContent='请填写姓名和联系电话。';return;}
   btn.disabled=true;btn.textContent='提交中…';
   const payload={name,phone,products,desc};
-  const localKey='inquiry_'+Date.now();
-  try{localStorage.setItem(localKey,JSON.stringify(payload));}catch(e){}
+  /* P1-10（2026-09-14）：原先提交前会往 localStorage 写一份 key 形如 inquiry_<时间戳>
+     的记录（含客户姓名、电话、需求），没有 TTL、没有条数上限、也没有清理界面 ——
+     而提交失败时这份记录会永久留在访客本机。更关键的是：它并不产生任何补发行为，
+     只承担了隐私成本却没有换来功能收益（公用电脑或转手设备上会残留客户信息）。
+     因为不补发，最干净的做法是去掉这条兜底，失败时只提示致电。该语句已移除。 */
   const apiUrl='/api/submit';
-  let serverOk=false;
+  let status=0,serverOk=false,serverErr='';
   try{
     const ctl=new AbortController();const timer=setTimeout(()=>ctl.abort(),6000);
     const res=await fetch(apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:ctl.signal,mode:'cors'});
     clearTimeout(timer);
-    if(res.ok){const data=await res.json().catch(()=>({}));if(data&&data.ok){serverOk=true;try{localStorage.removeItem(localKey);}catch(e){}}}
-  }catch(e){}
+    status=res.status;
+    const data=await res.json().catch(()=>({}));
+    if(res.ok&&data&&data.ok)serverOk=true;
+    else serverErr=(data&&data.error)||'';
+  }catch(e){/* 网络异常：status 保持 0 */}
+
+  /* P0-5（2026-09-14）：服务端其实早就准备好了完整的错误语义 ——
+     联系方式格式不符返回 400「请填写有效的手机号、固话或微信号」，
+     同 IP 每小时超过 5 次返回 429「提交过于频繁…」。
+     但前端原先只判断 res.ok，把 data.error 全部丢弃，任何非 2xx 都统一显示
+     「提交未能送达」，于是客户看到的是「网站坏了」。这一步正好在转化的最后一环，
+     代价是直接丢线索 —— 而服务端为了不让合法微信号被拒，已经专门放宽过校验规则。
+     现在按状态码分流。 */
   if(serverOk){
-    msg.style.display='block';msg.style.color='#0a0a0b';msg.textContent='✓ 已收到您的询盘，我们会在当天联系您。如有急事请直拨 021-56690218（黄建辉 15821682128）。';
+    msg.style.display='block';msg.style.color='var(--ink)';msg.textContent='✓ 已收到您的询盘，我们会在当天联系您。如有急事请直拨 021-56690218（黄建辉 15821682128）。';
     ['inName','inPhone','inProducts','inDesc'].forEach(id=>document.getElementById(id).value='');
+  }else if(status===429){
+    msg.style.display='block';msg.style.color='var(--red)';msg.textContent='提交过于频繁，请稍后再试，或直接致电 021-56690218（黄建辉 15821682128）。';
+  }else if(status===400&&serverErr){
+    if(/手机号|固话|微信|电话|联系方式/.test(serverErr)){
+      showPhoneErr(serverErr);
+    }else{
+      msg.style.display='block';msg.style.color='var(--red)';msg.textContent=serverErr;
+    }
+  }else if(status===403){
+    msg.style.display='block';msg.style.color='var(--red)';msg.textContent='当前页面来源不被接口允许，请直接致电 021-56690218（黄建辉 15821682128）。';
   }else{
-    /* 失败就说失败：localStorage 只是存在访客本机，不会自动补发，
-       文案里绝不能承诺「已记录 / 将自动同步」，否则客户以为提交成功，线索直接丢失。 */
-    msg.style.display='block';msg.style.color='#E60012';msg.textContent='提交未能送达，请直接致电 021-56690218（黄建辉 15821682128），我们马上为您处理。';
+    /* 只有真正的网络异常或服务端 5xx 才走致电兜底。
+       失败就说失败：文案里绝不能承诺「已记录 / 将自动同步」——
+       那会让客户以为提交成功，线索直接丢失。 */
+    msg.style.display='block';msg.style.color='var(--red)';msg.textContent='提交未能送达，请直接致电 021-56690218（黄建辉 15821682128），我们马上为您处理。';
   }
   btn.disabled=false;btn.textContent='提交询盘 · 当天答复';
 }
@@ -1010,7 +1403,14 @@ const HeroField=(function(){
   function start(){if(active&&!rafId&&!reduced){t0=performance.now()-8000;rafId=requestAnimationFrame(loop);}}
   function stop(){if(rafId){cancelAnimationFrame(rafId);rafId=0;}}
   resize();
-  window.addEventListener('resize',function(){resize();if(reduced)draw(42);});
+  /* P2-8（2026-09-14）：resize() 每次都会重新分配画布尺寸、重置变换矩阵，
+     并逐个移除再重建标注 DOM。拖动窗口边缘会连续触发这条全量路径，长页面上容易掉帧。
+     加 150ms 防抖。 */
+  let resizeTimer=0;
+  window.addEventListener('resize',function(){
+    clearTimeout(resizeTimer);
+    resizeTimer=setTimeout(function(){resize();if(reduced)draw(42);},150);
+  });
   document.addEventListener('visibilitychange',function(){document.hidden?stop():start();});
   if(reduced){draw(42);}
   else{
