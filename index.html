@@ -6,20 +6,33 @@
 <title>峰妍新材料｜涂料用有机颜料 · 无机颜料 · 氧化铁系列现货供应（上海）</title>
 <meta name="description" content="供应涂料用有机颜料、无机颜料与氧化铁系列共 75 个现货牌号。峰妍新材料，上海发货，工作日当天报价，每批随货 TDS/MSDS、批号可追溯。">
 <link rel="canonical" href="https://www.fengyanpigment.com/">
+<!-- 微信转发名片（2026-09-14）：
+     ① 缩略图换 og-share.png。微信转发时会按「中心 1:1」裁切缩略图，
+        原来的 1200×630 会被裁掉左右各 285px —— 转发出去的卡片上只剩
+        「GYAN」加半张色卡。新图把品牌信息全部居中收进中心 630px 内，
+        色卡带横贯全幅但中心段完整，于是 1.91:1（Facebook / Twitter / 企微）
+        与 1:1（微信）两个比例都不丢信息，不必为不同平台维护两张图。
+        换文件名而非原地覆盖，是为了绕开微信对旧 URL 缩略图的长期抓取缓存。
+     ② og:title 单独写短。微信卡片标题只有一行，30 字会被拦腰截断；
+        而 <title> 要留给搜索引擎（关键词得齐），两者诉求不同，不共用同一句。
+     ③ 补 secure_url / type。微信抓取要求图片是 HTTPS 绝对路径，
+        og:image:type 能让抓取端少一次嗅探。 -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fengyan® 峰妍新材料">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:url" content="https://www.fengyanpigment.com/">
-<meta property="og:title" content="峰妍新材料｜涂料用有机颜料 · 无机颜料 · 氧化铁系列现货供应">
+<meta property="og:title" content="峰妍新材料｜75 个涂料颜料牌号现货">
 <meta property="og:description" content="75 个现货牌号，上海发货。工作日当天报价，每批随货 TDS/MSDS、批号可追溯。">
-<meta property="og:image" content="https://www.fengyanpigment.com/og-image.png">
+<meta property="og:image" content="https://www.fengyanpigment.com/og-share.png">
+<meta property="og:image:secure_url" content="https://www.fengyanpigment.com/og-share.png">
+<meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="峰妍新材料 · 涂料用颜料现货供应">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="峰妍新材料｜涂料用有机颜料 · 无机颜料 · 氧化铁系列现货供应">
+<meta name="twitter:title" content="峰妍新材料｜75 个涂料颜料牌号现货">
 <meta name="twitter:description" content="75 个现货牌号，上海发货。工作日当天报价，每批随货 TDS/MSDS、批号可追溯。">
-<meta name="twitter:image" content="https://www.fengyanpigment.com/og-image.png">
+<meta name="twitter:image" content="https://www.fengyanpigment.com/og-share.png">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -61,7 +74,7 @@
       "@id": "https://www.fengyanpigment.com/#localbusiness",
       "name": "峰妍新材料科技（上海）有限公司",
       "url": "https://www.fengyanpigment.com/",
-      "image": "https://www.fengyanpigment.com/og-image.png",
+      "image": "https://www.fengyanpigment.com/og-share.png",
       "telephone": "+86-21-56690218",
       "faxNumber": "+86-21-56697812",
       "address": {
@@ -1189,8 +1202,56 @@ function show(id){
   window.scrollTo(0,0);
   root.style.scrollBehavior='';
 }
+/* P1-10（2026-09-14）：按路由同步浏览器标题。
+   全站原先只有一套静态 <title>，切到产品中心 / 关于 / 联系 / 任一牌号详情，
+   标签页始终是首页那句话 —— 多标签切换、收藏、历史记录都区分不出来。
+
+   先把边界说清楚：本站是 hash 路由，#/products 不是独立 URL，搜索引擎不会
+   把它当成另一个页面。所以这一项修的是浏览体验（标签页 / 收藏 / 历史），
+   不是收录 —— 要让 75 个牌号各自可被搜到，得把路由改成真实路径，那是另一件事。
+
+   og:title / og:description 不在这里改：微信、微博、Facebook 这些抓取端取的是
+   服务端返回的静态标签，不执行页面 JS，运行时改了对它们没有作用。 */
+const descEl=document.querySelector('meta[name="description"]');
+const HOME_TITLE=document.title;
+const HOME_DESC=descEl?descEl.content:'';
+const CAT_NAME={organic:'有机颜料',inorganic:'无机颜料',ironoxide:'氧化铁系列'};
+/* 关于页 / 联系页只有一条路径，直接列出来；文案与页面正文口径保持一致 */
+const PAGE_META={
+  '/products':['产品中心','75 个涂料用颜料牌号，按有机颜料、无机颜料、氧化铁三大类查色号、颜料索引与耐热耐候参数。'],
+  '/about':['关于我们','峰妍新材料科技（上海）有限公司 —— 涂料用有机颜料、无机颜料与氧化铁系列供应，75 个现货牌号，上海仓储发货。'],
+  '/contact':['联系我们','工作日 8:30–18:00 当天报价，联系人黄建辉。电话 021-56690218，手机 / 微信 15821682128。']
+};
+function syncMeta(hash){
+  let title=HOME_TITLE,desc=HOME_DESC;
+  if(hash.startsWith('#/product/')){
+    let code=hash.slice(10);
+    /* 非法转义（例如 #/product/%）会让 decodeURIComponent 抛错，
+       与 renderDetail 里同一处防护对齐；出错就退回首页标题，不留半截标题。 */
+    try{code=decodeURIComponent(code);}catch(e){code='';}
+    const p=PRODUCTS.find(x=>x.code===code);
+    if(p){
+      title=p.code+' '+p.name+'｜峰妍新材料';
+      desc=p.desc+(p.index?'（颜料索引 '+p.index+'）':'')+'上海现货，当天报价，随货 TDS/MSDS。';
+    }
+  }else{
+    const seg=hash.replace(/^#/,'')||'/';
+    const cat=/^\/products\/(organic|inorganic|ironoxide)$/.exec(seg);
+    if(cat){
+      title=CAT_NAME[cat[1]]+'｜峰妍新材料';
+      desc=CAT_NAME[cat[1]]+'现货牌号与参数：颜料索引、吸油量、耐热、耐候、耐迁移，上海仓储当天报价。';
+    }else if(PAGE_META[seg]){
+      title=PAGE_META[seg][0]+'｜峰妍新材料';
+      desc=PAGE_META[seg][1];
+    }
+  }
+  document.title=title;
+  const m=document.querySelector('meta[name="description"]');
+  if(m)m.setAttribute('content',desc);
+}
 function router(){
   const hash=location.hash||'#/';
+  syncMeta(hash);
   if(hash.startsWith('#/product/')){show("page-product");renderDetail(hash.replace('#/product/',''));return;}
   /* 类目可深链：#/products/ironoxide —— 首页三张类目卡直接落到对应筛选，
      以前卡片只跳 #/products，点了「氧化铁系列」却看到全部 75 个牌号。 */

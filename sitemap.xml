@@ -2,11 +2,17 @@
 <!--
   本站为单文件 SPA，页面切换使用 hash 路由（#/products 等）。
   搜索引擎不把 hash 片段当作独立 URL，因此站点地图只收录首页一个地址。
+
+  代价要说清楚：产品中心、关于、联系，以及 75 个牌号详情，全都不在这里 ——
+  它们对搜索引擎等于不存在。这是 hash 路由的固有限制，不是漏写。
+  要让它们各自可被收录，需要把路由改成真实路径
+  （/products、/products/organic、/product/PY.154 …）并为每个牌号生成独立 HTML，
+  那是另一项改造，不在本次范围内。
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.fengyanpigment.com/</loc>
-    <lastmod>2026-09-12</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>页面不存在 · 峰妍新材料</title>
+<!-- 这个文件的存在本身就是一项配置，别删。
+     Cloudflare Pages 的官方文档写明：项目根目录如果【没有】顶层 404.html，
+     Pages 就假定整站是一个单页应用，把「所有未匹配的路径」统统回落到首页
+     并返回 200 —— 实测 /、/products、/zzz-not-exist-987 返回的字节数与
+     MD5 完全一致。那等于给搜索引擎敞开无限的重复内容，也是标准的软 404。
+     放上这个文件后，未匹配路径会真实返回 404，问题即解决。 -->
+<meta name="robots" content="noindex, follow">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:600;font-display:swap;src:url(/assets/fonts/playfair-600.woff2) format('woff2')}
+:root{--coal:#0A0A0B;--light:#F5F5F4;--ink-2:#B4B4B6;--ink-3:#757575;--red:#E60012;--font-sans:'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Helvetica Neue',Arial,sans-serif;--font-serif:'Playfair Display',Georgia,'Songti SC','SimSun',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;display:flex;flex-direction:column;background:var(--coal);color:var(--light);font-family:var(--font-sans);-webkit-font-smoothing:antialiased}
+.bar{height:5px;background:var(--red);flex:none}
+main{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:64px 24px}
+.brand{font-family:var(--font-serif);font-weight:600;font-size:26px;letter-spacing:.02em}
+.brand sup{color:var(--red);font-size:12px;vertical-align:super}
+.code{font-family:var(--font-serif);font-weight:600;font-size:96px;line-height:1;margin:28px 0 24px;color:#1F1F22}
+h1{font-size:19px;font-weight:600;margin-bottom:12px}
+.lead{font-size:15px;color:var(--ink-2);line-height:1.75;max-width:420px}
+.sub{font-size:13px;color:var(--ink-3);margin-top:10px;line-height:1.75;max-width:420px}
+nav{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:36px}
+.btn{display:inline-block;padding:12px 26px;border:1px solid #2E2E33;border-radius:3px;color:var(--light);font-size:14px;text-decoration:none;transition:border-color .2s,background .2s}
+.btn:hover{border-color:#4A4A50;background:#141417}
+.btn.primary{background:var(--red);border-color:var(--red);font-weight:600}
+.btn.primary:hover{background:#C50010;border-color:#C50010}
+.foot{margin-top:48px;font-size:12px;color:var(--ink-3)}
+.foot a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid #2E2E33}
+.foot a:hover{color:var(--light)}
+</style>
+</head>
+<body>
+<div class="bar"></div>
+<main>
+  <p class="brand">FENGYAN<sup>®</sup></p>
+  <p class="code" aria-hidden="true">404</p>
+  <h1>这个地址没有对应的页面</h1>
+  <p class="lead">可能是链接写错了，或者这个页面已经下线。</p>
+  <p class="sub">想看牌号可以直接进产品中心；要报价、要样卡，联系我们最快。</p>
+  <nav>
+    <a class="btn primary" href="/#/">回到首页</a>
+    <a class="btn" href="/#/products">产品中心</a>
+    <a class="btn" href="/#/contact">联系我们</a>
+  </nav>
+  <p class="foot">峰妍新材料科技（上海）有限公司 · <a href="tel:+862156690218">021-56690218</a></p>
+</main>
+</body>
+</html>
