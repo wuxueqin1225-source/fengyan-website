@@ -206,9 +206,14 @@ a:focus-visible,button:focus-visible,.form-input:focus-visible{outline:2px solid
 .stats{position:absolute;left:0;right:0;bottom:0;z-index:3;border-top:1px solid rgba(255,255,255,.14);display:grid;grid-template-columns:repeat(4,1fr);background:rgba(5,6,10,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .stat{padding:28px 20px;text-align:center}
 .stat-num{font-size:42px;font-weight:700;color:var(--red-soft);letter-spacing:-1px;font-variant-numeric:tabular-nums}
-/* P0-1：文字型数据项（如「TDS/MSDS」）要降档，否则 42px 下会撑破栅格 */
-.stat-num.is-text{font-size:clamp(20px,2.2vw,26px);line-height:1.5;letter-spacing:0}
 .stat-label{font-size:14px;color:var(--ink-4);margin-top:6px}
+/* 数据条的第四格（2026-09-14 按用户反馈改）：
+   原先直接把「TDS/MSDS」整串当数据值写进 .stat-num，再把它降档到 26px ——
+   同一行前三格是 42px 的短数值（75+ / 100+ / 24h），第四格却成了小一号的长文本，
+   字号、字宽、视觉重心三样都对不上；而且这 8 个字符在 769–900px 区间（每格只剩 ~185px）
+   用 42px 根本放不下。
+   改法：数值位换成同样短的「每批」，完整承诺放进标签行 —— 四格回到同一个节奏。
+   ⚠️ 不要再把长文本塞回 .stat-num；真要放，四格的值都得一起缩短。 */
 /* P0-1（2026-09-14）：数据条口径声明。关于页早有这一句，首页没有 ——
    同一组数字一处声明、一处不声明，访客会把首页那组当成真实业绩，
    而首屏数据条正是全站最强的信任锚点。两处现在用同一条样式。 */
@@ -571,12 +576,13 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
          改为 <dl>（div 分组式，每项 dt 术语 + dd 说明）。
          P0-1：四个数字原先是占位口径，但关于页有「示例口径」声明、首页没有 ——
          同一组数字一处声明一处不声明，访客会把首页那组当成真实业绩。
-         现在两处用同一条声明；「100% 批次可追溯」是绝对化承诺，改为可核验的「每批随货提供 TDS/MSDS」。 -->
+         现在两处用同一条声明；「100% 批次可追溯」是绝对化承诺，改为可核验的「每批随货提供 TDS / MSDS」
+         （数值位写「每批」、标签行写「随货提供 TDS / MSDS」，理由见 .stat-num 上方注释）。 -->
     <dl class="stats">
       <div class="stat"><dt class="stat-num">75+</dt><dd class="stat-label">常备色号现货</dd></div>
       <div class="stat"><dt class="stat-num">100+</dt><dd class="stat-label">服务涂料企业</dd></div>
       <div class="stat"><dt class="stat-num">24h</dt><dd class="stat-label">发货响应时效</dd></div>
-      <div class="stat"><dt class="stat-num is-text">TDS/MSDS</dt><dd class="stat-label">每批随货提供，可追溯</dd></div>
+      <div class="stat"><dt class="stat-num">每批</dt><dd class="stat-label">随货提供 TDS / MSDS</dd></div>
       <div class="stats-note">* 牌号数取自现货目录；其余数字为示例口径，实际数据请以最新业务为准</div>
     </dl>
   </div>
@@ -756,12 +762,13 @@ textarea.form-input{height:96px;padding:12px 16px;resize:vertical}
     <div class="container">
       <div class="section-head"><span class="sec-tag">By The Numbers</span><h2 class="sec-title">用数字说话</h2></div>
       <!-- P1-7：改为 <dl>；P0-1：「100% 批次可追溯」是绝对化承诺，改为可核验的
-           「每批随货提供 TDS/MSDS」。口径声明统一用 .stats-note，与首页同一条样式。 -->
+           「每批随货提供 TDS / MSDS」（数值位「每批」+ 标签行「随货提供 TDS / MSDS」）。
+           口径声明统一用 .stats-note，与首页同一条样式。 -->
       <dl class="stats" style="position:static;border-top:1px solid rgba(255,255,255,.14);margin-top:0">
         <div class="stat"><dt class="stat-num">75+</dt><dd class="stat-label">常备色号现货</dd></div>
         <div class="stat"><dt class="stat-num">100+</dt><dd class="stat-label">服务涂料企业</dd></div>
         <div class="stat"><dt class="stat-num">24h</dt><dd class="stat-label">发货响应时效</dd></div>
-        <div class="stat"><dt class="stat-num is-text">TDS/MSDS</dt><dd class="stat-label">每批随货提供，可追溯</dd></div>
+        <div class="stat"><dt class="stat-num">每批</dt><dd class="stat-label">随货提供 TDS / MSDS</dd></div>
         <div class="stats-note">* 牌号数取自现货目录；其余数字为示例口径，实际数据请以最新业务为准</div>
       </dl>
     </div>
